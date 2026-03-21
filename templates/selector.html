@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Team Gutters — Brand Direction Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            background: #0A0A0A;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3.5rem 2rem 1rem;
+        }
+
+        .header-eyebrow {
+            font-family: 'Barlow', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(28px, 5vw, 44px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #F0F0F0;
+            line-height: 1.1;
+        }
+
+        .header p {
+            margin-top: 1rem;
+            font-size: 15px;
+            color: #888;
+            max-width: 520px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            flex: 1;
+            min-height: 0;
+        }
+
+        .brand-panel {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.5rem;
+            min-height: 70vh;
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .brand-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
+        }
+
+        .brand-panel:hover::before {
+            opacity: 1;
+        }
+
+        .brand-panel > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Option C: Forest + Rain */
+        .panel-forest {
+            background: #1C2B1E;
+            border-right: 1px solid rgba(255,255,255,0.04);
+        }
+        .panel-forest::before {
+            background: linear-gradient(180deg, rgba(42,92,63,0.15) 0%, rgba(28,43,30,0) 100%);
+        }
+        .panel-forest .panel-accent { color: #4A8FA8; }
+        .panel-forest .panel-swatch-primary { background: #2A5C3F; }
+        .panel-forest .panel-swatch-secondary { background: #4A8FA8; }
+        .panel-forest .panel-swatch-dark { background: #1C2B1E; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-forest .panel-swatch-surface { background: #F2F5F1; }
+        .panel-forest .panel-btn {
+            background: #2A5C3F;
+            border-color: #2A5C3F;
+        }
+        .panel-forest .panel-btn:hover {
+            background: #1E4530;
+            border-color: #1E4530;
+        }
+
+        /* Option D: Rain + Slate */
+        .panel-rain {
+            background: #162030;
+            border-right: 1px solid rgba(255,255,255,0.04);
+        }
+        .panel-rain::before {
+            background: linear-gradient(180deg, rgba(29,78,107,0.15) 0%, rgba(22,32,48,0) 100%);
+        }
+        .panel-rain .panel-accent { color: #2E7EA0; }
+        .panel-rain .panel-swatch-primary { background: #1D4E6B; }
+        .panel-rain .panel-swatch-secondary { background: #2E7EA0; }
+        .panel-rain .panel-swatch-dark { background: #162030; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-rain .panel-swatch-surface { background: #EFF3F7; }
+        .panel-rain .panel-btn {
+            background: #1D4E6B;
+            border-color: #1D4E6B;
+        }
+        .panel-rain .panel-btn:hover {
+            background: #163B52;
+            border-color: #163B52;
+        }
+
+        /* Option E: A-Team Classic */
+        .panel-classic {
+            background: #0A0A0A;
+        }
+        .panel-classic::before {
+            background: linear-gradient(180deg, rgba(176,28,28,0.08) 0%, rgba(10,10,10,0) 100%);
+        }
+        .panel-classic .panel-accent { color: #B01C1C; }
+        .panel-classic .panel-swatch-primary { background: #111111; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-classic .panel-swatch-secondary { background: #9BAAB8; }
+        .panel-classic .panel-swatch-dark { background: #0A0A0A; border: 1px solid rgba(255,255,255,0.1); }
+        .panel-classic .panel-swatch-surface { background: #B01C1C; }
+        .panel-classic .panel-btn {
+            background: #B01C1C;
+            border-color: #B01C1C;
+        }
+        .panel-classic .panel-btn:hover {
+            background: #8F1515;
+            border-color: #8F1515;
+        }
+
+        .panel-eyebrow {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .panel-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(24px, 3vw, 36px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-subtitle {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+            max-width: 280px;
+        }
+
+        .panel-swatches {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .panel-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 2px;
+        }
+
+        .panel-btn {
+            display: inline-block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #fff;
+            padding: 12px 28px;
+            border: 2px solid;
+            border-radius: 2px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            align-self: flex-start;
+        }
+
+        .footer-bar {
+            text-align: center;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .footer-bar p {
+            font-size: 12px;
+            color: #444;
+            letter-spacing: 0.04em;
+        }
+
+        @media (max-width: 900px) {
+            .brand-grid {
+                grid-template-columns: 1fr;
+            }
+            .brand-panel {
+                min-height: 50vh;
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.04);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <p class="header-eyebrow">Prepared by Firefly Software</p>
+        <h1>A-Team Gutters — Brand Direction</h1>
+        <p>Three visual directions for the A-Team Gutters website. Each option links to a full landing page preview. Choose the direction that best represents the brand.</p>
+    </div>
+
+    <div class="brand-grid">
+        <a href="/forest-rain" class="brand-panel panel-forest">
+            <p class="panel-eyebrow panel-accent">Option C</p>
+            <h2 class="panel-title">Forest + Rain</h2>
+            <p class="panel-subtitle">Pacific Northwest terroir. Forest green anchored, rain blue accented. Rooted in place.</p>
+            <div class="panel-swatches">
+                <div class="panel-swatch panel-swatch-dark"></div>
+                <div class="panel-swatch panel-swatch-primary"></div>
+                <div class="panel-swatch panel-swatch-secondary"></div>
+                <div class="panel-swatch panel-swatch-surface"></div>
+            </div>
+            <span class="panel-btn">View Landing Page</span>
+        </a>
+
+        <a href="/rain-slate" class="brand-panel panel-rain">
+            <p class="panel-eyebrow panel-accent">Option D</p>
+            <h2 class="panel-title">Rain + Slate</h2>
+            <p class="panel-subtitle">Deep rain blue, Puget Sound mornings. Maximum professionalism and trust.</p>
+            <div class="panel-swatches">
+                <div class="panel-swatch panel-swatch-dark"></div>
+                <div class="panel-swatch panel-swatch-primary"></div>
+                <div class="panel-swatch panel-swatch-secondary"></div>
+                <div class="panel-swatch panel-swatch-surface"></div>
+            </div>
+            <span class="panel-btn">View Landing Page</span>
+        </a>
+
+        <a href="/classic" class="brand-panel panel-classic">
+            <p class="panel-eyebrow panel-accent">Option E</p>
+            <h2 class="panel-title">A-Team Classic</h2>
+            <p class="panel-subtitle">Black, silver, disciplined red. Bold, high-contrast, logo-faithful.</p>
+            <div class="panel-swatches">
+                <div class="panel-swatch panel-swatch-dark"></div>
+                <div class="panel-swatch panel-swatch-primary"></div>
+                <div class="panel-swatch panel-swatch-secondary"></div>
+                <div class="panel-swatch panel-swatch-surface"></div>
+            </div>
+            <span class="panel-btn">View Landing Page</span>
+        </a>
+    </div>
+
+    <div class="footer-bar">
+        <p>Firefly Software &middot; fireflysoftware.dev</p>
+    </div>
+</body>
+</html>

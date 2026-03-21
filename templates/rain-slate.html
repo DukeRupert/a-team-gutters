@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#162030">
+    <title>A-Team Gutters — Rain + Slate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --dark: #162030;
+            --primary: #1D4E6B;
+            --primary-hover: #163B52;
+            --secondary: #2E7EA0;
+            --surface: #EFF3F7;
+            --border: #D4DDE6;
+            --muted: #6B7A85;
+            --text: #0F1923;
+            --bg: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Barlow', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 1.25rem;
+            left: 1.25rem;
+            z-index: 100;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            padding: 8px 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 2px;
+            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.2);
+            transition: all 0.2s ease;
+        }
+        .back-link:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .nav {
+            background: var(--dark);
+            padding: 1.25rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-cta {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #fff;
+            background: var(--secondary);
+            padding: 10px 22px;
+            border-radius: 2px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .nav-cta:hover { background: #25697F; }
+
+        .hero {
+            background: var(--dark);
+            padding: 6rem 2.5rem 5rem;
+            text-align: center;
+        }
+        .hero-eyebrow {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--secondary);
+            margin-bottom: 1.25rem;
+        }
+        .hero h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(36px, 6vw, 56px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #fff;
+            line-height: 1.05;
+            max-width: 700px;
+            margin: 0 auto 1.25rem;
+        }
+        .hero p {
+            font-size: 16px;
+            color: #4A6A80;
+            max-width: 480px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+        .hero-btn {
+            display: inline-block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #fff;
+            background: var(--secondary);
+            padding: 14px 36px;
+            border: 2px solid var(--secondary);
+            border-radius: 2px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .hero-btn:hover { background: #25697F; border-color: #25697F; }
+
+        .trust-bar {
+            background: var(--dark);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            justify-content: center;
+        }
+        .trust-item {
+            padding: 2rem 3rem;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        .trust-item:last-child { border-right: none; }
+        .trust-number {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 34px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .trust-label {
+            font-size: 11px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #2A4A60;
+            margin-top: 4px;
+        }
+
+        .section { padding: 5rem 2.5rem; }
+        .section-eyebrow {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--secondary);
+            margin-bottom: 0.75rem;
+        }
+        .section h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        .section-lead {
+            font-size: 16px;
+            color: var(--muted);
+            max-width: 520px;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        .services { background: var(--surface); }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 1.75rem;
+            border-left: 3px solid var(--secondary);
+            transition: border-color 0.2s;
+        }
+        .card:hover { border-color: var(--primary); }
+        .card h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        .card p {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        .card-link {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .why-section {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .why-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .why-list li {
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--secondary);
+        }
+        .why-list strong {
+            display: block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+        .why-list span {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .cta-band {
+            background: var(--dark);
+            padding: 5rem 2.5rem;
+            text-align: center;
+        }
+        .cta-band .section-eyebrow { color: var(--secondary); }
+        .cta-band h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        .cta-band p {
+            font-size: 16px;
+            color: #4A6A80;
+            max-width: 420px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        .cta-band-btn {
+            display: inline-block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #fff;
+            background: var(--secondary);
+            padding: 14px 36px;
+            border-radius: 2px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .cta-band-btn:hover { background: #25697F; }
+
+        .area-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            max-width: 600px;
+        }
+        .area-tag {
+            background: #E6F0F7;
+            color: var(--primary);
+            border: 1px solid #C0D4E4;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+        }
+
+        .footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-brand {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: rgba(255,255,255,0.3);
+        }
+        .footer-meta {
+            font-size: 12px;
+            color: rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 700px) {
+            .nav-links { display: none; }
+            .trust-bar { flex-wrap: wrap; }
+            .trust-item { flex: 1 1 50%; border-bottom: 1px solid rgba(255,255,255,0.06); }
+            .section { padding: 3.5rem 1.5rem; }
+            .hero { padding: 4rem 1.5rem 3rem; }
+            .footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<a href="/" class="back-link">&larr; All Options</a>
+
+<nav class="nav">
+    <a href="/rain-slate" class="nav-brand">A-Team Gutters</a>
+    <ul class="nav-links">
+        <li><a href="#">Services</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">FAQ</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Free Estimate</a>
+</nav>
+
+<section class="hero">
+    <p class="hero-eyebrow">Bonney Lake &middot; Sumner &middot; Puyallup &middot; Pierce County</p>
+    <h1>Seamless Gutters for Puget Sound Homes</h1>
+    <p>Built for PNW weather. 30 years of gutter work across Pierce and King County. Prompt estimates, warranty-backed installs, no surprises.</p>
+    <a href="#" class="hero-btn">Get a Free Estimate</a>
+</section>
+
+<div class="trust-bar">
+    <div class="trust-item">
+        <div class="trust-number">30+</div>
+        <div class="trust-label">Years Experience</div>
+    </div>
+    <div class="trust-item">
+        <div class="trust-number">5.0</div>
+        <div class="trust-label">Angi Rating</div>
+    </div>
+    <div class="trust-item">
+        <div class="trust-number">100%</div>
+        <div class="trust-label">Licensed &amp; Insured</div>
+    </div>
+    <div class="trust-item">
+        <div class="trust-number">24hr</div>
+        <div class="trust-label">Estimate Turnaround</div>
+    </div>
+</div>
+
+<section class="section services">
+    <div style="max-width:960px;margin:0 auto;">
+        <p class="section-eyebrow">What We Do</p>
+        <h2>Our Services</h2>
+        <p class="section-lead">Professional gutter services for Western Washington homes. No subcontractors, no shortcuts — just clean work, done right.</p>
+    </div>
+    <div class="card-grid">
+        <div class="card">
+            <h3>Gutter Installation</h3>
+            <p>Seamless aluminum gutters custom-fit on-site. 5" and 6" options sized for PNW rooflines and heavy rainfall.</p>
+            <a href="#" class="card-link">Learn more &rarr;</a>
+        </div>
+        <div class="card">
+            <h3>Gutter Cleaning</h3>
+            <p>Full cleanout, downspout flush, and inspection. Recommended twice a year in Western Washington.</p>
+            <a href="#" class="card-link">Learn more &rarr;</a>
+        </div>
+        <div class="card">
+            <h3>Gutter Repair</h3>
+            <p>Sagging sections, leaking seams, damaged downspouts. We fix what the rain and debris broke.</p>
+            <a href="#" class="card-link">Learn more &rarr;</a>
+        </div>
+        <div class="card">
+            <h3>Gutter Guards</h3>
+            <p>Keep pine needles and fir debris out. We install guards that actually work in PNW conditions.</p>
+            <a href="#" class="card-link">Learn more &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="why-section">
+        <p class="section-eyebrow">Why A-Team</p>
+        <h2>30 Years. Pierce County. Done Right.</h2>
+        <p class="section-lead">Seth and his crew will be on-site — not a subcontractor you've never met.</p>
+        <ul class="why-list">
+            <li>
+                <strong>Family-Owned, Locally Operated</strong>
+                <span>Seth and Jessica live and work in Bonney Lake. This is their community, not just their service area.</span>
+            </li>
+            <li>
+                <strong>30+ Years in the Trade</strong>
+                <span>Three decades of hands-on gutter work across the Pacific Northwest. New company, veteran crew.</span>
+            </li>
+            <li>
+                <strong>Warranty-Backed Installations</strong>
+                <span>Every installation backed by a warranty on labor and materials. We stand behind our work.</span>
+            </li>
+            <li>
+                <strong>Prompt Estimates</strong>
+                <span>We show up when we say we will. Estimates returned within 24 hours, not 24 days.</span>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="cta-band">
+    <p class="section-eyebrow">Ready Before the Rain Hits</p>
+    <h2>Get Your Free Estimate Today</h2>
+    <p>Serving Bonney Lake, Sumner, Puyallup, Auburn, Enumclaw, Buckley, and the surrounding foothills.</p>
+    <a href="#" class="cta-band-btn">Get a Free Estimate</a>
+</section>
+
+<section class="section">
+    <p class="section-eyebrow">Where We Work</p>
+    <h2>Service Areas</h2>
+    <p class="section-lead">Professional gutter services across Pierce and King County.</p>
+    <div class="area-tags">
+        <span class="area-tag">Bonney Lake</span>
+        <span class="area-tag">Sumner</span>
+        <span class="area-tag">Puyallup</span>
+        <span class="area-tag">Auburn</span>
+        <span class="area-tag">Enumclaw</span>
+        <span class="area-tag">Buckley</span>
+        <span class="area-tag">Black Diamond</span>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-brand">A-Team Gutters, LLC</div>
+    <div class="footer-meta">Brand preview &middot; Option D: Rain + Slate &middot; Firefly Software</div>
+</footer>
+
+</body>
+</html>

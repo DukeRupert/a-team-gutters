@@ -16,11 +16,12 @@
             --primary: #2A5C3F;
             --primary-hover: #1E4530;
             --secondary: #4A8FA8;
+            --secondary-hover: #3D7A90;
             --surface: #F2F5F1;
             --border: #D8E2D9;
             --muted: #6B7A6D;
             --text: #111A12;
-            --bg: #FFFFFF;
+            --bg: #FAFCFA;
         }
 
         body {
@@ -30,11 +31,22 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ── Focus states ── */
+        :focus-visible {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
         /* ── Back link ── */
         .back-link {
             position: fixed;
-            top: 1.25rem;
-            left: 1.25rem;
+            bottom: 1.25rem;
+            right: 1.25rem;
             z-index: 100;
             font-family: 'Barlow Condensed', sans-serif;
             font-size: 13px;
@@ -62,15 +74,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
         .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+        .nav-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .nav-brand-text {
             font-family: 'Barlow Condensed', sans-serif;
             font-size: 20px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.03em;
             color: #fff;
-            text-decoration: none;
         }
         .nav-links {
             display: flex;
@@ -87,7 +111,11 @@
             transition: color 0.2s;
         }
         .nav-links a:hover { color: #fff; }
-
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
         .nav-cta {
             font-family: 'Barlow Condensed', sans-serif;
             font-size: 13px;
@@ -99,86 +127,245 @@
             padding: 10px 22px;
             border-radius: 2px;
             text-decoration: none;
-            transition: background 0.2s;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .nav-cta:hover { background: #3D7A90; }
+        .nav-cta span { position: relative; z-index: 1; }
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 0;
+            background: #3578A0;
+            -webkit-mask-image: radial-gradient(ellipse 130% 12px at 50% 0%, transparent 49%, black 51%);
+            mask-image: radial-gradient(ellipse 130% 12px at 50% 0%, transparent 49%, black 51%);
+            transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .nav-cta:hover::before { height: 120%; }
+        .nav-cta:active { transform: scale(0.96); }
+
+        /* ── Mobile menu button ── */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 2px;
+            padding: 8px;
+            cursor: pointer;
+            color: rgba(255,255,255,0.7);
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .nav-toggle:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.3);
+        }
+        .nav-toggle svg {
+            display: block;
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ── Mobile menu overlay ── */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--dark);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            padding: 1.5rem 2.5rem 2rem;
+            z-index: 90;
+        }
+        .mobile-menu.is-open {
+            display: block;
+        }
+        .mobile-menu a {
+            display: block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: color 0.2s;
+        }
+        .mobile-menu a:hover { color: #fff; }
+        .mobile-menu a:last-child { border-bottom: none; }
 
         /* ── Hero ── */
         .hero {
             background: var(--dark);
-            padding: 6rem 2.5rem 5rem;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero-image {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.55;
+        }
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(28,43,30,0.7) 0%,
+                rgba(28,43,30,0.35) 40%,
+                rgba(28,43,30,0.5) 75%,
+                var(--dark) 100%
+            );
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 8rem 2.5rem 3rem;
+            max-width: 800px;
         }
         .hero-eyebrow {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.14em;
             color: var(--secondary);
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.2s forwards;
         }
         .hero h1 {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: clamp(36px, 6vw, 56px);
+            font-size: clamp(42px, 7.5vw, 76px);
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.02em;
             color: #fff;
-            line-height: 1.05;
-            max-width: 700px;
-            margin: 0 auto 1.25rem;
+            line-height: 1.0;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.7s ease-out 0.35s forwards;
         }
         .hero p {
-            font-size: 16px;
-            color: #7A9C7E;
-            max-width: 480px;
-            margin: 0 auto 2.5rem;
+            font-size: 18px;
+            color: #A8C4AB;
+            max-width: 500px;
             line-height: 1.6;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.55s forwards;
         }
         .hero-btn {
             display: inline-block;
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: #fff;
             background: var(--secondary);
-            padding: 14px 36px;
+            padding: 16px 44px;
             border: 2px solid var(--secondary);
             border-radius: 2px;
             text-decoration: none;
-            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.7s forwards;
         }
-        .hero-btn:hover { background: #3D7A90; border-color: #3D7A90; }
+        .hero-btn span { position: relative; z-index: 1; }
+        .hero-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 0;
+            background: #3578A0;
+            -webkit-mask-image: radial-gradient(ellipse 130% 14px at 50% 0%, transparent 49%, black 51%);
+            mask-image: radial-gradient(ellipse 130% 14px at 50% 0%, transparent 49%, black 51%);
+            transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .hero-btn:hover {
+            border-color: #3578A0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(53,120,160,0.3);
+        }
+        .hero-btn:hover::before { height: 120%; }
+        .hero-btn:active { transform: translateY(0) scale(0.97); }
 
-        /* ── Trust Bar ── */
-        .trust-bar {
-            background: var(--dark);
-            border-top: 1px solid rgba(255,255,255,0.06);
+        /* ── Angi Proof ── */
+        .angi-proof {
+            position: relative;
+            z-index: 1;
             display: flex;
-            justify-content: center;
-            gap: 0;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 2rem 2.5rem 5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out 0.9s forwards;
         }
-        .trust-item {
-            padding: 2rem 3rem;
-            text-align: center;
-            border-right: 1px solid rgba(255,255,255,0.06);
+        .angi-divider {
+            width: 48px;
+            height: 2px;
+            background: rgba(255,255,255,0.12);
         }
-        .trust-item:last-child { border-right: none; }
-        .trust-number {
+        .angi-rating {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 34px;
+            font-size: 52px;
             font-weight: 700;
             color: #fff;
+            line-height: 1;
         }
-        .trust-label {
-            font-size: 11px;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #3A5E3E;
-            margin-top: 4px;
+        .angi-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .angi-stars {
+            color: #E8B84B;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        .angi-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #A8C4AB;
+            letter-spacing: 0.02em;
+        }
+        .angi-label strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* ── Entrance animation ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ── Section defaults ── */
@@ -195,8 +382,8 @@
         }
         .section h2 {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 32px;
-            font-weight: 600;
+            font-size: 36px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.02em;
             color: var(--text);
@@ -210,28 +397,106 @@
             margin-bottom: 3rem;
         }
 
-        /* ── Services cards ── */
-        .services { background: var(--surface); }
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.25rem;
+        /* ── Services ── */
+        .services { background: var(--surface); padding: 6rem 2.5rem 7rem; }
+        .services-layout {
             max-width: 960px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
         }
-        .card {
-            background: var(--bg);
-            border: 1px solid var(--border);
+        .service-primary {
+            grid-column: 1 / -1;
+            background: var(--dark);
             border-radius: 2px;
-            padding: 1.75rem;
-            border-left: 3px solid var(--secondary);
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--secondary);
+        }
+        .service-primary h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        .service-primary p {
+            font-size: 15px;
+            color: #A8C4AB;
+            line-height: 1.7;
+            margin-bottom: 1.75rem;
+        }
+        .service-primary-link {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--secondary);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(74,143,168,0.3);
+            padding-bottom: 2px;
             transition: border-color 0.2s;
         }
-        .card:hover { border-color: var(--primary); }
+        .service-primary-link:hover { border-color: var(--secondary); }
+        .service-primary-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            padding-left: 2rem;
+            border-left: 1px solid rgba(255,255,255,0.08);
+        }
+        .service-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+        }
+        .service-stat-number {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            min-width: 72px;
+        }
+        .service-stat-text {
+            font-size: 14px;
+            color: #8AAD8D;
+            line-height: 1.4;
+        }
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 2rem;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.2s,
+                        box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(17,26,18,0.08);
+        }
         .card h3 {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 17px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             text-transform: uppercase;
             color: var(--text);
             margin-bottom: 0.5rem;
@@ -239,91 +504,187 @@
         .card p {
             font-size: 14px;
             color: var(--muted);
-            line-height: 1.5;
-            margin-bottom: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
         }
         .card-link {
+            font-family: 'Barlow Condensed', sans-serif;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
             color: var(--primary);
             text-decoration: none;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 1px;
+            transition: border-color 0.2s;
         }
+        .card-link:hover { border-bottom-color: var(--primary); }
 
         /* ── Why section ── */
-        .why-section {
-            max-width: 700px;
+        .why { padding: 7rem 2.5rem; }
+        .why-layout {
+            max-width: 960px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+        .why-header {
+            position: sticky;
+            top: 2rem;
+        }
+        .why-header h2 {
+            font-size: 40px;
+            line-height: 1.05;
         }
         .why-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 0;
         }
         .why-list li {
-            padding-left: 1.5rem;
-            border-left: 3px solid var(--secondary);
+            padding: 1.75rem 0 1.75rem 1.75rem;
+            position: relative;
+            overflow: visible;
+        }
+        /* Gray rail */
+        .why-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--border);
+        }
+        /* Water flow — fills down on hover, drains out the bottom on leave */
+        .why-list li::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -1px;
+            width: 4px;
+            height: calc(100% + 28px);
+            background: linear-gradient(
+                to bottom,
+                var(--secondary) 0%,
+                var(--secondary) 70%,
+                rgba(74,143,168,0.4) 90%,
+                transparent 100%
+            );
+            z-index: 1;
+            border-radius: 0 0 2px 2px;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .why-list li:hover::after {
+            transform: scaleY(1);
+            transform-origin: top;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .why-list li + li {
+            border-top: 1px solid var(--border);
         }
         .why-list strong {
             display: block;
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 17px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             text-transform: uppercase;
             color: var(--text);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.35rem;
         }
         .why-list span {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--muted);
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         /* ── CTA Band ── */
         .cta-band {
             background: var(--dark);
-            padding: 5rem 2.5rem;
+            padding: 7rem 2.5rem;
             text-align: center;
+            position: relative;
+        }
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 3px;
+            background: var(--secondary);
         }
         .cta-band .section-eyebrow { color: var(--secondary); }
         .cta-band h2 {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 32px;
-            font-weight: 600;
+            font-size: clamp(36px, 5vw, 48px);
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.02em;
             color: #fff;
             margin-bottom: 1rem;
         }
         .cta-band p {
-            font-size: 16px;
-            color: #7A9C7E;
-            max-width: 420px;
-            margin: 0 auto 2rem;
+            font-size: 17px;
+            color: #A8C4AB;
+            max-width: 440px;
+            margin: 0 auto 3rem;
             line-height: 1.6;
         }
         .cta-band-btn {
             display: inline-block;
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 17px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: #fff;
             background: var(--secondary);
-            padding: 14px 36px;
+            padding: 18px 52px;
             border-radius: 2px;
             text-decoration: none;
-            transition: background 0.2s;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .cta-band-btn:hover { background: #3D7A90; }
+        .cta-band-btn span { position: relative; z-index: 1; }
+        .cta-band-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 0;
+            background: #3578A0;
+            -webkit-mask-image: radial-gradient(ellipse 130% 14px at 50% 0%, transparent 49%, black 51%);
+            mask-image: radial-gradient(ellipse 130% 14px at 50% 0%, transparent 49%, black 51%);
+            transition: height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .cta-band-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(53,120,160,0.3);
+        }
+        .cta-band-btn:hover::before { height: 110%; }
+        .cta-band-btn:active { transform: translateY(0) scale(0.97); }
 
         /* ── Service Areas ── */
+        .areas {
+            padding: 4rem 2.5rem 5rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
         .area-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
-            max-width: 600px;
+            gap: 0.6rem;
         }
         .area-tag {
             background: #EBF5EE;
@@ -332,17 +693,40 @@
             border-radius: 3px;
             font-size: 13px;
             font-weight: 500;
-            padding: 6px 14px;
+            padding: 7px 16px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .area-tag:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
         }
 
         /* ── Footer ── */
         .footer {
             background: var(--dark);
             border-top: 1px solid rgba(255,255,255,0.06);
-            padding: 2rem 2.5rem;
+            padding: 2.5rem;
+        }
+        .footer-inner {
             display: flex;
             justify-content: space-between;
+            align-items: start;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .footer-top {
+            display: flex;
             align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .footer-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            opacity: 0.5;
         }
         .footer-brand {
             font-family: 'Barlow Condensed', sans-serif;
@@ -350,20 +734,98 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.03em;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.4);
         }
+        .footer-contact {
+            font-size: 13px;
+            color: rgba(255,255,255,0.25);
+            line-height: 1.7;
+        }
+        .footer-contact a {
+            color: rgba(255,255,255,0.35);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-contact a:hover { color: rgba(255,255,255,0.6); }
         .footer-meta {
             font-size: 12px;
             color: rgba(255,255,255,0.2);
+            text-align: right;
+        }
+        .footer-license {
+            font-size: 12px;
+            color: rgba(255,255,255,0.2);
+            margin-top: 0.25rem;
         }
 
+        /* ── Responsive ── */
         @media (max-width: 700px) {
             .nav-links { display: none; }
-            .trust-bar { flex-wrap: wrap; }
-            .trust-item { flex: 1 1 50%; border-bottom: 1px solid rgba(255,255,255,0.06); }
+            .nav-toggle { display: block; }
+            .nav-cta { display: none; }
+            .hero { min-height: 70vh; }
+            .hero-content { padding: 5rem 1.5rem 2rem; }
+            .angi-proof { padding: 1.5rem 1.5rem 3.5rem; }
+            .service-primary {
+                grid-template-columns: 1fr;
+                padding: 2rem 1.5rem;
+            }
+            .service-primary-stats {
+                padding-left: 0;
+                border-left: none;
+                padding-top: 1.5rem;
+                border-top: 1px solid rgba(255,255,255,0.08);
+            }
+            .services { padding: 3.5rem 1.5rem 4.5rem; }
+            .services-layout { grid-template-columns: 1fr; }
             .section { padding: 3.5rem 1.5rem; }
-            .hero { padding: 4rem 1.5rem 3rem; }
-            .footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+            .why { padding: 3.5rem 1.5rem; }
+            .why-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .why-header { position: static; }
+            .why-header h2 { font-size: 32px; }
+            .cta-band { padding: 5rem 1.5rem; }
+            .cta-band h2 { font-size: 32px; }
+            .areas { padding: 3rem 1.5rem 3.5rem; }
+            .footer-inner { flex-direction: column; gap: 1rem; }
+            .footer-meta { text-align: left; }
+            .mobile-menu { padding: 1.5rem; }
+        }
+
+        /* ── Reduce motion ── */
+        @media (prefers-reduced-motion: reduce) {
+            .hero-eyebrow,
+            .hero h1,
+            .hero p,
+            .hero-btn,
+            .angi-proof {
+                opacity: 1;
+                animation: none;
+            }
+            .hero-btn:hover,
+            .cta-band-btn:hover,
+            .nav-cta:hover,
+            .card:hover {
+                transform: none;
+            }
+            .hero-btn::before,
+            .cta-band-btn::before,
+            .nav-cta::before {
+                transition: none;
+            }
+            .hero-btn:hover::before,
+            .cta-band-btn:hover::before,
+            .nav-cta:hover::before {
+                height: 120%;
+            }
+            .why-list li::after {
+                transition: none;
+            }
+            .why-list li:hover::after {
+                transition: none;
+            }
         }
     </style>
 </head>
@@ -371,54 +833,82 @@
 
 <a href="/" class="back-link">&larr; All Options</a>
 
-<nav class="nav">
-    <a href="/forest-rain" class="nav-brand">A-Team Gutters</a>
+<nav class="nav" x-data="{ open: false }">
+    <a href="/forest-rain" class="nav-brand">
+        <img src="/static/images/ateamgutters-logo.png" alt="A-Team Gutters logo" class="nav-logo" width="38" height="38">
+        <span class="nav-brand-text">A-Team Gutters</span>
+    </a>
     <ul class="nav-links">
         <li><a href="#">Services</a></li>
         <li><a href="#">Gallery</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">FAQ</a></li>
     </ul>
-    <a href="#" class="nav-cta">Free Estimate</a>
+    <div class="nav-right">
+        <a href="#" class="nav-cta"><span>Free Estimate</span></a>
+        <button class="nav-toggle" @click="open = !open" :aria-expanded="open" aria-label="Toggle navigation">
+            <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg x-show="open" x-cloak xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+    <div class="mobile-menu" :class="{ 'is-open': open }" @click.outside="open = false">
+        <a href="#" @click="open = false">Services</a>
+        <a href="#" @click="open = false">Gallery</a>
+        <a href="#" @click="open = false">About</a>
+        <a href="#" @click="open = false">FAQ</a>
+        <a href="#" @click="open = false" style="color: var(--secondary);">Get a Free Estimate</a>
+    </div>
 </nav>
 
 <section class="hero">
-    <p class="hero-eyebrow">Bonney Lake &middot; Sumner &middot; Puyallup &middot; Pierce County</p>
-    <h1>Gutters Built for Pacific Northwest Weather</h1>
-    <p>Pine needles, fir debris, moss, and 40+ inches of rain a year. We handle all of it. 30 years of gutter work in the PNW foothills.</p>
-    <a href="#" class="hero-btn">Get a Free Estimate</a>
+    <div class="hero-image">
+        <img src="/static/images/hero-rain-gutters.jpeg" alt="Rain flowing over gutters on a Pacific Northwest roofline" width="1200" height="675" loading="eager">
+    </div>
+    <div class="hero-content">
+        <p class="hero-eyebrow">Bonney Lake &middot; Sumner &middot; Puyallup &middot; Pierce County</p>
+        <h1>Gutters Built for Pacific Northwest Weather</h1>
+        <p>Pine needles, fir debris, moss, and 40+ inches of rain a year. We handle all of it. 30 years of gutter work in the PNW foothills.</p>
+        <a href="#" class="hero-btn"><span>Get a Free Estimate</span></a>
+    </div>
+    <div class="angi-proof">
+        <div class="angi-rating">5.0</div>
+        <div class="angi-detail">
+            <div class="angi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="angi-label">Rated on <strong>Angi</strong> &mdash; 30+ years experience</div>
+        </div>
+    </div>
 </section>
-
-<div class="trust-bar">
-    <div class="trust-item">
-        <div class="trust-number">30+</div>
-        <div class="trust-label">Years Experience</div>
-    </div>
-    <div class="trust-item">
-        <div class="trust-number">5.0</div>
-        <div class="trust-label">Angi Rating</div>
-    </div>
-    <div class="trust-item">
-        <div class="trust-number">100%</div>
-        <div class="trust-label">Licensed &amp; Insured</div>
-    </div>
-    <div class="trust-item">
-        <div class="trust-number">24hr</div>
-        <div class="trust-label">Estimate Turnaround</div>
-    </div>
-</div>
 
 <section class="section services">
     <div style="max-width:960px;margin:0 auto;">
-        <p class="section-eyebrow">What We Do</p>
         <h2>Our Services</h2>
         <p class="section-lead">From seamless installs to emergency repairs, we keep PNW homes dry and protected — no subcontractors, no shortcuts.</p>
     </div>
-    <div class="card-grid">
-        <div class="card">
-            <h3>Gutter Installation</h3>
-            <p>Seamless aluminum gutters custom-fit on-site. 5" and 6" options for PNW rooflines and heavy rainfall.</p>
-            <a href="#" class="card-link">Learn more &rarr;</a>
+    <div class="services-layout">
+        <div class="service-primary">
+            <div>
+                <h3>Gutter Installation</h3>
+                <p>Seamless aluminum gutters custom-fit on-site. 5" and 6" options engineered for PNW rooflines and heavy rainfall. Every install backed by our warranty on labor and materials.</p>
+                <a href="#" class="service-primary-link">Learn more &rarr;</a>
+            </div>
+            <div class="service-primary-stats">
+                <div class="service-stat">
+                    <span class="service-stat-number">30+</span>
+                    <span class="service-stat-text">years installing gutters across the Pacific Northwest</span>
+                </div>
+                <div class="service-stat">
+                    <span class="service-stat-number">100%</span>
+                    <span class="service-stat-text">licensed, bonded, and insured in Washington State</span>
+                </div>
+                <div class="service-stat">
+                    <span class="service-stat-number">24hr</span>
+                    <span class="service-stat-text">estimate turnaround — we show up when we say we will</span>
+                </div>
+            </div>
         </div>
         <div class="card">
             <h3>Gutter Cleaning</h3>
@@ -438,11 +928,13 @@
     </div>
 </section>
 
-<section class="section">
-    <div class="why-section">
-        <p class="section-eyebrow">Why A-Team</p>
-        <h2>No Shortcuts. No Subcontractors.</h2>
-        <p class="section-lead">Seth and his crew will be on-site — not a subcontractor you've never met.</p>
+<section class="section why">
+    <div class="why-layout">
+        <div class="why-header">
+            <p class="section-eyebrow">Why A-Team</p>
+            <h2>No Shortcuts. No Subcontractors.</h2>
+            <p class="section-lead" style="margin-bottom:0;">Seth and his crew will be on-site — not a subcontractor you've never met.</p>
+        </div>
         <ul class="why-list">
             <li>
                 <strong>Family-Owned, Locally Operated</strong>
@@ -468,11 +960,10 @@
     <p class="section-eyebrow">Ready Before the Rain Hits</p>
     <h2>Get Your Free Estimate Today</h2>
     <p>Serving Bonney Lake, Sumner, Puyallup, Auburn, Enumclaw, Buckley, and the surrounding foothills.</p>
-    <a href="#" class="cta-band-btn">Get a Free Estimate</a>
+    <a href="#" class="cta-band-btn"><span>Get a Free Estimate</span></a>
 </section>
 
-<section class="section">
-    <p class="section-eyebrow">Where We Work</p>
+<section class="section areas">
     <h2>Service Areas</h2>
     <p class="section-lead">Serving Pierce and King County communities in the PNW foothills.</p>
     <div class="area-tags">
@@ -487,9 +978,27 @@
 </section>
 
 <footer class="footer">
-    <div class="footer-brand">A-Team Gutters, LLC</div>
-    <div class="footer-meta">Brand preview &middot; Option C: Forest + Rain &middot; Firefly Software</div>
+    <div class="footer-inner">
+        <div>
+            <div class="footer-top">
+                <img src="/static/images/ateamgutters-logo.png" alt="" class="footer-logo" width="32" height="32">
+                <div class="footer-brand">A-Team Gutters, LLC</div>
+            </div>
+            <div class="footer-contact">
+                Bonney Lake, WA<br>
+                <a href="tel:+12532558792">(253) 255-8792</a><br>
+                <a href="mailto:info@ateamgutters.com">info@ateamgutters.com</a>
+            </div>
+        </div>
+        <div>
+            <div class="footer-meta">Brand preview &middot; Option C: Forest + Rain &middot; Firefly Software</div>
+            <div class="footer-license">WA Contractor License #ATEAMGL*123AA</div>
+        </div>
+    </div>
 </footer>
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<style>[x-cloak] { display: none !important; }</style>
 
 </body>
 </html>

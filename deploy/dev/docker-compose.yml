@@ -1,0 +1,6 @@
+services:
+  web:
+    image: ${DOCKER_IMAGE:-dukerupert/a-team-gutters:dev-latest}
+    ports:
+      - "${LISTEN_PORT:-3000}:80"
+    restart: unless-stopped

@@ -1,0 +1,781 @@
+{{define "title"}}Gutter Installation & Repair | Bonney Lake, WA | A-Team Gutters{{end}}
+{{define "meta_description"}}A-Team Gutters LLC — family-owned gutter installation, cleaning, repair, and guard services in Bonney Lake, Sumner, Puyallup, and Pierce County. Free estimates. Licensed contractor TEAMGGL760KN.{{end}}
+{{define "canonical"}}https://ateamgutters.com{{end}}
+
+{{define "head"}}
+<style>
+/* ── Hero ── */
+.hero {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.3;
+}
+
+.hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(10, 10, 10, 0.85) 0%,
+        rgba(10, 10, 10, 0.4) 35%,
+        rgba(10, 10, 10, 0.5) 65%,
+        var(--dark) 100%
+    );
+}
+
+/* Noise texture */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: var(--space-2xl) var(--gutter) var(--space-lg);
+    max-width: var(--content-width);
+    margin-inline: auto;
+    width: 100%;
+}
+
+.hero-inner {
+    max-width: 52rem;
+}
+
+.hero .eyebrow {
+    color: var(--action);
+    margin-bottom: var(--space-sm);
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out 0.15s forwards;
+}
+
+.hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-hero);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #F0F0F0;
+    line-height: 0.95;
+    margin-bottom: var(--space-md);
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out 0.3s forwards;
+}
+
+.hero-sub {
+    font-size: var(--text-lg);
+    color: var(--silver);
+    max-width: 34rem;
+    line-height: 1.55;
+    margin-bottom: var(--space-lg);
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out 0.5s forwards;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out 0.65s forwards;
+}
+
+.hero-phone {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+    font-weight: 700;
+    color: #F0F0F0;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+}
+
+.hero-phone svg {
+    width: 18px;
+    height: 18px;
+    color: var(--silver);
+}
+
+.hero-phone:hover {
+    color: #fff;
+}
+
+
+/* ── Trust Bar ── */
+.trust-bar {
+    background: var(--dark-surface);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 1.25rem var(--gutter);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.trust-bar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll fade hints on mobile */
+.trust-bar::after {
+    content: '';
+    position: sticky;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    background: linear-gradient(to right, transparent, var(--dark-surface));
+    pointer-events: none;
+    flex-shrink: 0;
+}
+
+@media (min-width: 64rem) {
+    .trust-bar::after {
+        display: none;
+    }
+}
+
+.trust-bar-inner {
+    max-width: var(--content-width);
+    margin-inline: auto;
+    display: flex;
+    justify-content: center;
+    gap: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    min-width: max-content;
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.5);
+    white-space: nowrap;
+}
+
+.trust-item svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: var(--silver);
+}
+
+.trust-item--star svg {
+    color: #D4A017;
+}
+
+
+/* ── Services ── */
+.services {
+    padding: var(--space-2xl) 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+}
+
+.services-header {
+    margin-bottom: var(--space-xl);
+}
+
+.services-header .eyebrow {
+    margin-bottom: var(--space-xs);
+}
+
+.services-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: var(--space-sm);
+}
+
+.services-header p {
+    font-size: var(--text-base);
+    color: var(--muted);
+    max-width: 36rem;
+    line-height: 1.6;
+}
+
+/* Stacked list layout */
+.services-list {
+    list-style: none;
+    border-top: 1px solid var(--border);
+}
+
+.service-item {
+    border-bottom: 1px solid var(--border);
+}
+
+.service-item a {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: var(--space-md) 0;
+    text-decoration: none;
+    position: relative;
+    transition: padding-left 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-item a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: var(--space-md);
+    bottom: var(--space-md);
+    width: 0;
+    background: var(--silver);
+    transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-item a:hover {
+    padding-left: var(--space-md);
+}
+
+.service-item a:hover::before {
+    width: 3px;
+}
+
+.service-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.service-item h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    line-height: 1.1;
+}
+
+.service-item-arrow {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--silver);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                color 0.2s ease;
+}
+
+.service-item a:hover .service-item-arrow {
+    transform: translateX(4px);
+    color: var(--text);
+}
+
+.service-item p {
+    font-size: var(--text-base);
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 40rem;
+}
+
+/* CTA item — the soft closer */
+.service-item--cta a {
+    padding: var(--space-md) 0;
+}
+
+.service-item--cta h3 {
+    color: var(--muted);
+}
+
+.service-item--cta a:hover h3 {
+    color: var(--text);
+}
+
+@media (min-width: 48rem) {
+    .service-item a {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ── Why A-Team ── */
+.why-section {
+    padding: var(--space-2xl) 0;
+}
+
+.why-header {
+    margin-bottom: var(--space-xl);
+}
+
+.why-header .eyebrow {
+    margin-bottom: var(--space-xs);
+}
+
+.why-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--text);
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+}
+
+.why-card {
+    position: relative;
+    padding-top: var(--space-md);
+}
+
+.why-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2.5rem;
+    height: 2px;
+    background: var(--silver);
+}
+
+.why-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.1;
+}
+
+.why-card p {
+    font-size: var(--text-base);
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+@media (min-width: 48rem) {
+    .why-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+/* ── Service Area ── */
+.area-section {
+    padding: var(--space-2xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Noise texture */
+.area-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.area-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.area-based {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--silver);
+    margin-bottom: var(--space-sm);
+}
+
+.area-based svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.area-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    align-items: start;
+}
+
+.area-content h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: #F0F0F0;
+    margin-bottom: var(--space-sm);
+}
+
+.area-content > div > p {
+    font-size: var(--text-base);
+    color: var(--silver);
+    line-height: 1.65;
+    max-width: 36rem;
+}
+
+.area-cities {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
+}
+
+.area-city {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(0.9375rem, 0.88rem + 0.25vw, 1.0625rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #F0F0F0;
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 2px solid var(--silver);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, padding-left 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.area-city:hover {
+    border-left-color: var(--silver-bright);
+    background: rgba(255, 255, 255, 0.08);
+    padding-left: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+    .area-content {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 64rem) {
+    .area-cities {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+/* ── CTA Band ── */
+.cta-band {
+    padding: var(--space-2xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Noise texture */
+.cta-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.cta-band-inner {
+    position: relative;
+    z-index: 1;
+    max-width: var(--content-narrow);
+    text-align: left;
+}
+
+.cta-band h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: #F0F0F0;
+    margin-bottom: var(--space-md);
+}
+
+.cta-band p {
+    font-size: var(--text-base);
+    color: var(--silver);
+    line-height: 1.65;
+    margin-bottom: var(--space-lg);
+    max-width: 38rem;
+}
+
+.cta-band-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.cta-band-phone {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--silver);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+}
+
+.cta-band-phone:hover {
+    color: #fff;
+}
+</style>
+{{end}}
+
+{{define "content"}}
+<!-- ═══════════════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-image">
+        <img src="/static/images/hero-gutters-home.jpeg"
+             alt="Seamless aluminum gutter installation on a residential home in Bonney Lake, Washington"
+             width="1920" height="1080"
+             fetchpriority="high"
+             loading="eager">
+    </div>
+    <div class="hero-content">
+        <div class="hero-inner">
+            <p class="eyebrow">Gutter Excellence, A-Team Style</p>
+            <h1 id="hero-heading">Seamless Gutters Built for Pacific Northwest Weather.</h1>
+            <p class="hero-sub">Installation, cleaning, repair, and guard systems for homes across Pierce and King County. Family-owned. Fully licensed. Free estimates.</p>
+            <div class="hero-actions">
+                <a href="/contact/" class="btn-primary btn-primary--lg"><span>Get a Free Estimate</span></a>
+                <a href="tel:+12532937732" class="hero-phone" aria-label="Call A-Team Gutters at (253) 293-7732">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    (253) 293-7732
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TRUST BAR
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="trust-bar" role="region" aria-label="Trust signals">
+    <div class="trust-bar-inner">
+        <div class="trust-item trust-item--star">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            5-Star Rated on Angi
+        </div>
+        <div class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+            30+ Years Experience
+        </div>
+        <div class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Licensed & Insured
+        </div>
+        <div class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Free Estimates
+        </div>
+        <div class="trust-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Satisfaction Guaranteed
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SERVICES
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="services" aria-labelledby="services-heading">
+    <div class="container">
+        <div class="services-header">
+            <p class="eyebrow">What We Do</p>
+            <h2 id="services-heading">Every Gutter Service Your Home Needs.</h2>
+            <p>From new seamless installs to seasonal cleaning, we handle every part of your gutter system — properly, the first time.</p>
+        </div>
+
+        <ul class="services-list">
+            <li class="service-item">
+                <a href="/services/gutter-installation/">
+                    <div class="service-item-top">
+                        <h3>Gutter Installation</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Seamless aluminum gutters formed on-site to the exact dimensions of your roofline. No seams means fewer leak points. No subcontractors means consistent quality on every job.</p>
+                </a>
+            </li>
+
+            <li class="service-item">
+                <a href="/services/gutter-cleaning/">
+                    <div class="service-item-top">
+                        <h3>Gutter Cleaning</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Pine needles, fir debris, and moss accumulate fast in the Pacific Northwest. We clear the gutters, flush the downspouts, and verify flow before we leave.</p>
+                </a>
+            </li>
+
+            <li class="service-item">
+                <a href="/services/gutter-repair/">
+                    <div class="service-item-top">
+                        <h3>Gutter Repair</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Leaks, sags, poor pitch, and pulling fascia don't fix themselves. We diagnose the root cause and repair it correctly — not just the symptom.</p>
+                </a>
+            </li>
+
+            <li class="service-item">
+                <a href="/services/gutter-guards/">
+                    <div class="service-item-top">
+                        <h3>Gutter Guards</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Not all guard systems hold up under the PNW needle load. We install guards that actually work in this climate, with debris volumes most products aren't rated for.</p>
+                </a>
+            </li>
+
+            <li class="service-item">
+                <a href="/services/fascia-soffit-repair/">
+                    <div class="service-item-top">
+                        <h3>Fascia & Soffit Repair</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Failing gutters damage fascia. We repair or replace rotted boards during installation or as a standalone service, so your new system has a solid surface to mount to.</p>
+                </a>
+            </li>
+
+            <li class="service-item service-item--cta">
+                <a href="/contact/">
+                    <div class="service-item-top">
+                        <h3>Not Sure What You Need?</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Tell us what's going on with your gutters. We'll assess it during a free on-site estimate and recommend the right service.</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     WHY A-TEAM
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="why-section" aria-labelledby="why-heading">
+    <div class="container">
+        <div class="why-header">
+            <p class="eyebrow">Why A-Team Gutters</p>
+            <h2 id="why-heading">Thirty Years of Getting It Right.</h2>
+        </div>
+
+        <div class="why-grid">
+            <div class="why-card">
+                <h3>No Subcontractors</h3>
+                <p>When you book with A-Team Gutters, the same experienced crew that quoted your job completes it. We don't hand off to third parties. The person who gives you the estimate is accountable for the finished work.</p>
+            </div>
+
+            <div class="why-card">
+                <h3>Built for This Climate</h3>
+                <p>Western Washington doesn't give gutters an easy life. Heavy rainfall, fir needle loads, moss growth, and freeze-thaw cycles in the foothills demand systems installed with more care than the national average. We've been working in this specific climate long enough to know what holds and what fails.</p>
+            </div>
+
+            <div class="why-card">
+                <h3>Transparent Pricing</h3>
+                <p>We give you a complete estimate before any work begins. No line items added after the job. No surprises on the invoice. If we find additional issues during the project, we tell you before we act.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SERVICE AREA
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="area-section section--dark" aria-labelledby="area-heading">
+    <div class="container">
+        <div class="area-based">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Based in Bonney Lake, WA 98391
+        </div>
+        <div class="area-content">
+            <div>
+                <h2 id="area-heading">Serving Pierce and King County.</h2>
+                <p>A-Team Gutters serves the communities of the eastern Pierce County foothills and southern King County. Our crew works throughout the area below. If you're not sure whether we cover your neighborhood, call us. Most of the time, we do.</p>
+            </div>
+            <div class="area-cities" role="list" aria-label="Cities we serve">
+                <a href="/service-areas/bonney-lake/" class="area-city" role="listitem">Bonney Lake</a>
+                <a href="/service-areas/sumner/" class="area-city" role="listitem">Sumner</a>
+                <a href="/service-areas/puyallup/" class="area-city" role="listitem">Puyallup</a>
+                <a href="/service-areas/auburn/" class="area-city" role="listitem">Auburn</a>
+                <a href="/service-areas/enumclaw/" class="area-city" role="listitem">Enumclaw</a>
+                <a href="/service-areas/buckley/" class="area-city" role="listitem">Buckley</a>
+                <a href="/service-areas/black-diamond/" class="area-city" role="listitem">Black Diamond</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CTA BAND
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="cta-band section--dark" aria-labelledby="cta-heading">
+    <div class="container">
+        <div class="cta-band-inner">
+            <h2 id="cta-heading">Ready Before the Rain Hits.</h2>
+            <p>Most gutter problems in western Washington start small — a minor sag, a slow drain, debris building up behind a joint. Left alone through a wet season, they become fascia rot, foundation erosion, and cracked driveways. A-Team Gutters gives you an honest estimate within 24 hours and gets it done right.</p>
+            <div class="cta-band-actions">
+                <a href="/contact/" class="btn-primary btn-primary--lg"><span>Get a Free Estimate</span></a>
+                <a href="tel:+12532937732" class="cta-band-phone" aria-label="Call A-Team Gutters at (253) 293-7732">(253) 293-7732</a>
+            </div>
+        </div>
+    </div>
+</section>
+{{end}}

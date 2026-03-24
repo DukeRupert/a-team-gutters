@@ -5,32 +5,61 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
-func main() {
-	tmpl := template.Must(template.ParseGlob("templates/*.html"))
+// loadPage parses the base layout, partials, and the given page template.
+func loadPage(page string) *template.Template {
+	return template.Must(template.ParseFiles(
+		"templates/base.html",
+		"templates/partials/nav.html",
+		"templates/partials/footer.html",
+		filepath.Join("templates/pages", page),
+	))
+}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			http.NotFound(w, r)
-			return
+func servePage(tmpl *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := tmpl.ExecuteTemplate(w, "base", nil); err != nil {
+			log.Printf("template error: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
-		tmpl.ExecuteTemplate(w, "selector.html", nil)
-	})
+	}
+}
 
-	http.HandleFunc("/forest-rain", func(w http.ResponseWriter, r *http.Request) {
-		tmpl.ExecuteTemplate(w, "forest-rain.html", nil)
-	})
+func main() {
+	// Load each page template with base layout + partials
+	pages := map[string]*template.Template{
+		"home":                loadPage("home.html"),
+		"about":              loadPage("about.html"),
+		"contact":            loadPage("contact.html"),
+		"faq":                loadPage("faq.html"),
+		"gutter-installation": loadPage("gutter-installation.html"),
+		"gutter-cleaning":    loadPage("gutter-cleaning.html"),
+		"gutter-repair":      loadPage("gutter-repair.html"),
+		"gutter-guards":      loadPage("gutter-guards.html"),
+		"fascia-soffit-repair": loadPage("fascia-soffit-repair.html"),
+	}
 
-	http.HandleFunc("/rain-slate", func(w http.ResponseWriter, r *http.Request) {
-		tmpl.ExecuteTemplate(w, "rain-slate.html", nil)
-	})
+	mux := http.NewServeMux()
 
-	http.HandleFunc("/classic", func(w http.ResponseWriter, r *http.Request) {
-		tmpl.ExecuteTemplate(w, "classic.html", nil)
-	})
+	// Home — exact match only
+	mux.HandleFunc("GET /{$}", servePage(pages["home"]))
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	// Services
+	mux.HandleFunc("GET /services/gutter-installation/", servePage(pages["gutter-installation"]))
+	mux.HandleFunc("GET /services/gutter-cleaning/", servePage(pages["gutter-cleaning"]))
+	mux.HandleFunc("GET /services/gutter-repair/", servePage(pages["gutter-repair"]))
+	mux.HandleFunc("GET /services/gutter-guards/", servePage(pages["gutter-guards"]))
+	mux.HandleFunc("GET /services/fascia-soffit-repair/", servePage(pages["fascia-soffit-repair"]))
+
+	// Core pages
+	mux.HandleFunc("GET /about/", servePage(pages["about"]))
+	mux.HandleFunc("GET /contact/", servePage(pages["contact"]))
+	mux.HandleFunc("GET /faq/", servePage(pages["faq"]))
+
+	// Static files
+	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -38,5 +67,5 @@ func main() {
 	}
 
 	log.Printf("Server starting on :%s", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServe(":"+port, mux))
 }

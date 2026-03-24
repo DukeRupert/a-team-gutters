@@ -1,0 +1,55 @@
+{{define "nav"}}
+<header x-data="{ open: false, services: false }" class="nav" role="banner">
+    <a href="/" class="nav-brand" aria-label="A-Team Gutters home">
+        <img src="/static/images/ateamgutters-logo.png" alt="A-Team Gutters logo" class="nav-logo" width="38" height="38">
+        <span class="nav-brand-text">A-Team Gutters</span>
+    </a>
+
+    <nav aria-label="Main navigation" class="nav-links-wrap">
+        <ul class="nav-links">
+            <li x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false" @focusin="hover = true" @focusout="if (!$el.contains($event.relatedTarget)) hover = false" class="nav-dropdown">
+                <a href="/services/gutter-installation/" aria-haspopup="true" :aria-expanded="hover">Services</a>
+                <ul class="nav-dropdown-menu" x-show="hover" x-transition>
+                    <li><a href="/services/gutter-installation/">Gutter Installation</a></li>
+                    <li><a href="/services/gutter-cleaning/">Gutter Cleaning</a></li>
+                    <li><a href="/services/gutter-repair/">Gutter Repair</a></li>
+                    <li><a href="/services/gutter-guards/">Gutter Guards</a></li>
+                    <li><a href="/services/fascia-soffit-repair/">Fascia & Soffit Repair</a></li>
+                </ul>
+            </li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/faq/">FAQ</a></li>
+            <li><a href="/contact/">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="nav-right">
+        <a href="tel:+12532937732" class="nav-phone" aria-label="Call us at (253) 293-7732">(253) 293-7732</a>
+        <a href="/contact/" class="nav-cta"><span>Free Estimate</span></a>
+    </div>
+
+    <button
+        class="nav-toggle"
+        @click="open = !open"
+        :aria-expanded="open"
+        aria-controls="mobile-menu"
+        aria-label="Toggle navigation menu"
+    >
+        <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+        <svg x-show="open" x-cloak xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
+    </button>
+
+    <div id="mobile-menu" class="mobile-menu" :class="{ 'is-open': open }" x-show="open" x-transition @click.away="open = false">
+        <a href="/services/gutter-installation/">Gutter Installation</a>
+        <a href="/services/gutter-cleaning/">Gutter Cleaning</a>
+        <a href="/services/gutter-repair/">Gutter Repair</a>
+        <a href="/services/gutter-guards/">Gutter Guards</a>
+        <a href="/services/fascia-soffit-repair/">Fascia & Soffit Repair</a>
+        <a href="/about/">About</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/contact/">Contact</a>
+        <a href="tel:+12532937732" class="mobile-phone">(253) 293-7732</a>
+        <a href="/contact/" class="mobile-cta">Free Estimate</a>
+    </div>
+</header>
+{{end}}

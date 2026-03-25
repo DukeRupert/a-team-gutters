@@ -1,11 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
+	"time"
 )
 
 // loadPage parses the base layout, partials, and the given page template.
@@ -27,17 +30,71 @@ func servePage(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
+func handleContactSubmit(tmpl *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			http.Error(w, "Bad Request", http.StatusBadRequest)
+			return
+		}
+
+		// Honeypot check — if filled, silently accept (don't reveal to bots)
+		if r.FormValue("website") != "" {
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			tmpl.ExecuteTemplate(w, "contact_success", nil)
+			return
+		}
+
+		// Collect and trim fields
+		name := strings.TrimSpace(r.FormValue("name"))
+		phone := strings.TrimSpace(r.FormValue("phone"))
+		email := strings.TrimSpace(r.FormValue("email"))
+		address := strings.TrimSpace(r.FormValue("address"))
+		service := strings.TrimSpace(r.FormValue("service"))
+		message := strings.TrimSpace(r.FormValue("message"))
+
+		// Server-side validation (defense in depth — Alpine validates client-side first)
+		if name == "" || phone == "" || email == "" || !strings.Contains(email, "@") || address == "" || service == "" {
+			// Retarget to the error banner zone — don't destroy the form
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			w.Header().Set("HX-Retarget", "#form-errors")
+			w.Header().Set("HX-Reswap", "innerHTML")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			fmt.Fprint(w, `<div class="form-error-banner" role="alert">Please fill out all required fields and try again.</div>`)
+			return
+		}
+
+		// Log the submission
+		timestamp := time.Now().Format("2006-01-02 15:04:05 MST")
+		log.Printf("=== New Estimate Request ===")
+		log.Printf("Name:    %s", name)
+		log.Printf("Phone:   %s", phone)
+		log.Printf("Email:   %s", email)
+		log.Printf("Address: %s", address)
+		log.Printf("Service: %s", service)
+		log.Printf("Message: %s", message)
+		log.Printf("Time:    %s", timestamp)
+		log.Printf("============================")
+
+		// TODO: Send email via Postmark
+		// TODO: Log to database for backup
+
+		// Return success partial
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		tmpl.ExecuteTemplate(w, "contact_success", nil)
+	}
+}
+
 func main() {
 	// Load each page template with base layout + partials
 	pages := map[string]*template.Template{
-		"home":                loadPage("home.html"),
-		"about":              loadPage("about.html"),
-		"contact":            loadPage("contact.html"),
-		"faq":                loadPage("faq.html"),
+		"home":                 loadPage("home.html"),
+		"about":               loadPage("about.html"),
+		"contact":             loadPage("contact.html"),
+		"faq":                 loadPage("faq.html"),
 		"gutter-installation": loadPage("gutter-installation.html"),
-		"gutter-cleaning":    loadPage("gutter-cleaning.html"),
-		"gutter-repair":      loadPage("gutter-repair.html"),
-		"gutter-guards":      loadPage("gutter-guards.html"),
+		"gutter-cleaning":     loadPage("gutter-cleaning.html"),
+		"gutter-repair":       loadPage("gutter-repair.html"),
+		"gutter-guards":       loadPage("gutter-guards.html"),
 		"fascia-soffit-repair": loadPage("fascia-soffit-repair.html"),
 	}
 
@@ -56,6 +113,7 @@ func main() {
 	// Core pages
 	mux.HandleFunc("GET /about/", servePage(pages["about"]))
 	mux.HandleFunc("GET /contact/", servePage(pages["contact"]))
+	mux.HandleFunc("POST /contact/", handleContactSubmit(pages["contact"]))
 	mux.HandleFunc("GET /faq/", servePage(pages["faq"]))
 
 	// Static files

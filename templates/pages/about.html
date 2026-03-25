@@ -1,10 +1,395 @@
-{{define "title"}}About A-Team Gutters | Bonney Lake, WA{{end}}
-{{define "meta_description"}}Meet Seth and Jessica — 30+ years of gutter experience, licensed contractor TEAMGGL760KN, serving Pierce and King County from Bonney Lake, WA.{{end}}
+{{define "title"}}About A-Team Gutters — Bonney Lake, WA | Licensed Gutter Contractor{{end}}
+{{define "meta_description"}}A-Team Gutters LLC is a family-owned gutter contractor based in Bonney Lake, WA. Licensed, insured, and backed by 30 years of trade experience across Pierce and King County.{{end}}
 {{define "canonical"}}https://ateamgutters.com/about/{{end}}
 
+{{define "schema"}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutters.com/" },
+        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://ateamgutters.com/about/" }
+    ]
+}
+</script>
+{{end}}
+
+{{define "head"}}
+<style>
+/* ── Credentials ── */
+.about-credentials {
+    padding: var(--space-xl) 0;
+}
+
+.about-credentials .sp-section-title {
+    margin-bottom: 0.75rem;
+}
+
+.about-credentials-intro {
+    font-size: var(--text-base);
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 38rem;
+}
+
+.credentials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.625rem;
+    margin-top: var(--space-md);
+}
+
+.credential-item {
+    padding: 1rem 1.25rem;
+    background: var(--bg);
+    border-left: 2px solid var(--silver);
+    border-radius: var(--radius);
+}
+
+.credential-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+}
+
+.credential-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.02em;
+}
+
+.credentials-note {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    line-height: 1.6;
+    margin-top: var(--space-md);
+    max-width: 38rem;
+}
+
+@media (max-width: 39.99rem) {
+    .credentials-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── About: Intro / Story ── */
+.about-intro {
+    padding: var(--space-xl) 0;
+    border-top: 1px solid var(--border);
+}
+
+.about-intro-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+}
+
+.about-intro-text p {
+    font-size: var(--text-base);
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 38rem;
+}
+
+.about-intro-text p + p {
+    margin-top: 1.25rem;
+}
+
+/* Photo placeholder */
+.about-photo {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    min-height: 16rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: var(--text-sm);
+    text-align: center;
+    padding: var(--space-md);
+}
+
+.about-photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.about-photo-placeholder svg {
+    width: 32px;
+    height: 32px;
+    color: var(--silver);
+}
+
+@media (min-width: 48rem) {
+    .about-intro-grid {
+        grid-template-columns: 1.2fr 1fr;
+        align-items: start;
+    }
+}
+
+/* ── What We Do Differently (dark) ── */
+.about-diff {
+    padding: var(--space-xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-diff::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.about-diff .container {
+    position: relative;
+    z-index: 1;
+}
+
+.about-diff-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #F0F0F0;
+    line-height: 1.1;
+}
+
+.diff-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+}
+
+.diff-item {
+    position: relative;
+    padding-left: 1.25rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.diff-item h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #F0F0F0;
+    margin-bottom: 0.5rem;
+}
+
+.diff-item p {
+    font-size: var(--text-sm);
+    color: var(--silver);
+    line-height: 1.65;
+}
+
+.diff-item a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 0.75rem;
+    transition: color 0.2s;
+}
+
+.diff-item a:hover {
+    color: #fff;
+}
+
+.diff-item a svg {
+    width: 12px;
+    height: 12px;
+}
+
+@media (min-width: 48rem) {
+    .diff-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── Service Area ── */
+.about-area {
+    padding: var(--space-xl) 0;
+}
+
+.about-area-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: var(--space-md);
+}
+
+.about-area p {
+    font-size: var(--text-base);
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 42rem;
+}
+
+.about-area p + p {
+    margin-top: 1rem;
+}
+
+.about-area a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.2s;
+}
+
+.about-area a:hover {
+    border-bottom-color: var(--silver);
+}
+</style>
+{{end}}
+
 {{define "content"}}
-<section>
-    <h1>About A-Team Gutters</h1>
-    <p>Stub — Seth and Jessica's story, credentials, community connection.</p>
+<!-- ── Hero ── -->
+<section class="page-hero" aria-labelledby="page-heading">
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep" aria-hidden="true">/</span>
+            <span class="breadcrumb-current" aria-current="page">About</span>
+        </nav>
+        <p class="eyebrow">About A-Team Gutters</p>
+        <h1 id="page-heading">Thirty Years of Experience. One Standard of Work.</h1>
+        <p class="page-hero-sub">Family-owned. Bonney Lake-based. Licensed contractor TEAMGGL760KN.</p>
+    </div>
+</section>
+
+<!-- ── Credentials (first — what users verify) ── -->
+<section class="about-credentials section--surface" aria-labelledby="credentials-heading">
+    <div class="container">
+        <h2 id="credentials-heading" class="about-diff-title" style="color: var(--text);">Our Credentials</h2>
+        <p class="about-credentials-intro">A-Team Gutters LLC is a licensed and insured contractor operating in Washington State. Our licensing information is public record and available for verification.</p>
+
+        <div class="credentials-grid">
+            <div class="credential-item">
+                <p class="credential-label">Contractor License</p>
+                <p class="credential-value">TEAMGGL760KN</p>
+            </div>
+            <div class="credential-item">
+                <p class="credential-label">Business License</p>
+                <p class="credential-value">605469918</p>
+            </div>
+            <div class="credential-item">
+                <p class="credential-label">Service Area</p>
+                <p class="credential-value">Pierce & King County, WA</p>
+            </div>
+            <div class="credential-item">
+                <p class="credential-label">Based In</p>
+                <p class="credential-value">Bonney Lake, WA 98391</p>
+            </div>
+        </div>
+
+        <p class="credentials-note">We carry general liability insurance on all projects. Proof of insurance is available upon request before any work begins.</p>
+    </div>
+</section>
+
+<!-- ── Our Story ── -->
+<section class="about-intro" aria-labelledby="about-intro-heading">
+    <div class="container">
+        <div class="about-intro-grid">
+            <div class="about-intro-text">
+                <h2 id="about-intro-heading" class="sr-only">Our Story</h2>
+                <p>A-Team Gutters LLC is a family-owned and operated gutter contractor based in Bonney Lake, Washington. We were established to bring three decades of hands-on gutter trade experience to Pierce and King County homeowners under a single, accountable operation — one crew, one standard, one phone number.</p>
+                <p>The gutters we install are formed on-site from aluminum coil on a roll-forming machine we bring to your property. The repairs we make address root causes, not symptoms. The estimates we give you are complete before work begins.</p>
+                <p>Western Washington is a demanding climate for gutter systems. Persistent rainfall, heavy conifer canopy, and the specific conditions of the eastern Pierce County foothills require a different level of attention than what most national franchise operations bring to a job. We've been working in this specific region long enough to know what the conditions here actually require.</p>
+            </div>
+            <!-- TODO: Replace with real photo of crew, truck, or job site -->
+            <div class="about-photo" aria-hidden="true">
+                <div class="about-photo-placeholder">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                    Crew or job site photo coming soon
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── What We Do Differently (dark) ── -->
+<section class="about-diff section--dark" aria-labelledby="diff-heading">
+    <div class="container">
+        <h2 id="diff-heading" class="about-diff-title">What We Do Differently</h2>
+
+        <div class="diff-grid">
+            <div class="diff-item">
+                <h3>No Subcontractors</h3>
+                <p>Every job is performed by our own crew. We don't broker work to third-party installers. The quality you see on the estimate is the quality you get on the job.</p>
+            </div>
+            <div class="diff-item">
+                <h3>On-Site Material Forming</h3>
+                <p>We bring the roll-forming machine to your property and produce seamless gutter runs to the exact dimensions of your roofline. Pre-cut or pre-formed material isn't brought to the job.</p>
+                <a href="/services/gutter-installation/">
+                    See our installation process
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="diff-item">
+                <h3>Honest Assessments</h3>
+                <p>If your gutters need repair rather than replacement, we'll tell you. If we find fascia damage during an installation, we'll show you before we start. If the guard system you're asking about isn't the right match for your tree canopy, we'll explain why and recommend one that is.</p>
+            </div>
+            <div class="diff-item">
+                <h3>Complete Estimates</h3>
+                <p>Our quotes include everything required to complete the job as described. We don't add line items after the fact.</p>
+                <a href="/contact/">
+                    Request an estimate
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Service Area ── -->
+<section class="about-area" aria-labelledby="area-heading">
+    <div class="container">
+        <h2 id="area-heading" class="about-area-title">Our Service Area</h2>
+        <p>A-Team Gutters serves homeowners throughout eastern Pierce County and southern King County, including <a href="/service-areas/bonney-lake/">Bonney Lake</a>, <a href="/service-areas/sumner/">Sumner</a>, <a href="/service-areas/puyallup/">Puyallup</a>, <a href="/service-areas/auburn/">Auburn</a>, <a href="/service-areas/enumclaw/">Enumclaw</a>, <a href="/service-areas/buckley/">Buckley</a>, <a href="/service-areas/black-diamond/">Black Diamond</a>, and the surrounding communities. We're based in Bonney Lake and know the neighborhoods, the tree species, the rainfall patterns, and the roofline styles common to the eastern foothills.</p>
+        <p>If you're outside our primary service area and need gutter work, call us — we can discuss whether a visit makes sense for your project.</p>
+    </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="sp-cta section--dark" aria-labelledby="cta-heading">
+    <div class="container">
+        <p class="eyebrow">One Crew. One Standard.</p>
+        <p>Ready to talk about your gutters? A-Team Gutters provides free on-site estimates with no obligation.</p>
+        <div class="sp-cta-actions">
+            <a href="/contact/" class="btn-primary btn-primary--lg"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="sp-cta-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+    </div>
 </section>
 {{end}}

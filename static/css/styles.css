@@ -622,3 +622,666 @@ footer {
         justify-content: space-between;
     }
 }
+
+
+/* ================================================================
+   Service Pages — Shared Components
+   ================================================================ */
+
+/* ── Page Hero (shorter than home hero) ── */
+.page-hero {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-2xl) 0 var(--space-xl);
+}
+
+/* Noise texture */
+.page-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.page-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.page-hero .eyebrow {
+    color: var(--action);
+    margin-bottom: var(--space-sm);
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out 0.15s forwards;
+}
+
+.page-hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #F0F0F0;
+    line-height: 1;
+    max-width: 42rem;
+    margin-bottom: var(--space-md);
+    opacity: 0;
+    animation: fadeUp 0.7s ease-out 0.3s forwards;
+}
+
+.page-hero-sub {
+    font-size: var(--text-base);
+    color: var(--silver);
+    max-width: 38rem;
+    line-height: 1.6;
+    margin-bottom: var(--space-lg);
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out 0.45s forwards;
+}
+
+.page-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out 0.6s forwards;
+}
+
+.page-hero-phone {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    font-weight: 700;
+    color: #F0F0F0;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+}
+
+.page-hero-phone svg {
+    width: 16px;
+    height: 16px;
+    color: var(--silver);
+}
+
+.page-hero-phone:hover {
+    color: #fff;
+}
+
+/* Image placeholder for future hero images */
+.page-hero-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.page-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.15;
+}
+
+.page-hero-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(10, 10, 10, 0.8) 0%,
+        rgba(10, 10, 10, 0.5) 50%,
+        var(--dark) 100%
+    );
+}
+
+
+/* ── Content Sections ── */
+.sp-section {
+    padding: var(--space-xl) 0;
+}
+
+.sp-section + .sp-section {
+    border-top: 1px solid var(--border);
+}
+
+.sp-section h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: var(--space-md);
+}
+
+.sp-section h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.sp-section p {
+    font-size: var(--text-base);
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 42rem;
+}
+
+.sp-section p + p {
+    margin-top: 1rem;
+}
+
+.sp-section p + h3 {
+    margin-top: var(--space-md);
+}
+
+/* ── Two Column: Prose + List ── */
+.sp-two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+}
+
+@media (min-width: 48rem) {
+    .sp-two-col {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-xl);
+    }
+}
+
+.sp-list {
+    list-style: none;
+}
+
+.sp-list li {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    line-height: 1.6;
+    padding: 0.75rem 0;
+    padding-left: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+.sp-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background: var(--silver);
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.sp-list li:last-child {
+    border-bottom: none;
+}
+
+
+/* ── Process Steps ── */
+.sp-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    counter-reset: step;
+}
+
+.sp-step {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    align-items: start;
+}
+
+.sp-step-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--silver);
+    line-height: 1;
+    min-width: 2.5rem;
+}
+
+.sp-step h3 {
+    margin-bottom: 0.375rem;
+}
+
+.sp-step p {
+    font-size: var(--text-sm);
+}
+
+@media (min-width: 48rem) {
+    .sp-steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* ── FAQ Accordion ── */
+.sp-faq {
+    list-style: none;
+    border-top: 1px solid var(--border);
+}
+
+.sp-faq-item {
+    border-bottom: 1px solid var(--border);
+}
+
+.sp-faq-q {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    text-align: left;
+    line-height: 1.2;
+    transition: color 0.2s;
+}
+
+.sp-faq-q:hover {
+    color: var(--muted);
+}
+
+.sp-faq-q svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: var(--silver);
+    transition: transform 0.25s ease;
+}
+
+.sp-faq-q[aria-expanded="true"] svg {
+    transform: rotate(45deg);
+}
+
+.sp-faq-a {
+    padding-bottom: 1.25rem;
+}
+
+.sp-faq-a p {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+
+/* ── Related Services ── */
+.sp-related {
+    padding: var(--space-xl) 0;
+}
+
+.sp-related h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: var(--space-md);
+}
+
+.sp-related-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.sp-related-card {
+    background: var(--bg);
+    padding: var(--space-md);
+    text-decoration: none;
+    border-left: 3px solid var(--silver);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.2s, padding-left 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sp-related-card:hover {
+    border-left-color: var(--silver-bright);
+    padding-left: calc(var(--space-md) + 0.5rem);
+}
+
+.sp-related-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-base);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+}
+
+.sp-related-card p {
+    font-size: var(--text-xs);
+    color: var(--muted);
+    line-height: 1.5;
+    margin-top: 0.25rem;
+}
+
+.sp-related-card svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: var(--silver);
+    transition: transform 0.2s ease;
+}
+
+.sp-related-card:hover svg {
+    transform: translateX(3px);
+}
+
+@media (min-width: 48rem) {
+    .sp-related-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* ── Service Page CTA ── */
+.sp-cta {
+    padding: var(--space-2xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.sp-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.sp-cta .container {
+    position: relative;
+    z-index: 1;
+}
+
+.sp-cta p {
+    font-size: var(--text-base);
+    color: var(--silver);
+    line-height: 1.65;
+    margin-bottom: var(--space-lg);
+    max-width: 38rem;
+}
+
+.sp-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.sp-cta-phone {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    font-weight: 700;
+    color: #F0F0F0;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s;
+}
+
+.sp-cta-phone svg {
+    width: 16px;
+    height: 16px;
+    color: var(--silver);
+}
+
+.sp-cta-phone:hover {
+    color: #fff;
+}
+
+
+/* ── Breadcrumbs ── */
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-md);
+    opacity: 0;
+    animation: fadeUp 0.5s ease-out 0.05s forwards;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.35);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumbs a:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.breadcrumbs .breadcrumb-sep {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 0.6em;
+}
+
+.breadcrumbs .breadcrumb-current {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+
+/* ── PNW Climate Strip ── */
+.pnw-strip {
+    background: var(--dark-surface);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding: var(--space-lg) var(--gutter);
+}
+
+.pnw-strip-inner {
+    max-width: var(--content-width);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+}
+
+.pnw-item {
+    padding-left: 1rem;
+    border-left: 2px solid var(--silver);
+}
+
+.pnw-item h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #F0F0F0;
+    margin-bottom: 0.25rem;
+}
+
+.pnw-item p {
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.5;
+}
+
+@media (min-width: 40rem) {
+    .pnw-strip-inner {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 64rem) {
+    .pnw-strip-inner {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
+/* ── Pricing Callout ── */
+.sp-pricing {
+    background: var(--dark);
+    padding: var(--space-xl) var(--gutter);
+    position: relative;
+    overflow: hidden;
+}
+
+.sp-pricing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.sp-pricing-inner {
+    position: relative;
+    z-index: 1;
+    max-width: var(--content-width);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    align-items: center;
+}
+
+.sp-pricing-range {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: #F0F0F0;
+    line-height: 1;
+}
+
+.sp-pricing-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--silver);
+    margin-bottom: 0.5rem;
+}
+
+.sp-pricing-note {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.6;
+    max-width: 28rem;
+}
+
+.sp-pricing-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+@media (min-width: 48rem) {
+    .sp-pricing-inner {
+        grid-template-columns: 1fr auto;
+    }
+}
+
+
+/* ── Mid-Page Inline CTA ── */
+.sp-mid-cta {
+    padding: var(--space-lg) 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sp-mid-cta p {
+    font-size: var(--text-sm);
+    color: var(--muted);
+    max-width: none;
+}
+
+.sp-mid-cta a {
+    flex-shrink: 0;
+}
+
+
+/* ── Related Services: Dark Variant ── */
+.sp-related--dark {
+    background: var(--dark);
+    padding: var(--space-xl) 0;
+}
+
+.sp-related--dark h2 {
+    color: #F0F0F0;
+}
+
+.sp-related--dark .sp-related-grid {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.sp-related--dark .sp-related-card {
+    background: var(--dark-surface);
+    border-left-color: rgba(255, 255, 255, 0.15);
+}
+
+.sp-related--dark .sp-related-card:hover {
+    border-left-color: var(--silver);
+}
+
+.sp-related--dark .sp-related-card h3 {
+    color: #F0F0F0;
+}
+
+.sp-related--dark .sp-related-card p {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.sp-related--dark .sp-related-card svg {
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.sp-related--dark .sp-related-card:hover svg {
+    color: var(--silver);
+}

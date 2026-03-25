@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -30,6 +33,59 @@ func servePage(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
+// postmarkEmail represents the Postmark API email payload.
+type postmarkEmail struct {
+	From     string `json:"From"`
+	To       string `json:"To"`
+	Subject  string `json:"Subject"`
+	TextBody string `json:"TextBody"`
+	ReplyTo  string `json:"ReplyTo"`
+}
+
+// sendPostmarkEmail sends an email via the Postmark API.
+// Returns nil if Postmark is not configured (missing env vars).
+func sendPostmarkEmail(to, from, replyTo, subject, body string) error {
+	token := os.Getenv("POSTMARK_SERVER_TOKEN")
+	if token == "" {
+		log.Printf("POSTMARK_SERVER_TOKEN not set — skipping email send")
+		return nil
+	}
+
+	payload := postmarkEmail{
+		From:     from,
+		To:       to,
+		Subject:  subject,
+		TextBody: body,
+		ReplyTo:  replyTo,
+	}
+
+	jsonBody, err := json.Marshal(payload)
+	if err != nil {
+		return fmt.Errorf("marshal email payload: %w", err)
+	}
+
+	req, err := http.NewRequest("POST", "https://api.postmarkapp.com/email", bytes.NewReader(jsonBody))
+	if err != nil {
+		return fmt.Errorf("create request: %w", err)
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("X-Postmark-Server-Token", token)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("postmark request failed: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		respBody, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("postmark returned %d: %s", resp.StatusCode, string(respBody))
+	}
+
+	return nil
+}
+
 func handleContactSubmit(tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseForm(); err != nil {
@@ -54,7 +110,6 @@ func handleContactSubmit(tmpl *template.Template) http.HandlerFunc {
 
 		// Server-side validation (defense in depth — Alpine validates client-side first)
 		if name == "" || phone == "" || email == "" || !strings.Contains(email, "@") || address == "" || service == "" {
-			// Retarget to the error banner zone — don't destroy the form
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
 			w.Header().Set("HX-Retarget", "#form-errors")
 			w.Header().Set("HX-Reswap", "innerHTML")
@@ -75,8 +130,29 @@ func handleContactSubmit(tmpl *template.Template) http.HandlerFunc {
 		log.Printf("Time:    %s", timestamp)
 		log.Printf("============================")
 
-		// TODO: Send email via Postmark
-		// TODO: Log to database for backup
+		// Send email via Postmark
+		postmarkTo := os.Getenv("POSTMARK_TO")
+		postmarkFrom := os.Getenv("POSTMARK_FROM")
+
+		if postmarkTo != "" && postmarkFrom != "" {
+			emailBody := fmt.Sprintf(`New Estimate Request — A-Team Gutters
+
+Name:    %s
+Phone:   %s
+Email:   %s
+Address: %s
+Service: %s
+Message: %s
+
+Submitted: %s`, name, phone, email, address, service, message, timestamp)
+
+			subject := fmt.Sprintf("New Estimate Request — %s (%s)", name, service)
+
+			if err := sendPostmarkEmail(postmarkTo, postmarkFrom, email, subject, emailBody); err != nil {
+				log.Printf("ERROR sending email: %v", err)
+				// Don't fail the submission — the log has the data
+			}
+		}
 
 		// Return success partial
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")

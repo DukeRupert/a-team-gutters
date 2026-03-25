@@ -3,4 +3,8 @@ services:
     image: ${DOCKER_IMAGE:-dukerupert/a-team-gutters:latest}
     ports:
       - "${LISTEN_PORT:-3001}:80"
+    environment:
+      - POSTMARK_SERVER_TOKEN=${POSTMARK_SERVER_TOKEN:-}
+      - POSTMARK_FROM=${POSTMARK_FROM:-}
+      - POSTMARK_TO=${POSTMARK_TO:-}
     restart: unless-stopped

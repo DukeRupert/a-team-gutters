@@ -33,6 +33,41 @@ func servePage(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
+// verifyTurnstile validates a Cloudflare Turnstile token server-side.
+// Returns true if verification succeeds or if Turnstile is not configured.
+func verifyTurnstile(token, remoteIP string) bool {
+	secret := os.Getenv("TURNSTILE_SECRET_KEY")
+	if secret == "" {
+		log.Printf("TURNSTILE_SECRET_KEY not set — skipping verification")
+		return true
+	}
+
+	form := fmt.Sprintf("secret=%s&response=%s&remoteip=%s", secret, token, remoteIP)
+	resp, err := http.Post(
+		"https://challenges.cloudflare.com/turnstile/v0/siteverify",
+		"application/x-www-form-urlencoded",
+		strings.NewReader(form),
+	)
+	if err != nil {
+		log.Printf("turnstile verification request failed: %v", err)
+		return false
+	}
+	defer resp.Body.Close()
+
+	var result struct {
+		Success bool `json:"success"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		log.Printf("turnstile response decode error: %v", err)
+		return false
+	}
+
+	if !result.Success {
+		log.Printf("turnstile verification failed for IP %s", remoteIP)
+	}
+	return result.Success
+}
+
 // postmarkEmail represents the Postmark API email payload.
 type postmarkEmail struct {
 	From     string `json:"From"`
@@ -86,6 +121,22 @@ func sendPostmarkEmail(to, from, replyTo, subject, body string) error {
 	return nil
 }
 
+// pageData holds template data for pages that need dynamic values.
+type pageData struct {
+	TurnstileSiteKey string
+}
+
+func serveContact(tmpl *template.Template) http.HandlerFunc {
+	siteKey := os.Getenv("TURNSTILE_SITE_KEY")
+	return func(w http.ResponseWriter, r *http.Request) {
+		data := pageData{TurnstileSiteKey: siteKey}
+		if err := tmpl.ExecuteTemplate(w, "base", data); err != nil {
+			log.Printf("template error: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+	}
+}
+
 func handleContactSubmit(tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseForm(); err != nil {
@@ -97,6 +148,21 @@ func handleContactSubmit(tmpl *template.Template) http.HandlerFunc {
 		if r.FormValue("website") != "" {
 			w.Header().Set("Content-Type", "text/html; charset=utf-8")
 			tmpl.ExecuteTemplate(w, "contact_success", nil)
+			return
+		}
+
+		// Turnstile verification
+		turnstileToken := r.FormValue("cf-turnstile-response")
+		remoteIP := r.RemoteAddr
+		if idx := strings.LastIndex(remoteIP, ":"); idx != -1 {
+			remoteIP = remoteIP[:idx]
+		}
+		if !verifyTurnstile(turnstileToken, remoteIP) {
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			w.Header().Set("HX-Retarget", "#form-errors")
+			w.Header().Set("HX-Reswap", "innerHTML")
+			w.WriteHeader(http.StatusUnprocessableEntity)
+			fmt.Fprint(w, `<div class="form-error-banner" role="alert">Verification failed — please try again.</div>`)
 			return
 		}
 
@@ -190,7 +256,7 @@ func main() {
 	// Core pages
 	mux.HandleFunc("GET /gallery/", servePage(pages["gallery"]))
 	mux.HandleFunc("GET /about/", servePage(pages["about"]))
-	mux.HandleFunc("GET /contact/", servePage(pages["contact"]))
+	mux.HandleFunc("GET /contact/", serveContact(pages["contact"]))
 	mux.HandleFunc("POST /contact/", handleContactSubmit(pages["contact"]))
 	mux.HandleFunc("GET /faq/", servePage(pages["faq"]))
 

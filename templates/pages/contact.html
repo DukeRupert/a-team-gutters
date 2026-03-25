@@ -16,6 +16,9 @@
 {{end}}
 
 {{define "head"}}
+{{if .TurnstileSiteKey}}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+{{end}}
 <style>
 /* ── Contact Layout ── */
 .contact-grid {
@@ -393,6 +396,10 @@
                     <label for="website">Website</label>
                     <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
                 </div>
+
+                {{if .TurnstileSiteKey}}
+                <div class="cf-turnstile" data-sitekey="{{.TurnstileSiteKey}}" data-theme="light"></div>
+                {{end}}
 
                 <div class="form-submit">
                     <button type="submit" class="btn-primary btn-primary--lg" :disabled="sending">

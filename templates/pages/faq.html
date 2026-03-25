@@ -1,10 +1,518 @@
-{{define "title"}}FAQ | Gutter Questions Answered | A-Team Gutters{{end}}
-{{define "meta_description"}}Common questions about gutter installation, cleaning, repair, and guards in the Pacific Northwest. Answers from A-Team Gutters, licensed contractor in Bonney Lake, WA.{{end}}
+{{define "title"}}Gutter FAQ — Pierce County WA | A-Team Gutters{{end}}
+{{define "meta_description"}}Answers to common questions about gutter installation, cleaning, repair, and guards from A-Team Gutters in Bonney Lake, WA. Serving Pierce and King County.{{end}}
 {{define "canonical"}}https://ateamgutters.com/faq/{{end}}
 
+{{define "schema"}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "How much does gutter installation cost in Washington State?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most residential seamless gutter installations in Pierce and King County run between $800 and $2,200. A standard 2,000 sq ft single-story home typically falls in the $900–$1,400 range. Variables that affect cost include total linear footage, roof complexity and pitch, number of downspouts required, material selection, and whether fascia repair is needed."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How much does gutter cleaning cost?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most residential cleanings in the Bonney Lake and Puyallup area run between $150 and $350 depending on linear footage, roof height, access, and debris volume."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How often should gutters be cleaned in the Pacific Northwest?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Twice per year is standard for most western Washington homes — late fall after the primary drop and late winter or early spring after the heavy rain season. Homes with significant conifer overhang may need three or four cleanings annually."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "What's the difference between seamless and sectional gutters?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sectional gutters are assembled from fixed-length pieces joined with connectors and sealant. Every connection point is a potential failure. Seamless gutters are formed in a single continuous piece for each run of your roofline, with joints only at corners and end caps. Seamless systems have significantly fewer leak points and are the standard for professional installation."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Are gutter guards worth it in the Pacific Northwest?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For homes with significant conifer canopy, a properly matched guard system reduces cleaning frequency substantially. The key phrase is 'properly matched' — most consumer-grade guard products are not designed for the needle loads common in PNW climates."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Can you install guards on my existing gutters?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, in most cases. We assess the existing gutter condition first. Poorly pitched or damaged gutters should be corrected before guard installation."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How long do gutter guards last?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Quality aluminum and stainless mesh guard systems last 15-20+ years with normal maintenance. Plastic and foam insert products have significantly shorter lifespans and we don't install them."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Are you licensed and insured in Washington State?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. A-Team Gutters LLC holds Washington State Contractor License TEAMGGL760KN and Business License 605469918. We carry general liability insurance on all projects."
+            }
+        }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutters.com/" },
+        { "@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://ateamgutters.com/faq/" }
+    ]
+}
+</script>
+{{end}}
+
+{{define "head"}}
+<style>
+/* ── FAQ Quick-Jump Nav ── */
+.faq-jump {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.faq-jump-inner {
+    max-width: var(--content-width);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.faq-jump a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    white-space: nowrap;
+}
+
+.faq-jump a:hover {
+    color: var(--text);
+    border-color: var(--silver);
+    background: var(--bg);
+}
+
+/* ── FAQ Categories ── */
+.faq-categories {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+.faq-category {
+    padding: var(--space-xl) 0;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 7rem;
+}
+
+.faq-category:last-child {
+    border-bottom: none;
+}
+
+.faq-category-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: var(--space-md);
+}
+
+.faq-category-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    line-height: 1.1;
+}
+
+.faq-category-count {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--silver);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* Alternating full-width backgrounds */
+.faq-category-wrap:nth-child(even) {
+    background: var(--surface);
+}
+
+.faq-category-wrap > .container {
+    /* Categories inside full-width wrappers */
+}
+</style>
+{{end}}
+
 {{define "content"}}
-<section>
-    <h1>Frequently Asked Questions</h1>
-    <p>Stub — FAQ accordion with schema markup.</p>
+<!-- ── Hero ── -->
+<section class="page-hero" aria-labelledby="page-heading">
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep" aria-hidden="true">/</span>
+            <span class="breadcrumb-current" aria-current="page">FAQ</span>
+        </nav>
+        <p class="eyebrow">FAQ</p>
+        <h1 id="page-heading">Common Questions About Gutters in the Pacific Northwest.</h1>
+        <p class="page-hero-sub">Straightforward answers to the questions Pierce and King County homeowners ask most often. If yours isn't here, call us or send the contact form — we're happy to answer it directly.</p>
+        <div class="page-hero-actions">
+            <a href="/contact/" class="btn-primary"><span>Contact A-Team Gutters</span></a>
+            <a href="tel:+12532937732" class="page-hero-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ── Quick-Jump Nav ── -->
+<nav class="faq-jump" aria-label="FAQ categories">
+    <div class="faq-jump-inner">
+        <a href="#faq-cost">Cost & Estimates</a>
+        <a href="#faq-installation">Installation</a>
+        <a href="#faq-cleaning">Cleaning</a>
+        <a href="#faq-repairs">Repairs</a>
+        <a href="#faq-guards">Gutter Guards</a>
+        <a href="#faq-licensing">Licensing</a>
+    </div>
+</nav>
+
+<!-- ── FAQ Sections ── -->
+
+<!-- Cost & Estimates -->
+<div class="faq-category-wrap">
+    <div class="container">
+        <div class="faq-category" x-data="{ open: 1 }" id="faq-cost">
+            <div class="faq-category-header">
+                <h2>Cost & Estimates</h2>
+                <span class="faq-category-count">4 Questions</span>
+            </div>
+            <ul class="sp-faq">
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1">
+                        How much does gutter installation cost in Washington State?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 1" x-collapse>
+                        <p>Most residential seamless gutter installations in Pierce and King County run between <strong>$800 and $2,200</strong>. A standard 2,000 sq ft single-story home typically falls in the <strong>$900–$1,400</strong> range. Variables that affect cost include total linear footage, roof complexity and pitch, number of downspouts required, material selection, and whether fascia repair is needed. We provide complete written estimates before any work begins. <a href="/services/gutter-installation/">Learn more about our installation process.</a></p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2">
+                        How much does gutter cleaning cost?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 2" x-collapse>
+                        <p>Most residential cleanings in the Bonney Lake and Puyallup area run between <strong>$150 and $350</strong> depending on linear footage, roof height, access, and debris volume. We quote before scheduling. <a href="/services/gutter-cleaning/">Learn more about our cleaning process.</a></p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3">
+                        Do you charge for estimates?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 3" x-collapse>
+                        <p>No. Estimates are free and come with no obligation.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 4 ? null : 4" :aria-expanded="open === 4">
+                        How quickly can I get an estimate?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 4" x-collapse>
+                        <p>We respond to estimate requests within <strong>24 hours</strong> and typically schedule on-site visits within a few business days.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Installation -->
+<div class="faq-category-wrap">
+    <div class="container">
+        <div class="faq-category" x-data="{ open: null }" id="faq-installation">
+            <div class="faq-category-header">
+                <h2>Installation</h2>
+                <span class="faq-category-count">5 Questions</span>
+            </div>
+            <ul class="sp-faq">
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1">
+                        What's the difference between seamless and sectional gutters?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 1" x-collapse>
+                        <p>Sectional gutters are assembled from fixed-length pieces joined with connectors and sealant. Every connection point is a potential failure. Seamless gutters are formed in a single continuous piece for each run of your roofline, with joints only at corners and end caps. Seamless systems have significantly fewer leak points and are the standard for professional installation. <a href="/services/gutter-installation/">See how we install seamless gutters.</a></p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2">
+                        Do I need 5" or 6" gutters?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 2" x-collapse>
+                        <p><strong>5" K-style</strong> aluminum is appropriate for most standard residential applications. <strong>6"</strong> is recommended for larger roof surfaces, high-pitch rooflines that accelerate water flow, or properties with heavy conifer canopy that increases both water volume and debris load. We assess your specific roofline and make a recommendation based on your actual conditions.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3">
+                        How long does installation take?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 3" x-collapse>
+                        <p>Most residential installations are complete in <strong>a single day</strong>. Complex rooflines, large homes, or projects that include fascia repair may require two days. We confirm timeline during the estimate.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 4 ? null : 4" :aria-expanded="open === 4">
+                        What colors are available?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 4" x-collapse>
+                        <p>We carry a full range of aluminum coil colors. Most standard exterior trim colors are available. If you have a specific trim color, bring the manufacturer reference to the estimate and we can match or coordinate.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 5 ? null : 5" :aria-expanded="open === 5">
+                        Can you install gutters on a new construction home?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 5" x-collapse>
+                        <p>Yes. We work on new construction as well as existing homes and remodels.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Cleaning & Maintenance -->
+<div class="faq-category-wrap">
+    <div class="container">
+        <div class="faq-category" x-data="{ open: null }" id="faq-cleaning">
+            <div class="faq-category-header">
+                <h2>Cleaning & Maintenance</h2>
+                <span class="faq-category-count">3 Questions</span>
+            </div>
+            <ul class="sp-faq">
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1">
+                        How often should gutters be cleaned in the Pacific Northwest?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 1" x-collapse>
+                        <p><strong>Twice per year</strong> is standard for most western Washington homes — late fall after the primary drop and late winter or early spring after the heavy rain season. Homes with significant conifer overhang may need three or four cleanings annually. <a href="/services/gutter-cleaning/">Learn more about our cleaning process.</a></p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2">
+                        What's the best time of year to clean gutters in Pierce County?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 2" x-collapse>
+                        <p><strong>Late November or early December</strong> — after the main deciduous and conifer fall drop but before the heaviest winter rain events — is the most important cleaning. <strong>Late February or March</strong> clears the winter accumulation before spring rain intensifies. Both visits matter.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3">
+                        Can I clean my own gutters?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 3" x-collapse>
+                        <p>Yes, if you're comfortable working safely at height and have appropriate equipment. The risks are falls from ladders and damage to gutters from improper cleaning technique. If your home is more than one story or has complex roofline access, professional cleaning is worth the cost for the safety margin alone.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Repairs -->
+<div class="faq-category-wrap">
+    <div class="container">
+        <div class="faq-category" x-data="{ open: null }" id="faq-repairs">
+            <div class="faq-category-header">
+                <h2>Repairs</h2>
+                <span class="faq-category-count">3 Questions</span>
+            </div>
+            <ul class="sp-faq">
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1">
+                        How do I know if my gutters need repair or replacement?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 1" x-collapse>
+                        <p>Repair is appropriate when the material is in sound condition and failure is localized — a specific joint, hanger, or section. Replacement is appropriate when the system is corroded throughout, the fascia is compromised along its length, or the system is undersized for your roof. We give you an honest assessment of both options during the estimate. <a href="/services/gutter-repair/">Learn more about our repair process.</a></p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2">
+                        My gutters are overflowing but they look clean. What's happening?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 2" x-collapse>
+                        <p>Overflow from a clean gutter usually means one of three things: the system is <strong>undersized</strong> for your roof area, the <strong>pitch has shifted</strong> and water is pooling at the wrong point, or a <strong>downspout is blocked internally</strong>. All three are diagnosable during an assessment.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3">
+                        Can a sagging gutter be fixed without replacing the whole system?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 3" x-collapse>
+                        <p>Usually. Sagging is most commonly caused by hanger failure — the fasteners have worked loose from the fascia. Re-hanging the affected section with new hardware typically resolves it, provided the fascia itself is sound. We assess both the gutter and the fascia during a repair estimate.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Gutter Guards -->
+<div class="faq-category-wrap">
+    <div class="container">
+        <div class="faq-category" x-data="{ open: null }" id="faq-guards">
+            <div class="faq-category-header">
+                <h2>Gutter Guards</h2>
+                <span class="faq-category-count">4 Questions</span>
+            </div>
+            <ul class="sp-faq">
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1">
+                        Are gutter guards worth it in the Pacific Northwest?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 1" x-collapse>
+                        <p>For homes with significant conifer canopy, a properly matched guard system reduces cleaning frequency substantially. The key phrase is "properly matched" — most consumer-grade guard products are not designed for the needle loads common in PNW climates. The wrong product doesn't reduce cleaning, it just makes cleaning harder. <a href="/services/gutter-guards/">Learn how we select guard systems for PNW conditions.</a></p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2">
+                        Do gutter guards eliminate cleaning entirely?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 2" x-collapse>
+                        <p>No. Fine debris, moss fragments, and granules accumulate over time on any guard system. A realistic expectation for a quality guard on a PNW property is <strong>one to two cleanings per year</strong> rather than three to four. On low-canopy properties, cleaning frequency may be even less. We set honest expectations before installation.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3">
+                        Can you install guards on my existing gutters?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 3" x-collapse>
+                        <p>Yes, in most cases. We assess the existing gutter condition first. Poorly pitched or damaged gutters should be corrected before guard installation — otherwise the guard makes the underlying problem harder to detect.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 4 ? null : 4" :aria-expanded="open === 4">
+                        How long do gutter guards last?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 4" x-collapse>
+                        <p>Quality aluminum and stainless mesh guard systems last <strong>15–20+ years</strong> with normal maintenance. Plastic and foam insert products have significantly shorter lifespans and we don't install them.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Licensing & Credentials -->
+<div class="faq-category-wrap">
+    <div class="container">
+        <div class="faq-category" x-data="{ open: null }" id="faq-licensing">
+            <div class="faq-category-header">
+                <h2>Licensing & Credentials</h2>
+                <span class="faq-category-count">3 Questions</span>
+            </div>
+            <ul class="sp-faq">
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 1 ? null : 1" :aria-expanded="open === 1">
+                        Are you licensed and insured in Washington State?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 1" x-collapse>
+                        <p>Yes. A-Team Gutters LLC holds Washington State Contractor License <strong>TEAMGGL760KN</strong> and Business License <strong>605469918</strong>. We carry general liability insurance on all projects. Documentation is available upon request before any work begins.</p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 2 ? null : 2" :aria-expanded="open === 2">
+                        Are you a local company?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 2" x-collapse>
+                        <p>Yes. A-Team Gutters is based in <strong>Bonney Lake, WA</strong> and serves Pierce and King County. We are not a franchise, a lead aggregator, or a national chain dispatching subcontractors to the area. <a href="/about/">Learn more about our company.</a></p>
+                    </div>
+                </li>
+                <li class="sp-faq-item">
+                    <button class="sp-faq-q" @click="open = open === 3 ? null : 3" :aria-expanded="open === 3">
+                        What areas do you serve?
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    </button>
+                    <div class="sp-faq-a" x-show="open === 3" x-collapse>
+                        <p>Our primary service area covers eastern Pierce County and southern King County — <strong>Bonney Lake, Sumner, Puyallup, Auburn, Enumclaw, Buckley, Black Diamond</strong>, and surrounding communities. Call us if you're outside this area and we'll advise on whether we can help.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- ── CTA ── -->
+<section class="sp-cta section--dark" aria-labelledby="cta-heading">
+    <div class="container">
+        <p class="eyebrow">Still Have Questions?</p>
+        <p>Have a question that isn't answered here? Call us or send the contact form and we'll respond within 24 hours.</p>
+        <div class="sp-cta-actions">
+            <a href="/contact/" class="btn-primary btn-primary--lg"><span>Contact A-Team Gutters</span></a>
+            <a href="tel:+12532937732" class="sp-cta-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+    </div>
 </section>
 {{end}}

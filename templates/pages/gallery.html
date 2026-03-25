@@ -1,0 +1,461 @@
+{{define "title"}}Our Work — Gutter Installation Gallery | A-Team Gutters{{end}}
+{{define "meta_description"}}Photos of completed gutter installations, repairs, and guard systems by A-Team Gutters in Bonney Lake, Sumner, Puyallup, and Pierce County WA.{{end}}
+{{define "canonical"}}https://ateamgutters.com/gallery/{{end}}
+
+{{define "schema"}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutters.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Gallery", "item": "https://ateamgutters.com/gallery/" }
+    ]
+}
+</script>
+{{end}}
+
+{{define "head"}}
+<style>
+/* ── Gallery Hero ── */
+.gallery-hero {
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-2xl) 0 var(--space-xl);
+}
+
+.gallery-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.gallery-hero .container {
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-hero .eyebrow {
+    color: var(--action);
+    margin-bottom: var(--space-sm);
+    opacity: 0;
+    animation: slopeIn 0.6s ease-out 0.15s forwards;
+}
+
+.gallery-hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #F0F0F0;
+    line-height: 1;
+    max-width: 42rem;
+    margin-bottom: var(--space-md);
+    opacity: 0;
+    animation: slopeIn 0.7s ease-out 0.3s forwards;
+}
+
+.gallery-hero-sub {
+    font-size: var(--text-base);
+    color: var(--silver);
+    max-width: 38rem;
+    line-height: 1.6;
+    opacity: 0;
+    animation: flowReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+
+
+/* ── Gallery Grid ── */
+.gallery-section {
+    padding: var(--space-2xl) 0;
+    padding-top: calc(var(--space-2xl) + var(--slope-height));
+    background: var(--surface);
+    position: relative;
+}
+
+/* Sloped transition from dark hero */
+.gallery-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--slope-height);
+    background: var(--dark);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 30%);
+    z-index: 1;
+}
+
+.gallery-section > .container {
+    position: relative;
+    z-index: 2;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.5rem, 0.3rem + 1vw, 1rem);
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--dark);
+    aspect-ratio: 4 / 3;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+}
+
+/* Portrait images get taller aspect ratio */
+.gallery-item--portrait {
+    aspect-ratio: 3 / 4;
+    grid-row: span 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.04);
+}
+
+/* Caption overlay */
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(to top, rgba(10, 10, 10, 0.8), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-caption {
+    opacity: 1;
+}
+
+.gallery-caption p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+@media (min-width: 40rem) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 64rem) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
+/* ── CTA ── */
+.gallery-cta {
+    padding: var(--space-2xl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px;
+    pointer-events: none;
+}
+
+.gallery-cta .container {
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-cta h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: #F0F0F0;
+    margin-bottom: var(--space-md);
+}
+
+.gallery-cta p {
+    font-size: var(--text-base);
+    color: var(--silver);
+    line-height: 1.65;
+    margin-bottom: var(--space-lg);
+    max-width: 38rem;
+}
+
+.gallery-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.gallery-cta-phone {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--silver);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+}
+
+.gallery-cta-phone:hover {
+    color: #fff;
+}
+
+
+/* ── Lightbox ── */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(10, 10, 10, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--gutter);
+}
+
+.lightbox-img-wrap {
+    position: relative;
+    max-width: min(90vw, 72rem);
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-img-wrap img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: var(--radius);
+}
+
+.lightbox-caption {
+    position: absolute;
+    bottom: -2.5rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--silver);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 210;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius);
+    color: rgba(255, 255, 255, 0.6);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+}
+
+.lightbox-close:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 210;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius);
+    color: rgba(255, 255, 255, 0.5);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.lightbox-nav:hover {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.lightbox-nav--prev {
+    left: 1rem;
+}
+
+.lightbox-nav--next {
+    right: 1rem;
+}
+
+.lightbox-counter {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.4);
+}
+</style>
+{{end}}
+
+{{define "content"}}
+<!-- ── Hero ── -->
+<section class="gallery-hero" aria-labelledby="gallery-heading">
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep" aria-hidden="true">/</span>
+            <span class="breadcrumb-current" aria-current="page">Gallery</span>
+        </nav>
+        <p class="eyebrow">Our Work</p>
+        <h1 id="gallery-heading">Real Jobs. Real Homes. Pierce and King County.</h1>
+        <p class="gallery-hero-sub">Every photo is a completed A-Team Gutters project — no stock images, no staging. These are the gutters protecting homes across the Bonney Lake area right now.</p>
+    </div>
+</section>
+
+<!-- ── Gallery Grid + Lightbox ── -->
+<section class="gallery-section" aria-label="Project photos"
+    x-data="{
+        active: null,
+        photos: [
+            { src: '/static/images/gallery/copper-gutter-detail.jpg', alt: 'Copper gutter installation detail with Seattle skyline and overcast Pacific Northwest sky', caption: 'Copper Gutter Detail — Seattle' },
+            { src: '/static/images/hero-copper-gutters.jpg', alt: 'Copper gutter on residential roofline with Seattle Space Needle visible', caption: 'Copper Gutters — Roofline View' },
+            { src: '/static/images/gallery/green-house-gutters.jpg', alt: 'Green residential home with new dark seamless gutter installation and PNW fir trees', caption: 'Seamless Install — Pacific Northwest' },
+            { src: '/static/images/gallery/dark-gutters-bay-window.jpg', alt: 'Dark seamless gutters on a bay window with mature fir trees in background', caption: 'Dark Gutters — Bay Window' },
+            { src: '/static/images/gallery/dark-gutters-gable.jpg', alt: 'Gable end of residential home with dark seamless gutters and PNW conifers', caption: 'Gable Detail — Dark Gutters' },
+            { src: '/static/images/gallery/craftsman-home-gutters-1.jpg', alt: 'Craftsman-style home with new gutter system on an overcast day in Pierce County', caption: 'Craftsman Home — Pierce County' },
+            { src: '/static/images/gallery/craftsman-home-gutters-2.jpg', alt: 'Wide view of craftsman home with complete gutter system and lush PNW landscaping', caption: 'Craftsman Home — Full View' },
+            { src: '/static/images/gallery/white-home-gutters-1.jpg', alt: 'Multi-story white home with seamless gutter installation', caption: 'Multi-Story Install — White Trim' },
+            { src: '/static/images/gallery/white-home-gutters-2.jpg', alt: 'White residential home with gutter system and PNW blue sky', caption: 'White Home — Wide Angle' },
+            { src: '/static/images/gallery/gutter-guard-closeup.jpg', alt: 'Close-up of micro-mesh gutter guard installed along residential roofline', caption: 'Gutter Guard Close-Up' },
+            { src: '/static/images/gallery/copper-gutters-golden-hour.jpg', alt: 'Home with copper gutter system catching golden hour sunlight', caption: 'Copper Gutters — Golden Hour' },
+            { src: '/static/images/gallery/brick-home-copper-gutters.jpg', alt: 'Brick home with copper gutter installation and clear blue sky', caption: 'Brick Home — Copper Install' },
+            { src: '/static/images/gallery/dark-roof-home-gutters.jpg', alt: 'Home with dark roof and seamless gutter system surrounded by mature landscaping', caption: 'Dark Roof — Seamless Gutters' }
+        ],
+        open(i) { this.active = i; document.body.style.overflow = 'hidden'; },
+        close() { this.active = null; document.body.style.overflow = ''; },
+        prev() { this.active = (this.active - 1 + this.photos.length) % this.photos.length; },
+        next() { this.active = (this.active + 1) % this.photos.length; }
+    }"
+    @keydown.escape.window="if (active !== null) close()"
+    @keydown.left.window="if (active !== null) prev()"
+    @keydown.right.window="if (active !== null) next()"
+>
+    <div class="container">
+        <div class="gallery-grid">
+            <template x-for="(photo, i) in photos" :key="i">
+                <button class="gallery-item"
+                        :class="{ 'gallery-item--portrait': [0,3,4,5,6,7,8,9,10,11,12].includes(i) }"
+                        @click="open(i)"
+                        :aria-label="'View: ' + photo.caption">
+                    <img :src="photo.src"
+                         :alt="photo.alt"
+                         loading="lazy">
+                    <div class="gallery-caption">
+                        <p x-text="photo.caption"></p>
+                    </div>
+                </button>
+            </template>
+        </div>
+    </div>
+
+    <!-- Lightbox overlay -->
+    <div class="lightbox"
+         x-show="active !== null"
+         x-cloak
+         x-transition:enter="lightbox-enter"
+         x-transition:enter-start="lightbox-enter-start"
+         x-transition:enter-end="lightbox-enter-end"
+         x-transition:leave="lightbox-leave"
+         x-transition:leave-start="lightbox-leave-start"
+         x-transition:leave-end="lightbox-leave-end"
+         @click.self="close()"
+         role="dialog"
+         aria-modal="true"
+         :aria-label="active !== null ? photos[active].caption : ''">
+
+        <span class="lightbox-counter" x-show="active !== null" x-text="(active + 1) + ' / ' + photos.length"></span>
+
+        <button class="lightbox-close" @click="close()" aria-label="Close lightbox">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+
+        <button class="lightbox-nav lightbox-nav--prev" @click="prev()" aria-label="Previous photo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+
+        <button class="lightbox-nav lightbox-nav--next" @click="next()" aria-label="Next photo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
+        <div class="lightbox-img-wrap" x-show="active !== null">
+            <img :src="active !== null ? photos[active].src : ''"
+                 :alt="active !== null ? photos[active].alt : ''"
+                 x-transition>
+            <p class="lightbox-caption" x-show="active !== null" x-text="active !== null ? photos[active].caption : ''"></p>
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="gallery-cta section--dark" aria-labelledby="gallery-cta-heading">
+    <div class="container">
+        <h2 id="gallery-cta-heading">Your Home Could Be Next.</h2>
+        <p>Every project in this gallery started with a free estimate. If your gutters need attention — new installation, repair, cleaning, or guards — we'll assess the situation on-site and give you an honest price before any work begins.</p>
+        <div class="gallery-cta-actions">
+            <a href="/contact/" class="btn-primary btn-primary--lg"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="gallery-cta-phone" aria-label="Call A-Team Gutters at (253) 293-7732">(253) 293-7732</a>
+        </div>
+    </div>
+</section>
+{{end}}

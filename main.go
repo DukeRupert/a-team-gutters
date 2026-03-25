@@ -172,6 +172,7 @@ func main() {
 		"gutter-repair":       loadPage("gutter-repair.html"),
 		"gutter-guards":       loadPage("gutter-guards.html"),
 		"fascia-soffit-repair": loadPage("fascia-soffit-repair.html"),
+		"gallery":              loadPage("gallery.html"),
 	}
 
 	mux := http.NewServeMux()
@@ -187,6 +188,7 @@ func main() {
 	mux.HandleFunc("GET /services/fascia-soffit-repair/", servePage(pages["fascia-soffit-repair"]))
 
 	// Core pages
+	mux.HandleFunc("GET /gallery/", servePage(pages["gallery"]))
 	mux.HandleFunc("GET /about/", servePage(pages["about"]))
 	mux.HandleFunc("GET /contact/", servePage(pages["contact"]))
 	mux.HandleFunc("POST /contact/", handleContactSubmit(pages["contact"]))

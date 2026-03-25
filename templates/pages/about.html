@@ -102,26 +102,16 @@
     margin-top: 1.25rem;
 }
 
-/* Photo placeholder */
+/* Photo */
 .about-photo {
-    background: var(--surface);
-    border: 1px solid var(--border);
     border-radius: var(--radius);
-    min-height: 16rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: var(--text-sm);
-    text-align: center;
-    padding: var(--space-md);
+    overflow: hidden;
 }
 
-.about-photo-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
+.about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .about-photo-placeholder svg {
@@ -324,12 +314,11 @@
                 <p>The gutters we install are formed on-site from aluminum coil on a roll-forming machine we bring to your property. The repairs we make address root causes, not symptoms. The estimates we give you are complete before work begins.</p>
                 <p>Western Washington is a demanding climate for gutter systems. Persistent rainfall, heavy conifer canopy, and the specific conditions of the eastern Pierce County foothills require a different level of attention than what most national franchise operations bring to a job. We've been working in this specific region long enough to know what the conditions here actually require.</p>
             </div>
-            <!-- TODO: Replace with real photo of crew, truck, or job site -->
-            <div class="about-photo" aria-hidden="true">
-                <div class="about-photo-placeholder">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                    Crew or job site photo coming soon
-                </div>
+            <div class="about-photo">
+                <img src="/static/images/gallery/craftsman-home-gutters-1.jpg"
+                     alt="Craftsman home with new gutter installation on an overcast Pacific Northwest day"
+                     width="480" height="640"
+                     loading="lazy">
             </div>
         </div>
     </div>

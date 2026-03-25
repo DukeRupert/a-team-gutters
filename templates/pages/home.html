@@ -71,7 +71,7 @@
     color: var(--action);
     margin-bottom: var(--space-sm);
     opacity: 0;
-    animation: fadeUp 0.6s ease-out 0.15s forwards;
+    animation: slopeIn 0.6s ease-out 0.15s forwards;
 }
 
 .hero h1 {
@@ -84,7 +84,7 @@
     line-height: 0.95;
     margin-bottom: var(--space-md);
     opacity: 0;
-    animation: fadeUp 0.7s ease-out 0.3s forwards;
+    animation: slopeIn 0.7s ease-out 0.3s forwards;
 }
 
 .hero-sub {
@@ -94,7 +94,7 @@
     line-height: 1.55;
     margin-bottom: var(--space-lg);
     opacity: 0;
-    animation: fadeUp 0.6s ease-out 0.5s forwards;
+    animation: flowReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
 
 .hero-actions {
@@ -103,7 +103,7 @@
     align-items: center;
     gap: 1.25rem;
     opacity: 0;
-    animation: fadeUp 0.6s ease-out 0.65s forwards;
+    animation: slopeIn 0.6s ease-out 0.65s forwards;
 }
 
 .hero-phone {
@@ -203,8 +203,27 @@
 /* ── Services ── */
 .services {
     padding: var(--space-2xl) 0;
+    padding-top: calc(var(--space-2xl) + var(--slope-height));
     background: var(--surface);
-    border-top: 1px solid var(--border);
+    position: relative;
+}
+
+/* Sloped transition from dark trust-bar into light services */
+.services::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--slope-height);
+    background: var(--dark-surface);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 30%);
+    z-index: 1;
+}
+
+.services > .container {
+    position: relative;
+    z-index: 2;
 }
 
 .services-header {
@@ -401,8 +420,12 @@
 /* ── Service Area ── */
 .area-section {
     padding: var(--space-2xl) 0;
+    padding-top: calc(var(--space-2xl) + var(--slope-height));
+    margin-top: calc(-1 * var(--slope-height));
     position: relative;
     overflow: hidden;
+    /* Dark section enters from the right — consistent gutter pitch direction */
+    clip-path: polygon(0 var(--slope-height), 100% 0, 100% 100%, 0 100%);
 }
 
 /* Noise texture */

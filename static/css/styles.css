@@ -52,6 +52,9 @@
 
     /* Border radius — near-zero, intentional */
     --radius: 2px;
+
+    /* Slope transitions — angled section boundaries evoking gutter pitch */
+    --slope-height: clamp(3rem, 4vw, 6rem);
 }
 
 /* ── Base ── */
@@ -269,14 +272,27 @@ a {
 }
 
 /* ── Animations ── */
-@keyframes fadeUp {
+/* Slope-inspired entrance — elements arrive along the pitch of a gutter run */
+@keyframes slopeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translate(-18px, -14px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translate(0, 0);
+    }
+}
+
+/* Horizontal channel reveal — content wipes in like water filling a gutter */
+@keyframes flowReveal {
+    from {
+        opacity: 0;
+        clip-path: inset(0 100% 0 0);
+    }
+    to {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
     }
 }
 
@@ -348,6 +364,18 @@ a {
 /* Nav dropdown */
 .nav-dropdown {
     position: relative;
+}
+
+/* Invisible bridge between trigger and dropdown — prevents
+   mouseleave from firing in the 0.75rem gap */
+.nav-dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: -1rem;
+    right: -1rem;
+    height: 0.75rem;
+    background: transparent;
 }
 
 .nav-dropdown-menu {
@@ -671,7 +699,7 @@ footer {
     color: var(--action);
     margin-bottom: var(--space-sm);
     opacity: 0;
-    animation: fadeUp 0.6s ease-out 0.15s forwards;
+    animation: slopeIn 0.6s ease-out 0.15s forwards;
 }
 
 .page-hero h1 {
@@ -685,7 +713,7 @@ footer {
     max-width: 42rem;
     margin-bottom: var(--space-md);
     opacity: 0;
-    animation: fadeUp 0.7s ease-out 0.3s forwards;
+    animation: slopeIn 0.7s ease-out 0.3s forwards;
 }
 
 .page-hero-sub {
@@ -695,7 +723,7 @@ footer {
     line-height: 1.6;
     margin-bottom: var(--space-lg);
     opacity: 0;
-    animation: fadeUp 0.6s ease-out 0.45s forwards;
+    animation: flowReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
 }
 
 .page-hero-actions {
@@ -704,7 +732,7 @@ footer {
     align-items: center;
     gap: 1.25rem;
     opacity: 0;
-    animation: fadeUp 0.6s ease-out 0.6s forwards;
+    animation: slopeIn 0.6s ease-out 0.6s forwards;
 }
 
 .page-hero-phone {
@@ -1095,7 +1123,7 @@ footer {
     letter-spacing: 0.08em;
     margin-bottom: var(--space-md);
     opacity: 0;
-    animation: fadeUp 0.5s ease-out 0.05s forwards;
+    animation: slopeIn 0.5s ease-out 0.05s forwards;
 }
 
 .breadcrumbs a {

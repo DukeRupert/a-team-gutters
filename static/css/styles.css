@@ -13,8 +13,8 @@
 /* ── Design Tokens ── */
 :root {
     /* Brand palette */
-    --dark: #0A0A0A;
-    --dark-surface: #141414;
+    --dark: #1A1A1A;
+    --dark-surface: #222222;
     --surface: #F5F5F5;
     --bg: #FFFFFF;
     --border: #DDDDDD;

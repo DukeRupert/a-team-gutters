@@ -1,0 +1,240 @@
+{{define "title"}}{{.MetaTitle}}{{end}}
+{{define "meta_description"}}{{.MetaDescription}}{{end}}
+{{define "canonical"}}https://ateamgutter.com/service-areas/{{.Slug}}/{{end}}
+
+{{define "schema"}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Gutter Services in {{.City}}, WA",
+    "description": "Seamless gutter installation, cleaning, repair, and screen systems for homes in {{.City}}, WA.",
+    "provider": {
+        "@type": "LocalBusiness",
+        "name": "A-Team Gutters LLC",
+        "telephone": "253-293-7732",
+        "address": { "@type": "PostalAddress", "addressLocality": "Bonney Lake", "addressRegion": "WA" }
+    },
+    "areaServed": {
+        "@type": "City",
+        "name": "{{.City}}, WA"
+    }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutter.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Service Areas" },
+        { "@type": "ListItem", "position": 3, "name": "{{.City}}, WA", "item": "https://ateamgutter.com/service-areas/{{.Slug}}/" }
+    ]
+}
+</script>
+{{end}}
+
+{{define "head"}}
+<style>
+/* Service area page: boost trust section heading scale */
+.sa-trust h2 {
+    font-size: var(--text-2xl);
+    line-height: 1;
+}
+
+.sa-nearby {
+    padding: var(--space-lg) 0;
+    border-top: 1px solid var(--border);
+}
+
+.sa-nearby-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 1.25rem;
+}
+
+.sa-nearby-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+}
+
+.sa-nearby a {
+    font-family: 'Barlow', sans-serif;
+    font-size: var(--text-sm);
+    color: var(--silver-bright);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.sa-nearby a:hover {
+    color: #fff;
+}
+</style>
+{{end}}
+
+{{define "content"}}
+<!-- ── Hero ── -->
+<section class="page-hero" aria-labelledby="page-heading">
+    <div class="page-hero-image">
+        <img src="/static/images/{{.HeroImage}}"
+             alt="Seamless gutter installation on residential home in {{.City}}, Washington"
+             width="1920" height="1280"
+             loading="eager">
+    </div>
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep" aria-hidden="true">/</span>
+            <span>Service Areas</span>
+            <span class="breadcrumb-sep" aria-hidden="true">/</span>
+            <span class="breadcrumb-current" aria-current="page">{{.City}}, WA</span>
+        </nav>
+        <p class="eyebrow">Gutter Services &middot; {{.City}}, WA</p>
+        <h1 id="page-heading">Gutter Installation, Cleaning &amp; Repair in {{.City}}, WA.</h1>
+        <p class="page-hero-sub">{{.Intro}}</p>
+        <div class="page-hero-actions">
+            <a href="/contact/" class="btn-primary"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="page-hero-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ── PNW Climate Strip ── -->
+<div class="pnw-strip" role="region" aria-label="Pacific Northwest conditions">
+    <div class="pnw-strip-inner">
+        <div class="pnw-item">
+            <h3>Heavy Rainfall</h3>
+            <p>38–55" annually, mostly October through April. Systems must handle sustained volume, not just average conditions.</p>
+        </div>
+        <div class="pnw-item">
+            <h3>Needle Loads</h3>
+            <p>Douglas fir and cedar needles mat into dense packs that hold moisture and add weight year-round.</p>
+        </div>
+        <div class="pnw-item">
+            <h3>Moss Growth</h3>
+            <p>Shaded rooflines shed moss spores into gutters, accelerating organic buildup and system weight.</p>
+        </div>
+        <div class="pnw-item">
+            <h3>Steep Pitches</h3>
+            <p>Foothills homes shed water faster and with more force — affecting sizing, hangers, and downspout placement.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ── Services Grid ── -->
+<section class="services" aria-labelledby="services-heading">
+    <div class="container">
+        <div class="services-header">
+            <p class="eyebrow">What We Do</p>
+            <h2 id="services-heading">Gutter Services Available in {{.City}}.</h2>
+            <p>From new seamless installs to seasonal cleaning, we handle every part of your gutter system — properly, the first time.</p>
+        </div>
+
+        <ul class="services-list">
+            <li class="service-item">
+                <a href="/services/gutter-installation/">
+                    <div class="service-item-top">
+                        <h3>Gutter Installation</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Seamless aluminum gutters formed on-site to the exact dimensions of your roofline. No seams means fewer leak points.</p>
+                </a>
+            </li>
+            <li class="service-item">
+                <a href="/services/gutter-cleaning/">
+                    <div class="service-item-top">
+                        <h3>Gutter Cleaning</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Pine needles, fir debris, and moss accumulate fast in the Pacific Northwest. We clear the gutters, flush the downspouts, and verify flow.</p>
+                </a>
+            </li>
+            <li class="service-item">
+                <a href="/services/gutter-repair/">
+                    <div class="service-item-top">
+                        <h3>Gutter Repair</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Leaks, sags, poor pitch, and pulling fascia don't fix themselves. We diagnose the root cause and repair it correctly.</p>
+                </a>
+            </li>
+            <li class="service-item">
+                <a href="/services/gutter-guards/">
+                    <div class="service-item-top">
+                        <h3>Gutter Screens</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Screen systems rated for PNW needle and debris loads. We install screens that actually work in this climate.</p>
+                </a>
+            </li>
+            <li class="service-item">
+                <a href="/services/fascia-soffit-repair/">
+                    <div class="service-item-top">
+                        <h3>Fascia Board Repair</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Failing gutters damage fascia. We repair or replace rotted boards so your new system has a solid surface to mount to.</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ── Trust Credentials ── -->
+<section class="sp-section section--surface sa-trust">
+    <div class="container">
+        <div class="sp-two-col">
+            <div>
+                <p class="eyebrow">Why A-Team Gutters</p>
+                <h2>Licensed, Local, and Proven.</h2>
+                <ul class="sp-list">
+                    <li>WA Contractor License: TEAMGGL760KN</li>
+                    <li>WA Business License: 605469918</li>
+                    <li>30+ years of trade experience</li>
+                    <li>Family-owned — the owner hangs every gutter</li>
+                    <li>Free on-site estimates across Pierce and King County</li>
+                    <li>Single-day installation on most residential jobs</li>
+                </ul>
+            </div>
+            <div>
+                <h3>{{.City}} Area Context</h3>
+                <p>{{.Context}}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="sp-cta section--dark" aria-labelledby="cta-heading">
+    <div class="container">
+        <p class="eyebrow">Serving {{.City}}, WA</p>
+        <h2 id="cta-heading">Ready for an Estimate?</h2>
+        <p>A-Team Gutters provides free on-site estimates for homeowners in {{.City}} and throughout Pierce and King County. We respond within 24 hours.</p>
+        <div class="sp-cta-actions">
+            <a href="/contact/" class="btn-primary btn-primary--lg"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="sp-cta-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+
+        <!-- Nearby service areas -->
+        <div class="sa-nearby">
+            <div class="sa-nearby-inner">
+                <span class="sa-nearby-label">Nearby areas:</span>
+                {{range .NearbyAreas}}
+                <a href="/service-areas/{{.Slug}}/">{{.City}}</a>
+                {{end}}
+            </div>
+        </div>
+    </div>
+</section>
+{{end}}

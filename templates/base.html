@@ -37,9 +37,9 @@
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         "name": "A-Team Gutters LLC",
-        "telephone": "253-293-7732",
-        "email": "info@ateamgutter.com",
         "url": "https://ateamgutter.com",
+        "telephone": "+12532937732",
+        "email": "info@ateamgutter.com",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "13010 211th Ave Ct E",
@@ -48,9 +48,41 @@
             "postalCode": "98391",
             "addressCountry": "US"
         },
-        "areaServed": ["Bonney Lake", "Sumner", "Puyallup", "Auburn", "Enumclaw", "Buckley", "Black Diamond"],
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 47.137915,
+            "longitude": -122.1489541
+        },
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+            "opens": "09:00",
+            "closes": "17:30"
+        },
+        "areaServed": [
+            "Bonney Lake WA",
+            "Sumner WA",
+            "Puyallup WA",
+            "Auburn WA",
+            "Enumclaw WA",
+            "Buckley WA",
+            "Black Diamond WA"
+        ],
         "priceRange": "$$",
-        "openingHours": "Mo-Fr 09:00-17:30"
+        "description": "Family-owned seamless gutter installation, cleaning, repair, and screen systems for Pierce and King County homes. Licensed contractor TEAMGGL760KN.",
+        "sameAs": [
+            "https://www.facebook.com/people/A-Team-Gutters-LLC/61571537043449/",
+            "https://www.angi.com/companylist/us/wa/bonney-lake/ateam-gutters-llc-reviews-1.htm",
+            "https://nextdoor.com/pages/a-team-gutters-llc-bonney-lake-wa/",
+            "https://www.google.com/maps/place/A-Team+Gutters/@47.137915,-122.1489541,17z/"
+        ],
+        "hasCredential": [
+            {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "license",
+                "name": "WA Contractor License TEAMGGL760KN"
+            }
+        ]
     }
     </script>
     {{block "schema" .}}{{end}}

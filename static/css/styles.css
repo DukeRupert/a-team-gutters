@@ -707,6 +707,48 @@ footer {
     color: #fff;
 }
 
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.footer-social a {
+    color: var(--silver);
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.footer-social a:hover {
+    color: #F0F0F0;
+}
+
+.footer-social-text {
+    font-family: 'Barlow', sans-serif;
+    font-size: var(--text-xs);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+
+.contact-social {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.contact-social a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: color 0.2s;
+}
+
+.contact-social a:hover {
+    color: var(--text);
+}
+
 .footer-bottom {
     max-width: var(--content-width);
     margin-inline: auto;
@@ -791,6 +833,145 @@ footer {
     .sig-divider { justify-content: center; }
     .sig-divider-inner { flex-shrink: 1; }
     .sig-divider-text { white-space: normal; text-align: center; }
+}
+
+
+/* ================================================================
+   Services Grid — Shared (Home + Service Area pages)
+   ================================================================ */
+
+/* ── Services Section ── */
+.services {
+    padding: var(--space-2xl) 0;
+    background: var(--surface);
+    position: relative;
+}
+
+.services > .container {
+    position: relative;
+    z-index: 2;
+}
+
+.services-header {
+    margin-bottom: var(--space-xl);
+}
+
+.services-header .eyebrow {
+    margin-bottom: var(--space-xs);
+}
+
+.services-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: var(--space-sm);
+}
+
+.services-header p {
+    font-size: var(--text-base);
+    color: var(--muted);
+    max-width: 36rem;
+    line-height: 1.6;
+}
+
+/* Stacked list layout */
+.services-list {
+    list-style: none;
+    border-top: 1px solid var(--border);
+}
+
+.service-item {
+    border-bottom: 1px solid var(--border);
+}
+
+.service-item a {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: var(--space-md) 0;
+    text-decoration: none;
+    position: relative;
+    transition: padding-left 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-item a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: var(--space-md);
+    bottom: var(--space-md);
+    width: 0;
+    background: var(--silver);
+    transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-item a:hover {
+    padding-left: var(--space-md);
+}
+
+.service-item a:hover::before {
+    width: 3px;
+}
+
+.service-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.service-item h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    line-height: 1.1;
+}
+
+.service-item-arrow {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--silver);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+                color 0.2s ease;
+}
+
+.service-item a:hover .service-item-arrow {
+    transform: translateX(4px);
+    color: var(--text);
+}
+
+.service-item p {
+    font-size: var(--text-base);
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 40rem;
+}
+
+/* CTA item — the soft closer */
+.service-item--cta a {
+    padding: var(--space-md) 0;
+}
+
+.service-item--cta h3 {
+    color: var(--muted);
+}
+
+.service-item--cta a:hover h3 {
+    color: var(--text);
+}
+
+@media (min-width: 48rem) {
+    .service-item a {
+        grid-template-columns: 1fr;
+    }
 }
 
 

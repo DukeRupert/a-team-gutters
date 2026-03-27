@@ -249,14 +249,11 @@
 
 
 /* ── Services ── */
+/* Home-specific: sloped transition into services from dark trust-bar */
 .services {
-    padding: var(--space-2xl) 0;
     padding-top: calc(var(--space-2xl) + var(--slope-height));
-    background: var(--surface);
-    position: relative;
 }
 
-/* Sloped transition from dark trust-bar into light services */
 .services::before {
     content: '';
     position: absolute;
@@ -267,133 +264,6 @@
     background: var(--dark-surface);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 30%);
     z-index: 1;
-}
-
-.services > .container {
-    position: relative;
-    z-index: 2;
-}
-
-.services-header {
-    margin-bottom: var(--space-xl);
-}
-
-.services-header .eyebrow {
-    margin-bottom: var(--space-xs);
-}
-
-.services-header h2 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    line-height: 1;
-    color: var(--text);
-    margin-bottom: var(--space-sm);
-}
-
-.services-header p {
-    font-size: var(--text-base);
-    color: var(--muted);
-    max-width: 36rem;
-    line-height: 1.6;
-}
-
-/* Stacked list layout */
-.services-list {
-    list-style: none;
-    border-top: 1px solid var(--border);
-}
-
-.service-item {
-    border-bottom: 1px solid var(--border);
-}
-
-.service-item a {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-    padding: var(--space-md) 0;
-    text-decoration: none;
-    position: relative;
-    transition: padding-left 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.service-item a::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: var(--space-md);
-    bottom: var(--space-md);
-    width: 0;
-    background: var(--silver);
-    transition: width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.service-item a:hover {
-    padding-left: var(--space-md);
-}
-
-.service-item a:hover::before {
-    width: 3px;
-}
-
-.service-item-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-}
-
-.service-item h3 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: var(--text-xl);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--text);
-    line-height: 1.1;
-}
-
-.service-item-arrow {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    color: var(--silver);
-    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-                color 0.2s ease;
-}
-
-.service-item a:hover .service-item-arrow {
-    transform: translateX(4px);
-    color: var(--text);
-}
-
-.service-item p {
-    font-size: var(--text-base);
-    color: var(--muted);
-    line-height: 1.6;
-    max-width: 40rem;
-}
-
-/* CTA item — the soft closer */
-.service-item--cta a {
-    padding: var(--space-md) 0;
-}
-
-.service-item--cta h3 {
-    color: var(--muted);
-}
-
-.service-item--cta a:hover h3 {
-    color: var(--text);
-}
-
-@media (min-width: 48rem) {
-    .service-item a {
-        grid-template-columns: 1fr;
-    }
 }
 
 
@@ -466,14 +336,122 @@
 }
 
 
+/* ── Reviews ── */
+.reviews-section {
+    padding: var(--space-2xl) 0;
+    background: var(--bg);
+}
+
+.reviews-header {
+    margin-bottom: var(--space-xl);
+}
+
+.reviews-header .eyebrow {
+    margin-bottom: var(--space-xs);
+}
+
+.reviews-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: var(--text-2xl);
+    color: var(--text);
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+
+.reviews-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 48rem) {
+    .reviews-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.review-card {
+    background: var(--surface);
+    border-left: 3px solid var(--silver);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.review-stars {
+    display: flex;
+    gap: 0.125rem;
+}
+
+.review-stars svg {
+    width: 16px;
+    height: 16px;
+    color: #E8A838;
+}
+
+.review-text {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: var(--text-base);
+    line-height: 1.6;
+    color: var(--muted);
+    flex: 1;
+}
+
+.review-attribution {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.review-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: var(--text-sm);
+    color: var(--text);
+    letter-spacing: 0.03em;
+}
+
+.review-source {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: #999;
+}
+
+.reviews-cta {
+    margin-top: var(--space-md);
+    text-align: center;
+}
+
+.reviews-cta a {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    font-size: var(--text-sm);
+    color: var(--muted);
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+    transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+.reviews-cta a:hover {
+    color: var(--text);
+    text-decoration-color: var(--text);
+}
+
 /* ── Service Area ── */
 .area-section {
     padding: var(--space-2xl) 0;
     position: relative;
     overflow: hidden;
     background: var(--surface);
-    /* Top border separates from Why section */
-    border-top: 1px solid var(--border);
 }
 
 /* Light section — no noise texture needed */
@@ -868,6 +846,67 @@
                 <p>Every job is different, so we quote each one individually after an on-site look. You get a complete estimate before any work begins — no surprises on the invoice. If we find additional issues during the project, we tell you before we act.</p>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     REVIEWS
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="reviews-section" aria-labelledby="reviews-heading">
+    <div class="container">
+        <div class="reviews-header">
+            <p class="eyebrow">What Customers Say</p>
+            <h2 id="reviews-heading">Pierce County Homeowners on A-Team Gutters.</h2>
+        </div>
+        <div class="reviews-grid">
+            <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 out of 5 stars">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="review-text">Seth &amp; Jessie were extremely professional from my first contact to when the job was completed. They kept me informed about the bid, were on time, did an outstanding job, and cleaned everything. They were the only business that recommended 6 inch gutters for our large, steep roofs &mdash; and they were absolutely correct.</p>
+                <footer class="review-attribution">
+                    <span class="review-name">Foster B.</span>
+                    <span class="review-source">Google</span>
+                </footer>
+            </blockquote>
+
+            <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 out of 5 stars">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="review-text">Highly recommend this company. They knocked it out fast, efficiently, and professionally &mdash; in the pouring down rain. The black gutters were the finishing touch on our newly painted home and we haven't had any issues with them or the drainage.</p>
+                <footer class="review-attribution">
+                    <span class="review-name">Katrina R.</span>
+                    <span class="review-source">Google</span>
+                </footer>
+            </blockquote>
+
+            <blockquote class="review-card">
+                <div class="review-stars" aria-label="5 out of 5 stars">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="review-text">Seth and his team did an outstanding job. From quote to finish it was easy and seamless. Customer service was first class and they delivered a quality product. I will be using this Company for many other projects for not just me but also for other family members.</p>
+                <footer class="review-attribution">
+                    <span class="review-name">Kevin H.</span>
+                    <span class="review-source">Google</span>
+                </footer>
+            </blockquote>
+        </div>
+        <p class="reviews-cta">
+            <a href="https://www.google.com/maps/place/A-Team+Gutters/@47.137915,-122.1489541,17z/" target="_blank" rel="noopener noreferrer">Read our reviews on Google</a>
+        </p>
     </div>
 </section>
 

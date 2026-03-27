@@ -126,6 +126,33 @@ type pageData struct {
 	TurnstileSiteKey string
 }
 
+// nearbyArea represents a linked service area for cross-navigation.
+type nearbyArea struct {
+	City string
+	Slug string
+}
+
+// serviceAreaData holds template data for service area pages.
+type serviceAreaData struct {
+	City            string
+	Slug            string
+	MetaTitle       string
+	MetaDescription string
+	Intro           string
+	Context         string
+	HeroImage       string
+	NearbyAreas     []nearbyArea
+}
+
+func serveServiceArea(tmpl *template.Template, data serviceAreaData) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := tmpl.ExecuteTemplate(w, "base", data); err != nil {
+			log.Printf("template error: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+	}
+}
+
 func serveContact(tmpl *template.Template) http.HandlerFunc {
 	siteKey := os.Getenv("TURNSTILE_SITE_KEY")
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -259,6 +286,85 @@ func main() {
 	mux.HandleFunc("GET /contact/", serveContact(pages["contact"]))
 	mux.HandleFunc("POST /contact/", handleContactSubmit(pages["contact"]))
 	mux.HandleFunc("GET /faq/", servePage(pages["faq"]))
+
+	// Service area pages
+	serviceAreaTmpl := loadPage("service-area.html")
+	serviceAreas := []serviceAreaData{
+		{
+			City:            "Bonney Lake",
+			Slug:            "bonney-lake",
+			MetaTitle:       "Gutter Installation & Repair in Bonney Lake, WA | A-Team Gutters",
+			MetaDescription: "A-Team Gutters is based in Bonney Lake, WA — seamless gutter installation, cleaning, repair, and screen systems for Pierce County homes. Licensed contractor TEAMGGL760KN. Free estimates.",
+			Intro:           "A-Team Gutters is based right here in Bonney Lake. We know the neighborhoods, the tree coverage, the rainfall patterns along Lake Tapps, and the roofline styles common to homes throughout the 98391 zip code. When you call A-Team, you're calling a neighbor.",
+			Context:         "Bonney Lake sits at the foothills of the Cascades, where mature Douglas fir and cedar canopy is dense and needle drop is year-round. Most homes in the area deal with conifer debris volumes that standard gutter systems and generic guard products aren't designed for. We've been working in Bonney Lake long enough to know what holds up here and what doesn't.",
+			HeroImage:       "hero-gutters-home.jpeg",
+			NearbyAreas:     []nearbyArea{{City: "Sumner", Slug: "sumner"}, {City: "Buckley", Slug: "buckley"}, {City: "Puyallup", Slug: "puyallup"}},
+		},
+		{
+			City:            "Sumner",
+			Slug:            "sumner",
+			MetaTitle:       "Gutter Installation & Repair in Sumner, WA | A-Team Gutters",
+			MetaDescription: "Professional gutter installation, cleaning, and repair in Sumner, WA. A-Team Gutters serves the Sumner area with seamless aluminum systems built for PNW weather. Free estimates.",
+			Intro:           "A-Team Gutters serves Sumner and the surrounding valley communities from our base in neighboring Bonney Lake. Whether you're in the older neighborhoods near downtown Sumner or the newer developments along the valley edge, we provide free on-site estimates and same-standard installation on every job.",
+			Context:         "Sumner sits at the confluence of the Puyallup and White Rivers, where the valley transitions to the foothills. The area's mix of mature deciduous trees and conifers means gutters here deal with both heavy leaf loads in fall and needle buildup year-round. Valley-floor properties can also see faster water runoff during heavy rain events — downspout sizing and placement matters here.",
+			HeroImage:       "hero-rain-gutters.jpeg",
+			NearbyAreas:     []nearbyArea{{City: "Bonney Lake", Slug: "bonney-lake"}, {City: "Puyallup", Slug: "puyallup"}, {City: "Auburn", Slug: "auburn"}},
+		},
+		{
+			City:            "Puyallup",
+			Slug:            "puyallup",
+			MetaTitle:       "Gutter Installation & Repair in Puyallup, WA | A-Team Gutters",
+			MetaDescription: "Seamless gutter installation, cleaning, repair, and screens in Puyallup, WA. A-Team Gutters serves Puyallup and Pierce County. Licensed, insured, free estimates.",
+			Intro:           "A-Team Gutters serves Puyallup and the surrounding South Hill communities with the same standard of installation we bring to every job across Pierce County. Free estimates, on-site forming, no subcontractors.",
+			Context:         "Puyallup is one of the largest communities in our service area, and the variation in housing stock is significant — from valley-floor homes near the fairgrounds to the elevated neighborhoods of South Hill with steeper rooflines and heavier tree coverage. We assess each property individually. A South Hill home with a 9/12 pitch and mature firs overhead needs a different approach than a flat-lot ranch in the valley.",
+			HeroImage:       "hero-green-house.jpg",
+			NearbyAreas:     []nearbyArea{{City: "Sumner", Slug: "sumner"}, {City: "Bonney Lake", Slug: "bonney-lake"}, {City: "Auburn", Slug: "auburn"}},
+		},
+		{
+			City:            "Auburn",
+			Slug:            "auburn",
+			MetaTitle:       "Gutter Installation & Repair in Auburn, WA | A-Team Gutters",
+			MetaDescription: "Gutter installation and repair in Auburn, WA. A-Team Gutters serves Auburn and southern King County with seamless systems built for Pacific Northwest conditions. Free estimates.",
+			Intro:           "A-Team Gutters serves Auburn and the southern King County communities along the valley corridor. From the older neighborhoods near downtown Auburn to the developments along Highway 18, we bring the same seamless installation standard to every job.",
+			Context:         "Auburn sits at the boundary of Pierce and King Counties — a location that puts it within easy reach of our Bonney Lake base. The Green River Valley's mix of agricultural land and residential development means properties here often deal with a combination of valley fog, heavy seasonal rainfall, and the maintenance demands of mature trees planted decades ago.",
+			HeroImage:       "hero-copper-gutters.jpg",
+			NearbyAreas:     []nearbyArea{{City: "Sumner", Slug: "sumner"}, {City: "Puyallup", Slug: "puyallup"}, {City: "Black Diamond", Slug: "black-diamond"}},
+		},
+		{
+			City:            "Enumclaw",
+			Slug:            "enumclaw",
+			MetaTitle:       "Gutter Installation & Repair in Enumclaw, WA | A-Team Gutters",
+			MetaDescription: "Gutter installation, repair, and cleaning in Enumclaw, WA. A-Team Gutters serves the Enumclaw foothills — licensed contractor with 30+ years experience. Free estimates.",
+			Intro:           "A-Team Gutters serves Enumclaw and the surrounding foothills communities at the base of the Cascades. If you're in Enumclaw, Buckley, or the communities between them and the mountains, you're in our primary service area.",
+			Context:         "Enumclaw sits higher than most of our service area — close to 700 feet elevation — and experiences conditions the valley floor doesn't. Freeze events are more frequent, ice loading on gutters is a real seasonal concern, and the proximity to the Cascades means wind and precipitation events hit harder. We account for these conditions in how we hang and size systems for Enumclaw properties.",
+			HeroImage:       "hero-gutter-install.jpeg",
+			NearbyAreas:     []nearbyArea{{City: "Buckley", Slug: "buckley"}, {City: "Bonney Lake", Slug: "bonney-lake"}, {City: "Black Diamond", Slug: "black-diamond"}},
+		},
+		{
+			City:            "Buckley",
+			Slug:            "buckley",
+			MetaTitle:       "Gutter Installation & Repair in Buckley, WA | A-Team Gutters",
+			MetaDescription: "Gutter contractor serving Buckley, WA. Seamless installation, repair, cleaning, and screen systems for Pierce County foothills homes. A-Team Gutters. Free estimates.",
+			Intro:           "A-Team Gutters serves Buckley and the Upper White River valley communities. Buckley is one of the closer foothills towns to our Bonney Lake base, and we work in the area regularly.",
+			Context:         "Buckley's location at the base of the Carbon River drainage means it sees meaningful rainfall and the kind of tree cover — dense second-growth fir and cedar — that puts real demands on gutter systems. Homes here tend to be older, which means more spike-and-ferrule installations that have reached the end of their service life. Replacing aging hardware with hidden hanger systems is one of the most common jobs we do in the Buckley area.",
+			HeroImage:       "hero-rain-gutters.jpeg",
+			NearbyAreas:     []nearbyArea{{City: "Enumclaw", Slug: "enumclaw"}, {City: "Bonney Lake", Slug: "bonney-lake"}, {City: "Black Diamond", Slug: "black-diamond"}},
+		},
+		{
+			City:            "Black Diamond",
+			Slug:            "black-diamond",
+			MetaTitle:       "Gutter Installation & Repair in Black Diamond, WA | A-Team Gutters",
+			MetaDescription: "Gutter installation and repair in Black Diamond, WA. A-Team Gutters serves the Black Diamond area with seamless aluminum systems. Licensed, insured, free estimates.",
+			Intro:           "A-Team Gutters serves Black Diamond and the communities in the upper Green River valley. The drive from Bonney Lake takes us through some of the most densely canopied residential areas in our service territory — and the gutter work here reflects it.",
+			Context:         "Black Diamond is a small community surrounded by second-growth forest, and the gutter maintenance demands are among the most significant in our service area. Properties here deal with heavy needle loads, persistent moss, and the kind of shade that keeps gutters damp between rain events. If you're in Black Diamond and cleaning gutters more than twice a year, it's worth a conversation about screen systems.",
+			HeroImage:       "hero-green-house.jpg",
+			NearbyAreas:     []nearbyArea{{City: "Auburn", Slug: "auburn"}, {City: "Enumclaw", Slug: "enumclaw"}, {City: "Buckley", Slug: "buckley"}},
+		},
+	}
+
+	for _, area := range serviceAreas {
+		mux.HandleFunc("GET /service-areas/"+area.Slug+"/", serveServiceArea(serviceAreaTmpl, area))
+	}
 
 	// Static files
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))

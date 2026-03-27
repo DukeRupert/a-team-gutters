@@ -13,7 +13,7 @@
     <link rel="manifest" href="/static/site.webmanifest">
     <title>{{block "title" .}}A-Team Gutters | Bonney Lake, WA{{end}}</title>
     <meta name="description" content="{{block "meta_description" .}}A-Team Gutters LLC — family-owned gutter installation, cleaning, repair, and screen services in Bonney Lake, Sumner, Puyallup, and Pierce County. Free estimates. Licensed contractor TEAMGGL760KN.{{end}}">
-    <link rel="canonical" href="{{block "canonical" .}}https://ateamgutters.com{{end}}">
+    <link rel="canonical" href="{{block "canonical" .}}https://ateamgutter.com{{end}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
         "name": "A-Team Gutters LLC",
         "telephone": "253-293-7732",
         "email": "info@ateamgutter.com",
-        "url": "https://ateamgutters.com",
+        "url": "https://ateamgutter.com",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "13010 211th Ave Ct E",
@@ -64,6 +64,24 @@
     </main>
 
     {{template "footer" .}}
+
+    <!-- Plausible goal tracking -->
+    <script>
+        // Track phone call clicks
+        document.addEventListener('click', function(e) {
+            var link = e.target.closest('a[href^="tel:"]');
+            if (link && window.plausible) {
+                plausible('Phone Call');
+            }
+        });
+
+        // Track successful form submissions (HTMX swap means server accepted it)
+        document.addEventListener('htmx:afterSwap', function(e) {
+            if (e.detail.target.id === 'contact-form-wrap' && e.detail.xhr.status === 200 && window.plausible) {
+                plausible('Form Submission');
+            }
+        });
+    </script>
 </body>
 </html>
 {{end}}

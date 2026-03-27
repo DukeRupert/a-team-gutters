@@ -734,6 +734,66 @@ footer {
 }
 
 
+/* ── Firefly Signature ── */
+.footer-signature {
+    padding: 2rem var(--gutter);
+    max-width: var(--content-width);
+    margin-inline: auto;
+}
+
+.sig-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+}
+
+.sig-divider-rule {
+    flex: 1;
+    height: 1px;
+}
+
+.sig-divider-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+}
+
+.sig-divider-glyph {
+    font-size: 11px;
+    line-height: 1;
+}
+
+.sig-divider-text {
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.sig-divider-text a {
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+}
+
+.sig-divider.dark .sig-divider-rule        { background: rgba(255, 255, 255, 0.08); }
+.sig-divider.dark .sig-divider-glyph       { color: rgba(250, 250, 248, 0.20); }
+.sig-divider.dark .sig-divider-text         { color: rgba(250, 250, 248, 0.78); }
+.sig-divider.dark .sig-divider-text a       { color: var(--silver); }
+.sig-divider.dark .sig-divider-text a:hover { border-bottom-color: var(--silver); }
+
+@media (max-width: 768px) {
+    .sig-divider-rule { display: none; }
+    .sig-divider { justify-content: center; }
+    .sig-divider-inner { flex-shrink: 1; }
+    .sig-divider-text { white-space: normal; text-align: center; }
+}
+
+
 /* ================================================================
    Service Pages — Shared Components
    ================================================================ */

@@ -243,8 +243,11 @@
     color: var(--silver);
 }
 
-.trust-item--star svg {
-    color: #D4A017;
+.trust-angi-logo {
+    height: 16px;
+    width: auto;
+    display: inline;
+    flex-shrink: 0;
 }
 
 
@@ -403,10 +406,32 @@
 
 .review-attribution {
     display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    padding-top: 0.5rem;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
     border-top: 1px solid var(--border);
+}
+
+.review-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--silver);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--dark);
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.review-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
 }
 
 .review-name {
@@ -416,13 +441,24 @@
     font-size: var(--text-sm);
     color: var(--text);
     letter-spacing: 0.03em;
+    line-height: 1.2;
 }
 
 .review-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     font-family: 'Barlow', sans-serif;
     font-weight: 400;
     font-size: 0.75rem;
     color: #999;
+}
+
+.review-source img {
+    width: auto;
+    height: 0.75rem;
+    flex-shrink: 0;
+    display: inline;
 }
 
 .reviews-cta {
@@ -722,9 +758,9 @@
      ═══════════════════════════════════════════════════════════════ -->
 <div class="trust-bar" role="region" aria-label="Trust signals">
     <div class="trust-bar-inner">
-        <div class="trust-item trust-item--star">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            5-Star Rated on Angi
+        <div class="trust-item trust-item--angi">
+            <img src="/static/images/Angi-logo-Orange.svg" alt="Angi" class="trust-angi-logo">
+            5-Star Rated
         </div>
         <div class="trust-item">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
@@ -869,8 +905,13 @@
                 </div>
                 <p class="review-text">Seth &amp; Jessie were extremely professional from my first contact to when the job was completed. They kept me informed about the bid, were on time, did an outstanding job, and cleaned everything. They were the only business that recommended 6 inch gutters for our large, steep roofs &mdash; and they were absolutely correct.</p>
                 <footer class="review-attribution">
-                    <span class="review-name">Foster B.</span>
-                    <span class="review-source">Google</span>
+                    <span class="review-avatar" aria-hidden="true">FB</span>
+                    <div class="review-meta">
+                        <span class="review-name">Foster B.</span>
+                        <span class="review-source">
+                            <img src="/static/images/Angi-logo-Orange.svg" alt="Angi" loading="lazy">
+                        </span>
+                    </div>
                 </footer>
             </blockquote>
 
@@ -884,8 +925,13 @@
                 </div>
                 <p class="review-text">Highly recommend this company. They knocked it out fast, efficiently, and professionally &mdash; in the pouring down rain. The black gutters were the finishing touch on our newly painted home and we haven't had any issues with them or the drainage.</p>
                 <footer class="review-attribution">
-                    <span class="review-name">Katrina R.</span>
-                    <span class="review-source">Google</span>
+                    <span class="review-avatar" aria-hidden="true">KR</span>
+                    <div class="review-meta">
+                        <span class="review-name">Katrina R.</span>
+                        <span class="review-source">
+                            <img src="/static/images/Angi-logo-Orange.svg" alt="Angi" loading="lazy">
+                        </span>
+                    </div>
                 </footer>
             </blockquote>
 
@@ -899,13 +945,18 @@
                 </div>
                 <p class="review-text">Seth and his team did an outstanding job. From quote to finish it was easy and seamless. Customer service was first class and they delivered a quality product. I will be using this Company for many other projects for not just me but also for other family members.</p>
                 <footer class="review-attribution">
-                    <span class="review-name">Kevin H.</span>
-                    <span class="review-source">Google</span>
+                    <span class="review-avatar" aria-hidden="true">KH</span>
+                    <div class="review-meta">
+                        <span class="review-name">Kevin H.</span>
+                        <span class="review-source">
+                            <img src="/static/images/Angi-logo-Orange.svg" alt="Angi" loading="lazy">
+                        </span>
+                    </div>
                 </footer>
             </blockquote>
         </div>
         <p class="reviews-cta">
-            <a href="https://www.google.com/maps/place/A-Team+Gutters/@47.137915,-122.1489541,17z/" target="_blank" rel="noopener noreferrer">Read our reviews on Google</a>
+            <a href="https://www.angi.com/companylist/us/wa/bonney-lake/a-team-gutters-reviews-10680498.htm" target="_blank" rel="noopener noreferrer">Read our reviews on Angi</a>
         </p>
     </div>
 </section>

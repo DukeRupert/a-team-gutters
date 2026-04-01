@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"html/template"
 	"io"
@@ -150,6 +151,65 @@ func serveServiceArea(tmpl *template.Template, data serviceAreaData) http.Handle
 			log.Printf("template error: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
+	}
+}
+
+// sitemapURL represents a single <url> entry in the sitemap.
+type sitemapURL struct {
+	XMLName    xml.Name `xml:"url"`
+	Loc        string   `xml:"loc"`
+	ChangeFreq string   `xml:"changefreq,omitempty"`
+	Priority   string   `xml:"priority,omitempty"`
+}
+
+// sitemapIndex is the root <urlset> element.
+type sitemapIndex struct {
+	XMLName xml.Name     `xml:"urlset"`
+	XMLNS   string       `xml:"xmlns,attr"`
+	URLs    []sitemapURL `xml:"url"`
+}
+
+func serveSitemap(baseURL string, serviceAreas []serviceAreaData) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		urls := []sitemapURL{
+			{Loc: baseURL + "/", ChangeFreq: "weekly", Priority: "1.0"},
+			{Loc: baseURL + "/services/gutter-installation/", ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/gutter-cleaning/", ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/gutter-repair/", ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/gutter-guards/", ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/fascia-soffit-repair/", ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/gallery/", ChangeFreq: "monthly", Priority: "0.7"},
+			{Loc: baseURL + "/about/", ChangeFreq: "monthly", Priority: "0.7"},
+			{Loc: baseURL + "/contact/", ChangeFreq: "monthly", Priority: "0.8"},
+			{Loc: baseURL + "/faq/", ChangeFreq: "monthly", Priority: "0.7"},
+		}
+
+		for _, area := range serviceAreas {
+			urls = append(urls, sitemapURL{
+				Loc:        baseURL + "/service-areas/" + area.Slug + "/",
+				ChangeFreq: "monthly",
+				Priority:   "0.8",
+			})
+		}
+
+		sitemap := sitemapIndex{
+			XMLNS: "http://www.sitemaps.org/schemas/sitemap/0.9",
+			URLs:  urls,
+		}
+
+		w.Header().Set("Content-Type", "application/xml; charset=utf-8")
+		w.Write([]byte(xml.Header))
+		enc := xml.NewEncoder(w)
+		enc.Indent("", "  ")
+		enc.Encode(sitemap)
+	}
+}
+
+func serveRobotsTxt(baseURL string) http.HandlerFunc {
+	body := "User-agent: *\nAllow: /\n\nSitemap: " + baseURL + "/sitemap.xml\n"
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+		w.Write([]byte(body))
 	}
 }
 
@@ -365,6 +425,14 @@ func main() {
 	for _, area := range serviceAreas {
 		mux.HandleFunc("GET /service-areas/"+area.Slug+"/", serveServiceArea(serviceAreaTmpl, area))
 	}
+
+	// Sitemap and robots.txt
+	baseURL := os.Getenv("BASE_URL")
+	if baseURL == "" {
+		baseURL = "https://ateamgutter.com"
+	}
+	mux.HandleFunc("GET /sitemap.xml", serveSitemap(baseURL, serviceAreas))
+	mux.HandleFunc("GET /robots.txt", serveRobotsTxt(baseURL))
 
 	// Static files
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))

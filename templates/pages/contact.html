@@ -317,6 +317,7 @@
                 hx-target="#contact-form-wrap"
                 hx-swap="innerHTML"
                 hx-disabled-elt="find button[type='submit']"
+                hx-trigger="submitValid"
                 novalidate
                 x-data="{
                     submitted: false,
@@ -337,7 +338,7 @@
                     submitted = true;
                     if (validate()) {
                         sending = true;
-                        htmx.trigger($el, 'submit');
+                        htmx.trigger($el, 'submitValid');
                     }
                 "
                 @htmx:before-request="sending = true"

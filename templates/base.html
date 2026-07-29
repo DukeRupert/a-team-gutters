@@ -14,6 +14,16 @@
     <title>{{block "title" .}}A-Team Gutters | Bonney Lake, WA{{end}}</title>
     <meta name="description" content="{{block "meta_description" .}}A-Team Gutters LLC — family-owned gutter installation, cleaning, repair, and screen services in Bonney Lake, Sumner, Puyallup, and Pierce County. Free estimates. Licensed contractor TEAMGGL760KN.{{end}}">
     <link rel="canonical" href="{{block "canonical" .}}https://ateamgutter.com{{end}}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="A-Team Gutters LLC">
+    <meta property="og:title" content="{{template "title" .}}">
+    <meta property="og:description" content="{{template "meta_description" .}}">
+    <meta property="og:url" content="{{template "canonical" .}}">
+    <meta property="og:image" content="https://ateamgutter.com{{block "og_image" .}}/static/images/og-image.jpg{{end}}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="A-Team Gutters LLC — Gutter Excellence, A-Team Style">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&family=DM+Sans:wght@300;500&display=swap" rel="stylesheet">
@@ -55,6 +65,8 @@
         "@type": "LocalBusiness",
         "name": "A-Team Gutters LLC",
         "url": "https://ateamgutter.com",
+        "logo": "https://ateamgutter.com/static/images/logo.png",
+        "image": "https://ateamgutter.com/static/images/og-image.jpg",
         "telephone": "+12532937732",
         "email": "info@ateamgutter.com",
         "address": {

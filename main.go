@@ -15,9 +15,24 @@ import (
 	"time"
 )
 
+// siteLastMod is the <lastmod> value reported in sitemap.xml. Bump it when
+// page content changes meaningfully — Google ignores lastmod it finds unreliable.
+const siteLastMod = "2026-07-29"
+
+// tmplFuncs are helpers available to every template. "add" exists so ranged
+// schema.org ItemList entries can emit 1-based position values; the image
+// helpers live in images.go.
+var tmplFuncs = template.FuncMap{
+	"add":        func(a, b int) int { return a + b },
+	"picture":    picture,
+	"preload":    preloadAVIF,
+	"imageKey":   stripImageExt,
+	"staticHash": staticHash,
+}
+
 // loadPage parses the base layout, partials, and the given page template.
 func loadPage(page string) *template.Template {
-	return template.Must(template.ParseFiles(
+	return template.Must(template.New("base.html").Funcs(tmplFuncs).ParseFiles(
 		"templates/base.html",
 		"templates/partials/nav.html",
 		"templates/partials/footer.html",
@@ -30,6 +45,37 @@ func servePage(tmpl *template.Template) http.HandlerFunc {
 		if err := tmpl.ExecuteTemplate(w, "base", nil); err != nil {
 			log.Printf("template error: %v", err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+	}
+}
+
+// canonicalPaths records every canonical page URL (each with a trailing slash).
+// The catch-all handler uses it to 301 no-trailing-slash requests to the real
+// URL instead of serving a 404.
+var canonicalPaths = map[string]bool{}
+
+// registerPage registers an exact-match GET route. The {$} anchor matters:
+// without it Go's ServeMux treats a trailing-slash pattern as a prefix match,
+// so /about/ would also serve /about/anything — unlimited duplicate URLs for
+// crawlers to find.
+func registerPage(mux *http.ServeMux, path string, h http.HandlerFunc) {
+	canonicalPaths[path] = true
+	mux.HandleFunc("GET "+path+"{$}", h)
+}
+
+// serveNotFound renders the branded 404 page. It first checks whether the
+// request is just missing its trailing slash and redirects if so, since Go's
+// implicit subtree redirect no longer applies to {$}-anchored patterns.
+func serveNotFound(tmpl *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet && canonicalPaths[r.URL.Path+"/"] {
+			http.Redirect(w, r, r.URL.Path+"/", http.StatusMovedPermanently)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.WriteHeader(http.StatusNotFound)
+		if err := tmpl.ExecuteTemplate(w, "base", nil); err != nil {
+			log.Printf("template error: %v", err)
 		}
 	}
 }
@@ -141,8 +187,19 @@ type serviceAreaData struct {
 	MetaDescription string
 	Intro           string
 	Context         string
+	Tagline         string // one-line summary shown on the /service-areas/ hub
 	HeroImage       string
 	NearbyAreas     []nearbyArea
+}
+
+// serveServiceAreaIndex renders the /service-areas/ hub listing every city.
+func serveServiceAreaIndex(tmpl *template.Template, areas []serviceAreaData) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if err := tmpl.ExecuteTemplate(w, "base", areas); err != nil {
+			log.Printf("template error: %v", err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+	}
 }
 
 func serveServiceArea(tmpl *template.Template, data serviceAreaData) http.HandlerFunc {
@@ -158,6 +215,7 @@ func serveServiceArea(tmpl *template.Template, data serviceAreaData) http.Handle
 type sitemapURL struct {
 	XMLName    xml.Name `xml:"url"`
 	Loc        string   `xml:"loc"`
+	LastMod    string   `xml:"lastmod,omitempty"`
 	ChangeFreq string   `xml:"changefreq,omitempty"`
 	Priority   string   `xml:"priority,omitempty"`
 }
@@ -172,21 +230,24 @@ type sitemapIndex struct {
 func serveSitemap(baseURL string, serviceAreas []serviceAreaData) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		urls := []sitemapURL{
-			{Loc: baseURL + "/", ChangeFreq: "weekly", Priority: "1.0"},
-			{Loc: baseURL + "/services/gutter-installation/", ChangeFreq: "monthly", Priority: "0.9"},
-			{Loc: baseURL + "/services/gutter-cleaning/", ChangeFreq: "monthly", Priority: "0.9"},
-			{Loc: baseURL + "/services/gutter-repair/", ChangeFreq: "monthly", Priority: "0.9"},
-			{Loc: baseURL + "/services/gutter-guards/", ChangeFreq: "monthly", Priority: "0.9"},
-			{Loc: baseURL + "/services/fascia-soffit-repair/", ChangeFreq: "monthly", Priority: "0.9"},
-			{Loc: baseURL + "/gallery/", ChangeFreq: "monthly", Priority: "0.7"},
-			{Loc: baseURL + "/about/", ChangeFreq: "monthly", Priority: "0.7"},
-			{Loc: baseURL + "/contact/", ChangeFreq: "monthly", Priority: "0.8"},
-			{Loc: baseURL + "/faq/", ChangeFreq: "monthly", Priority: "0.7"},
+			{Loc: baseURL + "/", LastMod: siteLastMod, ChangeFreq: "weekly", Priority: "1.0"},
+			{Loc: baseURL + "/services/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/gutter-installation/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/gutter-cleaning/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/gutter-repair/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/gutter-guards/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/services/fascia-soffit-repair/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.9"},
+			{Loc: baseURL + "/service-areas/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.8"},
+			{Loc: baseURL + "/gallery/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.7"},
+			{Loc: baseURL + "/about/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.7"},
+			{Loc: baseURL + "/contact/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.8"},
+			{Loc: baseURL + "/faq/", LastMod: siteLastMod, ChangeFreq: "monthly", Priority: "0.7"},
 		}
 
 		for _, area := range serviceAreas {
 			urls = append(urls, sitemapURL{
 				Loc:        baseURL + "/service-areas/" + area.Slug + "/",
+				LastMod:    siteLastMod,
 				ChangeFreq: "monthly",
 				Priority:   "0.8",
 			})
@@ -314,38 +375,45 @@ Submitted: %s`, name, phone, email, address, service, message, timestamp)
 }
 
 func main() {
+	// Must run before any template is parsed — the {{picture}} helper resolves
+	// against this manifest at render time, but a missing key is only reported
+	// once a page is served, so log the count up front.
+	loadImageManifest()
+
 	// Load each page template with base layout + partials
 	pages := map[string]*template.Template{
 		"home":                 loadPage("home.html"),
-		"about":               loadPage("about.html"),
-		"contact":             loadPage("contact.html"),
-		"faq":                 loadPage("faq.html"),
-		"gutter-installation": loadPage("gutter-installation.html"),
-		"gutter-cleaning":     loadPage("gutter-cleaning.html"),
-		"gutter-repair":       loadPage("gutter-repair.html"),
-		"gutter-guards":       loadPage("gutter-guards.html"),
+		"services":             loadPage("services.html"),
+		"about":                loadPage("about.html"),
+		"contact":              loadPage("contact.html"),
+		"faq":                  loadPage("faq.html"),
+		"gutter-installation":  loadPage("gutter-installation.html"),
+		"gutter-cleaning":      loadPage("gutter-cleaning.html"),
+		"gutter-repair":        loadPage("gutter-repair.html"),
+		"gutter-guards":        loadPage("gutter-guards.html"),
 		"fascia-soffit-repair": loadPage("fascia-soffit-repair.html"),
 		"gallery":              loadPage("gallery.html"),
 	}
 
 	mux := http.NewServeMux()
 
-	// Home — exact match only
-	mux.HandleFunc("GET /{$}", servePage(pages["home"]))
+	// Home
+	registerPage(mux, "/", servePage(pages["home"]))
 
-	// Services
-	mux.HandleFunc("GET /services/gutter-installation/", servePage(pages["gutter-installation"]))
-	mux.HandleFunc("GET /services/gutter-cleaning/", servePage(pages["gutter-cleaning"]))
-	mux.HandleFunc("GET /services/gutter-repair/", servePage(pages["gutter-repair"]))
-	mux.HandleFunc("GET /services/gutter-guards/", servePage(pages["gutter-guards"]))
-	mux.HandleFunc("GET /services/fascia-soffit-repair/", servePage(pages["fascia-soffit-repair"]))
+	// Services — hub plus individual service pages
+	registerPage(mux, "/services/", servePage(pages["services"]))
+	registerPage(mux, "/services/gutter-installation/", servePage(pages["gutter-installation"]))
+	registerPage(mux, "/services/gutter-cleaning/", servePage(pages["gutter-cleaning"]))
+	registerPage(mux, "/services/gutter-repair/", servePage(pages["gutter-repair"]))
+	registerPage(mux, "/services/gutter-guards/", servePage(pages["gutter-guards"]))
+	registerPage(mux, "/services/fascia-soffit-repair/", servePage(pages["fascia-soffit-repair"]))
 
 	// Core pages
-	mux.HandleFunc("GET /gallery/", servePage(pages["gallery"]))
-	mux.HandleFunc("GET /about/", servePage(pages["about"]))
-	mux.HandleFunc("GET /contact/", serveContact(pages["contact"]))
-	mux.HandleFunc("POST /contact/", handleContactSubmit(pages["contact"]))
-	mux.HandleFunc("GET /faq/", servePage(pages["faq"]))
+	registerPage(mux, "/gallery/", serveGallery(pages["gallery"], resolveGalleryPhotos()))
+	registerPage(mux, "/about/", servePage(pages["about"]))
+	registerPage(mux, "/contact/", serveContact(pages["contact"]))
+	mux.HandleFunc("POST /contact/{$}", handleContactSubmit(pages["contact"]))
+	registerPage(mux, "/faq/", servePage(pages["faq"]))
 
 	// Service area pages
 	serviceAreaTmpl := loadPage("service-area.html")
@@ -353,6 +421,7 @@ func main() {
 		{
 			City:            "Bonney Lake",
 			Slug:            "bonney-lake",
+			Tagline:         "Our home base. Dense Douglas fir canopy and year-round needle drop across the 98391 area.",
 			MetaTitle:       "Gutter Installation & Repair in Bonney Lake, WA | A-Team Gutters",
 			MetaDescription: "A-Team Gutters is based in Bonney Lake, WA — seamless gutter installation, cleaning, repair, and screen systems for Pierce County homes. Licensed contractor TEAMGGL760KN. Free estimates.",
 			Intro:           "A-Team Gutters is based right here in Bonney Lake. We know the neighborhoods, the tree coverage, the rainfall patterns along Lake Tapps, and the roofline styles common to homes throughout the 98391 zip code. When you call A-Team, you're calling a neighbor.",
@@ -363,6 +432,7 @@ func main() {
 		{
 			City:            "Sumner",
 			Slug:            "sumner",
+			Tagline:         "Valley-floor properties at the river confluence, where downspout sizing and placement matter most.",
 			MetaTitle:       "Gutter Installation & Repair in Sumner, WA | A-Team Gutters",
 			MetaDescription: "Professional gutter installation, cleaning, and repair in Sumner, WA. A-Team Gutters serves the Sumner area with seamless aluminum systems built for PNW weather. Free estimates.",
 			Intro:           "A-Team Gutters serves Sumner and the surrounding valley communities from our base in neighboring Bonney Lake. Whether you're in the older neighborhoods near downtown Sumner or the newer developments along the valley edge, we provide free on-site estimates and same-standard installation on every job.",
@@ -373,6 +443,7 @@ func main() {
 		{
 			City:            "Puyallup",
 			Slug:            "puyallup",
+			Tagline:         "From valley-floor homes near the fairgrounds to steep South Hill rooflines under mature firs.",
 			MetaTitle:       "Gutter Installation & Repair in Puyallup, WA | A-Team Gutters",
 			MetaDescription: "Seamless gutter installation, cleaning, repair, and screens in Puyallup, WA. A-Team Gutters serves Puyallup and Pierce County. Licensed, insured, free estimates.",
 			Intro:           "A-Team Gutters serves Puyallup and the surrounding South Hill communities with the same standard of installation we bring to every job across Pierce County. Free estimates, on-site forming, no subcontractors.",
@@ -383,6 +454,7 @@ func main() {
 		{
 			City:            "Auburn",
 			Slug:            "auburn",
+			Tagline:         "Southern King County along the Green River Valley corridor — valley fog and decades-old trees.",
 			MetaTitle:       "Gutter Installation & Repair in Auburn, WA | A-Team Gutters",
 			MetaDescription: "Gutter installation and repair in Auburn, WA. A-Team Gutters serves Auburn and southern King County with seamless systems built for Pacific Northwest conditions. Free estimates.",
 			Intro:           "A-Team Gutters serves Auburn and the southern King County communities along the valley corridor. From the older neighborhoods near downtown Auburn to the developments along Highway 18, we bring the same seamless installation standard to every job.",
@@ -393,6 +465,7 @@ func main() {
 		{
 			City:            "Enumclaw",
 			Slug:            "enumclaw",
+			Tagline:         "Foothills elevation near 700 feet, where freeze events and ice loading are real seasonal concerns.",
 			MetaTitle:       "Gutter Installation & Repair in Enumclaw, WA | A-Team Gutters",
 			MetaDescription: "Gutter installation, repair, and cleaning in Enumclaw, WA. A-Team Gutters serves the Enumclaw foothills — licensed contractor with 30+ years experience. Free estimates.",
 			Intro:           "A-Team Gutters serves Enumclaw and the surrounding foothills communities at the base of the Cascades. If you're in Enumclaw, Buckley, or the communities between them and the mountains, you're in our primary service area.",
@@ -403,6 +476,7 @@ func main() {
 		{
 			City:            "Buckley",
 			Slug:            "buckley",
+			Tagline:         "Older homes in the Upper White River valley, many still on failing spike-and-ferrule hardware.",
 			MetaTitle:       "Gutter Installation & Repair in Buckley, WA | A-Team Gutters",
 			MetaDescription: "Gutter contractor serving Buckley, WA. Seamless installation, repair, cleaning, and screen systems for Pierce County foothills homes. A-Team Gutters. Free estimates.",
 			Intro:           "A-Team Gutters serves Buckley and the Upper White River valley communities. Buckley is one of the closer foothills towns to our Bonney Lake base, and we work in the area regularly.",
@@ -413,6 +487,7 @@ func main() {
 		{
 			City:            "Black Diamond",
 			Slug:            "black-diamond",
+			Tagline:         "Surrounded by second-growth forest — the heaviest needle and moss loads in our service area.",
 			MetaTitle:       "Gutter Installation & Repair in Black Diamond, WA | A-Team Gutters",
 			MetaDescription: "Gutter installation and repair in Black Diamond, WA. A-Team Gutters serves the Black Diamond area with seamless aluminum systems. Licensed, insured, free estimates.",
 			Intro:           "A-Team Gutters serves Black Diamond and the communities in the upper Green River valley. The drive from Bonney Lake takes us through some of the most densely canopied residential areas in our service territory — and the gutter work here reflects it.",
@@ -422,8 +497,12 @@ func main() {
 		},
 	}
 
+	// Service areas hub — driven by the same slice as the individual pages so
+	// the two can't drift apart.
+	registerPage(mux, "/service-areas/", serveServiceAreaIndex(loadPage("service-areas.html"), serviceAreas))
+
 	for _, area := range serviceAreas {
-		mux.HandleFunc("GET /service-areas/"+area.Slug+"/", serveServiceArea(serviceAreaTmpl, area))
+		registerPage(mux, "/service-areas/"+area.Slug+"/", serveServiceArea(serviceAreaTmpl, area))
 	}
 
 	// Sitemap and robots.txt
@@ -435,7 +514,11 @@ func main() {
 	mux.HandleFunc("GET /robots.txt", serveRobotsTxt(baseURL))
 
 	// Static files
-	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	mux.Handle("GET /static/", cacheControl(http.StripPrefix("/static/", http.FileServer(http.Dir("static")))))
+
+	// Catch-all: 301 for a missing trailing slash, branded 404 otherwise.
+	// Registered last and least specific, so every route above wins.
+	mux.HandleFunc("/", serveNotFound(loadPage("404.html")))
 
 	port := os.Getenv("PORT")
 	if port == "" {

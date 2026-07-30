@@ -2,19 +2,18 @@
 {{define "meta_description"}}Professional seamless gutter installation in Bonney Lake, Sumner, Puyallup, and Pierce County WA. On-site forming, hidden hangers. Free estimates. Licensed contractor TEAMGGL760KN.{{end}}
 {{define "canonical"}}https://ateamgutter.com/services/gutter-installation/{{end}}
 
+{{define "preload"}}{{preload "hero-copper-gutters" "50vw"}}{{end}}
+
 {{define "schema"}}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": "https://ateamgutter.com/services/gutter-installation/#service",
+    "url": "https://ateamgutter.com/services/gutter-installation/",
     "name": "Gutter Installation",
     "description": "Seamless aluminum gutter installation in Pierce and King County, WA. On-site roll-forming, hidden hangers.",
-    "provider": {
-        "@type": "LocalBusiness",
-        "name": "A-Team Gutters LLC",
-        "telephone": "253-293-7732",
-        "address": { "@type": "PostalAddress", "addressLocality": "Bonney Lake", "addressRegion": "WA" }
-    },
+    "provider": { "@id": "https://ateamgutter.com/#business" },
     "areaServed": ["Bonney Lake", "Sumner", "Puyallup", "Auburn", "Enumclaw", "Buckley", "Black Diamond"]
 }
 </script>
@@ -24,7 +23,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutter.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Services" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://ateamgutter.com/services/" },
         { "@type": "ListItem", "position": 3, "name": "Gutter Installation", "item": "https://ateamgutter.com/services/gutter-installation/" }
     ]
 }
@@ -35,16 +34,18 @@
 <!-- ── Hero ── -->
 <section class="page-hero" aria-labelledby="page-heading">
     <div class="page-hero-image">
-        <img src="/static/images/hero-copper-gutters.jpg"
-             alt="Copper gutter installation on a residential roofline with Seattle skyline in the background"
-             width="1920" height="1280"
-             loading="eager">
+        {{/* 50vw, not 100vw: this hero is a decorative backdrop painted at
+     opacity 0.15 under a near-opaque gradient, so half-resolution is
+     imperceptible and halves the bytes on HiDPI screens. */}}
+        {{picture "hero-copper-gutters"
+             "alt" "Copper gutter installation on a residential roofline with Seattle skyline in the background"
+             "sizes" "50vw" "priority" "true"}}
     </div>
     <div class="container">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
             <a href="/">Home</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
-            <a href="/services/gutter-installation/">Services</a>
+            <a href="/services/">Services</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
             <span class="breadcrumb-current" aria-current="page">Gutter Installation</span>
         </nav>

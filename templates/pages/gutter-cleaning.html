@@ -2,19 +2,18 @@
 {{define "meta_description"}}Professional gutter cleaning in Bonney Lake, Puyallup, Sumner, and Pierce County WA. We clear debris, flush downspouts, and verify flow. Free estimates. A-Team Gutters.{{end}}
 {{define "canonical"}}https://ateamgutter.com/services/gutter-cleaning/{{end}}
 
+{{define "preload"}}{{preload "hero-green-house" "50vw"}}{{end}}
+
 {{define "schema"}}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": "https://ateamgutter.com/services/gutter-cleaning/#service",
+    "url": "https://ateamgutter.com/services/gutter-cleaning/",
     "name": "Gutter Cleaning",
     "description": "Professional gutter cleaning in Pierce and King County, WA. Debris removal, downspout flushing, and flow verification.",
-    "provider": {
-        "@type": "LocalBusiness",
-        "name": "A-Team Gutters LLC",
-        "telephone": "253-293-7732",
-        "address": { "@type": "PostalAddress", "addressLocality": "Bonney Lake", "addressRegion": "WA" }
-    },
+    "provider": { "@id": "https://ateamgutter.com/#business" },
     "areaServed": ["Bonney Lake", "Sumner", "Puyallup", "Auburn", "Enumclaw", "Buckley", "Black Diamond"]
 }
 </script>
@@ -24,7 +23,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutter.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Services" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://ateamgutter.com/services/" },
         { "@type": "ListItem", "position": 3, "name": "Gutter Cleaning", "item": "https://ateamgutter.com/services/gutter-cleaning/" }
     ]
 }
@@ -35,16 +34,18 @@
 <!-- ── Hero ── -->
 <section class="page-hero" aria-labelledby="page-heading">
     <div class="page-hero-image">
-        <img src="/static/images/hero-green-house.jpg"
-             alt="Residential home with dark seamless gutters in a Pacific Northwest neighborhood"
-             width="1920" height="1440"
-             loading="eager">
+        {{/* 50vw, not 100vw: this hero is a decorative backdrop painted at
+     opacity 0.15 under a near-opaque gradient, so half-resolution is
+     imperceptible and halves the bytes on HiDPI screens. */}}
+        {{picture "hero-green-house"
+             "alt" "Residential home with dark seamless gutters in a Pacific Northwest neighborhood"
+             "sizes" "50vw" "priority" "true"}}
     </div>
     <div class="container">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
             <a href="/">Home</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
-            <a href="/services/gutter-installation/">Services</a>
+            <a href="/services/">Services</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
             <span class="breadcrumb-current" aria-current="page">Gutter Cleaning</span>
         </nav>

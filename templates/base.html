@@ -24,11 +24,23 @@
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="A-Team Gutters LLC — Gutter Excellence, A-Team Style">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&family=DM+Sans:wght@300;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <!-- Fonts are self-hosted (see @font-face in styles.css), so there is no
+         third-party connection on the critical path. Preload only the two
+         weights that render above the fold: Barlow Condensed 700 for headings
+         and Barlow 400 for body copy. -->
+    <link rel="preload" href="/static/fonts/barlow-condensed-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/static/fonts/barlow-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="{{staticHash "/static/css/styles.css"}}">
+    {{block "preload" .}}{{end}}
+    <!-- Vendored rather than CDN-loaded: pinned versions (the old @3.x.x range
+         meant an upstream release could break the site unannounced), no extra
+         DNS/TLS handshake, and both are deferred so neither blocks render.
+         The collapse plugin must precede Alpine core. htmx is NOT here — only
+         the contact form uses it, so that page opts in via the "js" block
+         rather than every page paying 51KB for it. -->
+    <script defer src="{{staticHash "/static/js/alpine-collapse-3.14.9.min.js"}}"></script>
+    <script defer src="{{staticHash "/static/js/alpine-3.14.9.min.js"}}"></script>
+    {{block "js" .}}{{end}}
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DVTPT8GFJX"></script>
     <script>
@@ -55,48 +67,83 @@
     src="https://www.facebook.com/tr?id=3627163197422824&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
-    <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     {{block "head" .}}{{end}}
 
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "A-Team Gutters LLC",
-        "url": "https://ateamgutter.com",
+        "@type": "RoofingContractor",
+        "@id": "https://ateamgutter.com/#business",
+        "name": "A-Team Gutters, LLC",
+        "legalName": "A-Team Gutters, LLC",
+        "slogan": "Gutter Excellence, A-Team Style",
+        "url": "https://ateamgutter.com/",
         "logo": "https://ateamgutter.com/static/images/logo.png",
-        "image": "https://ateamgutter.com/static/images/og-image.jpg",
+        "image": [
+            "https://ateamgutter.com/static/images/og-image.jpg",
+            "https://ateamgutter.com/static/images/gallery/craftsman-home-gutters-1.jpg",
+            "https://ateamgutter.com/static/images/gallery/dark-gutters-gable.jpg",
+            "https://ateamgutter.com/static/images/gallery/copper-gutters-golden-hour.jpg"
+        ],
         "telephone": "+12532937732",
         "email": "info@ateamgutter.com",
+        "founder": {
+            "@type": "Person",
+            "name": "Seth",
+            "jobTitle": "Owner"
+        },
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "13010 211th Ave Ct E",
             "addressLocality": "Bonney Lake",
             "addressRegion": "WA",
             "postalCode": "98391",
             "addressCountry": "US"
         },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 47.137915,
-            "longitude": -122.1489541
-        },
-        "openingHoursSpecification": {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-            "opens": "09:00",
-            "closes": "17:30"
+        "hasMap": "https://www.google.com/maps?cid=17695567268337759666",
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+                "opens": "08:00",
+                "closes": "17:00"
+            },
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Saturday","Sunday"],
+                "opens": "09:00",
+                "closes": "17:00"
+            }
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "telephone": "+12532937732",
+            "email": "info@ateamgutter.com",
+            "areaServed": "US-WA",
+            "availableLanguage": "English"
         },
         "areaServed": [
-            "Bonney Lake WA",
-            "Sumner WA",
-            "Puyallup WA",
-            "Auburn WA",
-            "Enumclaw WA",
-            "Buckley WA",
-            "Black Diamond WA"
+            { "@type": "AdministrativeArea", "name": "Pierce County, WA" },
+            { "@type": "AdministrativeArea", "name": "King County, WA" },
+            { "@type": "City", "name": "Bonney Lake, WA" },
+            { "@type": "City", "name": "Sumner, WA" },
+            { "@type": "City", "name": "Puyallup, WA" },
+            { "@type": "City", "name": "Auburn, WA" },
+            { "@type": "City", "name": "Enumclaw, WA" },
+            { "@type": "City", "name": "Buckley, WA" },
+            { "@type": "City", "name": "Black Diamond, WA" }
         ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Gutter Services",
+            "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://ateamgutter.com/services/gutter-installation/#service", "name": "Gutter Installation", "url": "https://ateamgutter.com/services/gutter-installation/" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://ateamgutter.com/services/gutter-cleaning/#service", "name": "Gutter Cleaning", "url": "https://ateamgutter.com/services/gutter-cleaning/" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://ateamgutter.com/services/gutter-repair/#service", "name": "Gutter Repair", "url": "https://ateamgutter.com/services/gutter-repair/" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://ateamgutter.com/services/gutter-guards/#service", "name": "Gutter Screen Installation", "url": "https://ateamgutter.com/services/gutter-guards/" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "@id": "https://ateamgutter.com/services/fascia-soffit-repair/#service", "name": "Fascia Board Repair", "url": "https://ateamgutter.com/services/fascia-soffit-repair/" } }
+            ]
+        },
         "priceRange": "$$",
         "description": "Family-owned seamless gutter installation, cleaning, repair, and screen systems for Pierce and King County homes. Licensed contractor TEAMGGL760KN.",
         "sameAs": [
@@ -110,6 +157,11 @@
                 "@type": "EducationalOccupationalCredential",
                 "credentialCategory": "license",
                 "name": "WA Contractor License TEAMGGL760KN"
+            },
+            {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "license",
+                "name": "WA Business License 605469918"
             }
         ]
     }

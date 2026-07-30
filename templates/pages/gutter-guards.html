@@ -2,19 +2,18 @@
 {{define "meta_description"}}Gutter screen installation in Bonney Lake, Puyallup, Enumclaw, and Pierce County WA. Systems rated for PNW needle and debris loads. Free estimates. A-Team Gutters.{{end}}
 {{define "canonical"}}https://ateamgutter.com/services/gutter-guards/{{end}}
 
+{{define "preload"}}{{preload "gallery/gutter-guard-closeup" "50vw"}}{{end}}
+
 {{define "schema"}}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": "https://ateamgutter.com/services/gutter-guards/#service",
+    "url": "https://ateamgutter.com/services/gutter-guards/",
     "name": "Gutter Screen Installation",
     "description": "Gutter screen installation in Pierce and King County, WA. Systems selected for PNW needle and debris loads.",
-    "provider": {
-        "@type": "LocalBusiness",
-        "name": "A-Team Gutters LLC",
-        "telephone": "253-293-7732",
-        "address": { "@type": "PostalAddress", "addressLocality": "Bonney Lake", "addressRegion": "WA" }
-    },
+    "provider": { "@id": "https://ateamgutter.com/#business" },
     "areaServed": ["Bonney Lake", "Sumner", "Puyallup", "Auburn", "Enumclaw", "Buckley", "Black Diamond"]
 }
 </script>
@@ -24,7 +23,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutter.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Services" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://ateamgutter.com/services/" },
         { "@type": "ListItem", "position": 3, "name": "Gutter Screens", "item": "https://ateamgutter.com/services/gutter-guards/" }
     ]
 }
@@ -35,16 +34,18 @@
 <!-- ── Hero ── -->
 <section class="page-hero" aria-labelledby="page-heading">
     <div class="page-hero-image">
-        <img src="/static/images/gallery/gutter-guard-closeup.jpg"
-             alt="Micro-mesh gutter screen installed along a residential roofline in the Pacific Northwest"
-             width="720" height="960"
-             loading="eager">
+        {{/* 50vw, not 100vw: this hero is a decorative backdrop painted at
+     opacity 0.15 under a near-opaque gradient, so half-resolution is
+     imperceptible and halves the bytes on HiDPI screens. */}}
+        {{picture "gallery/gutter-guard-closeup"
+             "alt" "Micro-mesh gutter screen installed along a residential roofline in the Pacific Northwest"
+             "sizes" "50vw" "priority" "true"}}
     </div>
     <div class="container">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
             <a href="/">Home</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
-            <a href="/services/gutter-installation/">Services</a>
+            <a href="/services/">Services</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
             <span class="breadcrumb-current" aria-current="page">Gutter Screens</span>
         </nav>

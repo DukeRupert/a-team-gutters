@@ -1,0 +1,241 @@
+{{define "title"}}Gutter Services — Bonney Lake & Pierce County WA | A-Team Gutters{{end}}
+{{define "meta_description"}}Seamless gutter installation, cleaning, repair, screens, and fascia board repair across Bonney Lake, Puyallup, Sumner, and Pierce County WA. Licensed contractor TEAMGGL760KN. Free estimates.{{end}}
+{{define "canonical"}}https://ateamgutter.com/services/{{end}}
+
+{{define "preload"}}{{preload "hero-gutter-install" "50vw"}}{{end}}
+
+{{define "schema"}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Gutter Services — A-Team Gutters LLC",
+    "description": "Gutter services offered by A-Team Gutters LLC across Pierce and King County, WA.",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+                "@type": "Service",
+                "name": "Gutter Installation",
+                "@id": "https://ateamgutter.com/services/gutter-installation/#service",
+                "url": "https://ateamgutter.com/services/gutter-installation/",
+                "description": "Seamless aluminum gutters formed on-site to the exact dimensions of your roofline.",
+                "provider": { "@id": "https://ateamgutter.com/#business" }
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+                "@type": "Service",
+                "name": "Gutter Cleaning",
+                "@id": "https://ateamgutter.com/services/gutter-cleaning/#service",
+                "url": "https://ateamgutter.com/services/gutter-cleaning/",
+                "description": "Debris clearing, downspout flushing, and flow verification for Pacific Northwest homes.",
+                "provider": { "@id": "https://ateamgutter.com/#business" }
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+                "@type": "Service",
+                "name": "Gutter Repair",
+                "@id": "https://ateamgutter.com/services/gutter-repair/#service",
+                "url": "https://ateamgutter.com/services/gutter-repair/",
+                "description": "Leaks, sagging, poor pitch, and pulling hangers diagnosed and corrected at the cause.",
+                "provider": { "@id": "https://ateamgutter.com/#business" }
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+                "@type": "Service",
+                "name": "Gutter Screen Installation",
+                "@id": "https://ateamgutter.com/services/gutter-guards/#service",
+                "url": "https://ateamgutter.com/services/gutter-guards/",
+                "description": "Screen systems rated for Pacific Northwest needle and debris loads.",
+                "provider": { "@id": "https://ateamgutter.com/#business" }
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+                "@type": "Service",
+                "name": "Fascia Board Repair",
+                "@id": "https://ateamgutter.com/services/fascia-soffit-repair/#service",
+                "url": "https://ateamgutter.com/services/fascia-soffit-repair/",
+                "description": "Repair and replacement of fascia boards damaged by gutter-related moisture.",
+                "provider": { "@id": "https://ateamgutter.com/#business" }
+            }
+        }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutter.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://ateamgutter.com/services/" }
+    ]
+}
+</script>
+{{end}}
+
+{{define "content"}}
+<!-- ── Hero ── -->
+<section class="page-hero" aria-labelledby="page-heading">
+    <div class="page-hero-image">
+        {{/* 50vw, not 100vw: this hero is a decorative backdrop painted at
+     opacity 0.15 under a near-opaque gradient, so half-resolution is
+     imperceptible and halves the bytes on HiDPI screens. */}}
+        {{picture "hero-gutter-install"
+             "alt" "A-Team Gutters crew installing seamless aluminum gutters on a Pierce County home"
+             "sizes" "50vw" "priority" "true"}}
+    </div>
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep" aria-hidden="true">/</span>
+            <span class="breadcrumb-current" aria-current="page">Services</span>
+        </nav>
+        <p class="eyebrow">What We Do</p>
+        <h1 id="page-heading">Gutter Services for Pierce and King County Homes.</h1>
+        <p class="page-hero-sub">Five services, one crew, one standard. A-Team Gutters handles every part of a residential gutter system — from a full seamless install to the seasonal cleaning that keeps it working. The owner is on every job.</p>
+        <div class="page-hero-actions">
+            <a href="/contact/" class="btn-primary"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="page-hero-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ── PNW Climate Strip ── -->
+<div class="pnw-strip" role="region" aria-label="Pacific Northwest conditions">
+    <div class="pnw-strip-inner">
+        <div class="pnw-item">
+            <h3>Heavy Rainfall</h3>
+            <p>38&ndash;55" annually, mostly October through April. Systems must handle sustained volume, not just average conditions.</p>
+        </div>
+        <div class="pnw-item">
+            <h3>Needle Loads</h3>
+            <p>Douglas fir and cedar needles mat into dense packs that hold moisture and add weight year-round.</p>
+        </div>
+        <div class="pnw-item">
+            <h3>Moss Growth</h3>
+            <p>Shaded rooflines shed moss spores into gutters, accelerating organic buildup and system weight.</p>
+        </div>
+        <div class="pnw-item">
+            <h3>Steep Pitches</h3>
+            <p>Foothills homes shed water faster and with more force &mdash; affecting sizing, hangers, and downspout placement.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ── Services Grid ── -->
+<section class="services" aria-labelledby="services-heading">
+    <div class="container">
+        <div class="services-header">
+            <p class="eyebrow">Our Services</p>
+            <h2 id="services-heading">Everything Your Gutter System Needs.</h2>
+            <p>Not sure which one you need? Call us. We'll tell you straight &mdash; including when the answer is a cleaning instead of a replacement.</p>
+        </div>
+
+        <ul class="services-list">
+            <li class="service-item">
+                <a href="/services/gutter-installation/">
+                    <div class="service-item-top">
+                        <h3>Gutter Installation</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Seamless aluminum gutters formed on-site to the exact dimensions of your roofline. No seams means fewer leak points. Hidden hangers instead of spikes. Most residential jobs finish in a single day.</p>
+                </a>
+            </li>
+            <li class="service-item">
+                <a href="/services/gutter-cleaning/">
+                    <div class="service-item-top">
+                        <h3>Gutter Cleaning</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Pine needles, fir debris, and moss accumulate fast in the Pacific Northwest. We clear the gutters, flush the downspouts, and verify flow before we leave. Twice a year is standard for most western Washington homes.</p>
+                </a>
+            </li>
+            <li class="service-item">
+                <a href="/services/gutter-repair/">
+                    <div class="service-item-top">
+                        <h3>Gutter Repair</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Leaks, sags, poor pitch, and pulling fascia don't fix themselves. We diagnose the root cause and repair that &mdash; not just the symptom. Often a repair beats a replacement, and we'll say so.</p>
+                </a>
+            </li>
+            <li class="service-item">
+                <a href="/services/gutter-guards/">
+                    <div class="service-item-top">
+                        <h3>Gutter Screens</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Screen systems rated for PNW needle and debris loads. Most consumer-grade guard products aren't designed for conifer canopy. If you're cleaning gutters more than twice a year, this is worth a conversation.</p>
+                </a>
+            </li>
+            <li class="service-item">
+                <a href="/services/fascia-soffit-repair/">
+                    <div class="service-item-top">
+                        <h3>Fascia Board Repair</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>Failing gutters damage fascia. We repair or replace rotted boards so your new system has solid wood to mount to. Hanging new gutters on bad fascia is how you end up doing the job twice.</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ── Trust Credentials ── -->
+<section class="sp-section section--surface">
+    <div class="container">
+        <div class="sp-two-col">
+            <div>
+                <p class="eyebrow">Why A-Team Gutters</p>
+                <h2>Licensed, Local, and Proven.</h2>
+                <ul class="sp-list">
+                    <li>WA Contractor License: TEAMGGL760KN</li>
+                    <li>WA Business License: 605469918</li>
+                    <li>30+ years of trade experience</li>
+                    <li>Family-owned &mdash; the owner hangs every gutter</li>
+                    <li>Free on-site estimates across Pierce and King County</li>
+                    <li>Single-day installation on most residential jobs</li>
+                </ul>
+            </div>
+            <div>
+                <h3>No Subcontractors</h3>
+                <p>Every job we quote is a job we do ourselves. There's no crew you haven't met showing up in an unmarked truck, and no handoff where the standard slips. That's the whole reason we've stayed small.</p>
+                <p>It also means the person who assessed your roofline is the person hanging the gutter &mdash; so what we told you in the estimate is what actually gets built.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="sp-cta section--dark" aria-labelledby="cta-heading">
+    <div class="container">
+        <p class="eyebrow">Pierce &amp; King County</p>
+        <h2 id="cta-heading">Ready for an Estimate?</h2>
+        <p>A-Team Gutters provides free on-site estimates throughout <a href="/service-areas/">Pierce and King County</a>. We respond within 24 hours.</p>
+        <div class="sp-cta-actions">
+            <a href="/contact/" class="btn-primary btn-primary--lg"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="sp-cta-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+    </div>
+</section>
+{{end}}

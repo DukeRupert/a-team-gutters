@@ -2,19 +2,18 @@
 {{define "meta_description"}}Fascia board repair and replacement in Bonney Lake, Puyallup, Sumner, and Pierce County WA. Gutter-related moisture damage repaired by a licensed contractor. Free estimates.{{end}}
 {{define "canonical"}}https://ateamgutter.com/services/fascia-soffit-repair/{{end}}
 
+{{define "preload"}}{{preload "gallery/brick-home-copper-gutters" "50vw"}}{{end}}
+
 {{define "schema"}}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "Service",
+    "@id": "https://ateamgutter.com/services/fascia-soffit-repair/#service",
+    "url": "https://ateamgutter.com/services/fascia-soffit-repair/",
     "name": "Fascia Board Repair",
     "description": "Fascia board repair and replacement in Pierce and King County, WA. Gutter-related moisture damage assessment and repair.",
-    "provider": {
-        "@type": "LocalBusiness",
-        "name": "A-Team Gutters LLC",
-        "telephone": "253-293-7732",
-        "address": { "@type": "PostalAddress", "addressLocality": "Bonney Lake", "addressRegion": "WA" }
-    },
+    "provider": { "@id": "https://ateamgutter.com/#business" },
     "areaServed": ["Bonney Lake", "Sumner", "Puyallup", "Auburn", "Enumclaw", "Buckley", "Black Diamond"]
 }
 </script>
@@ -24,7 +23,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutter.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Services" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://ateamgutter.com/services/" },
         { "@type": "ListItem", "position": 3, "name": "Fascia Board Repair", "item": "https://ateamgutter.com/services/fascia-soffit-repair/" }
     ]
 }
@@ -35,16 +34,18 @@
 <!-- ── Hero ── -->
 <section class="page-hero" aria-labelledby="page-heading">
     <div class="page-hero-image">
-        <img src="/static/images/gallery/brick-home-copper-gutters.jpg"
-             alt="Brick home with copper gutter installation and visible fascia board in Pierce County"
-             width="480" height="640"
-             loading="eager">
+        {{/* 50vw, not 100vw: this hero is a decorative backdrop painted at
+     opacity 0.15 under a near-opaque gradient, so half-resolution is
+     imperceptible and halves the bytes on HiDPI screens. */}}
+        {{picture "gallery/brick-home-copper-gutters"
+             "alt" "Brick home with copper gutter installation and visible fascia board in Pierce County"
+             "sizes" "50vw" "priority" "true"}}
     </div>
     <div class="container">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
             <a href="/">Home</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
-            <a href="/services/gutter-installation/">Services</a>
+            <a href="/services/">Services</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
             <span class="breadcrumb-current" aria-current="page">Fascia Board Repair</span>
         </nav>

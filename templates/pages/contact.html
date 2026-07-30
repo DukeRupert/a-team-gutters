@@ -15,6 +15,12 @@
 </script>
 {{end}}
 
+{{define "js"}}
+{{/* Only this page uses htmx (the estimate form posts via hx-post), so
+     it loads here rather than in base.html. */}}
+<script defer src="{{staticHash "/static/js/htmx-2.0.4.min.js"}}"></script>
+{{end}}
+
 {{define "head"}}
 {{if .TurnstileSiteKey}}
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -433,7 +439,7 @@
 
             <div class="contact-info-block">
                 <h3>Hours</h3>
-                <p>Mon&ndash;Fri 9:00 AM &ndash; 5:30 PM</p>
+                <p>Mon&ndash;Fri 8:00 AM &ndash; 5:00 PM<br>Sat&ndash;Sun 9:00 AM &ndash; 5:00 PM</p>
             </div>
 
             <div class="contact-info-block">

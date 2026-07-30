@@ -1,0 +1,12 @@
+# Image originals are inputs to scripts/build-images.sh, not runtime assets —
+# the generated derivatives in static/images are what ship. Keeping the sources
+# out of the build context saves ~3.5MB per build.
+assets-src/
+
+.git/
+.github/
+docs/
+deploy/
+node_modules/
+server
+*.log

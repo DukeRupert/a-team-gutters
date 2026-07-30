@@ -1,0 +1,151 @@
+{{define "title"}}Page Not Found | A-Team Gutters{{end}}
+{{define "meta_description"}}That page doesn't exist. A-Team Gutters provides seamless gutter installation, cleaning, repair, and screen systems across Pierce and King County, WA. Call (253) 293-7732.{{end}}
+{{define "canonical"}}https://ateamgutter.com/{{end}}
+
+{{define "head"}}
+<meta name="robots" content="noindex, follow">
+<style>
+.nf-section {
+    padding: calc(var(--space-2xl) + 2rem) 0 var(--space-2xl);
+    text-align: center;
+}
+
+.nf-code {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(4rem, 14vw, 8rem);
+    font-weight: 700;
+    line-height: 0.85;
+    color: var(--border);
+    letter-spacing: -0.02em;
+}
+
+.nf-section h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    margin: var(--space-sm) 0;
+}
+
+.nf-lead {
+    max-width: 46ch;
+    margin: 0 auto var(--space-lg);
+    color: var(--muted);
+}
+
+.nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-bottom: var(--space-2xl);
+}
+
+.nf-phone {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-lg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 2px solid var(--border);
+    transition: border-color 0.2s;
+}
+
+.nf-phone:hover {
+    border-color: var(--text);
+}
+
+.nf-links {
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-lg);
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+}
+
+.nf-links h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+}
+
+.nf-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nf-links li + li {
+    margin-top: 0.5rem;
+}
+
+.nf-links a {
+    font-size: var(--text-sm);
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.nf-links a:hover {
+    color: var(--action);
+}
+</style>
+{{end}}
+
+{{define "content"}}
+<section class="nf-section" aria-labelledby="page-heading">
+    <div class="container">
+        <p class="nf-code" aria-hidden="true">404</p>
+        <p class="eyebrow">Page Not Found</p>
+        <h1 id="page-heading">This Page Isn't Here.</h1>
+        <p class="nf-lead">The page you're looking for has moved or never existed. Your gutters, however, are still out there. Here's how to reach us.</p>
+
+        <div class="nf-actions">
+            <a href="/contact/" class="btn-primary btn-primary--lg"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="nf-phone" aria-label="Call A-Team Gutters at (253) 293-7732">(253) 293-7732</a>
+        </div>
+
+        <nav class="nf-links" aria-label="Site sections">
+            <div>
+                <h2>Services</h2>
+                <ul>
+                    <li><a href="/services/gutter-installation/">Gutter Installation</a></li>
+                    <li><a href="/services/gutter-cleaning/">Gutter Cleaning</a></li>
+                    <li><a href="/services/gutter-repair/">Gutter Repair</a></li>
+                    <li><a href="/services/gutter-guards/">Gutter Screens</a></li>
+                    <li><a href="/services/fascia-soffit-repair/">Fascia Board Repair</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Service Areas</h2>
+                <ul>
+                    <li><a href="/service-areas/bonney-lake/">Bonney Lake</a></li>
+                    <li><a href="/service-areas/sumner/">Sumner</a></li>
+                    <li><a href="/service-areas/puyallup/">Puyallup</a></li>
+                    <li><a href="/service-areas/auburn/">Auburn</a></li>
+                    <li><a href="/service-areas/">All service areas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Company</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/gallery/">Gallery</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/faq/">FAQ</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
+{{end}}

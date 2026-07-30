@@ -367,21 +367,7 @@
 <section class="gallery-section" aria-label="Project photos"
     x-data="{
         active: null,
-        photos: [
-            { src: '/static/images/gallery/copper-gutter-detail.jpg', alt: 'Copper gutter installation detail with Seattle skyline and overcast Pacific Northwest sky', caption: 'Copper Gutter Detail — Seattle' },
-            { src: '/static/images/hero-copper-gutters.jpg', alt: 'Copper gutter on residential roofline with Seattle Space Needle visible', caption: 'Copper Gutters — Roofline View' },
-            { src: '/static/images/gallery/green-house-gutters.jpg', alt: 'Green residential home with new dark seamless gutter installation and PNW fir trees', caption: 'Seamless Install — Pacific Northwest' },
-            { src: '/static/images/gallery/dark-gutters-bay-window.jpg', alt: 'Dark seamless gutters on a bay window with mature fir trees in background', caption: 'Dark Gutters — Bay Window' },
-            { src: '/static/images/gallery/dark-gutters-gable.jpg', alt: 'Gable end of residential home with dark seamless gutters and PNW conifers', caption: 'Gable Detail — Dark Gutters' },
-            { src: '/static/images/gallery/craftsman-home-gutters-1.jpg', alt: 'Craftsman-style home with new gutter system on an overcast day in Pierce County', caption: 'Craftsman Home — Pierce County' },
-            { src: '/static/images/gallery/craftsman-home-gutters-2.jpg', alt: 'Wide view of craftsman home with complete gutter system and lush PNW landscaping', caption: 'Craftsman Home — Full View' },
-            { src: '/static/images/gallery/white-home-gutters-1.jpg', alt: 'Multi-story white home with seamless gutter installation', caption: 'Multi-Story Install — White Trim' },
-            { src: '/static/images/gallery/white-home-gutters-2.jpg', alt: 'White residential home with gutter system and PNW blue sky', caption: 'White Home — Wide Angle' },
-            { src: '/static/images/gallery/gutter-guard-closeup.jpg', alt: 'Close-up of micro-mesh gutter screen installed along residential roofline', caption: 'Gutter Screen Close-Up' },
-            { src: '/static/images/gallery/copper-gutters-golden-hour.jpg', alt: 'Home with copper gutter system catching golden hour sunlight', caption: 'Copper Gutters — Golden Hour' },
-            { src: '/static/images/gallery/brick-home-copper-gutters.jpg', alt: 'Brick home with copper gutter installation and clear blue sky', caption: 'Brick Home — Copper Install' },
-            { src: '/static/images/gallery/dark-roof-home-gutters.jpg', alt: 'Home with dark roof and seamless gutter system surrounded by mature landscaping', caption: 'Dark Roof — Seamless Gutters' }
-        ],
+        photos: {{.PhotosJSON}},
         open(i) { this.active = i; document.body.style.overflow = 'hidden'; },
         close() { this.active = null; document.body.style.overflow = ''; },
         prev() { this.active = (this.active - 1 + this.photos.length) % this.photos.length; },
@@ -393,19 +379,21 @@
 >
     <div class="container">
         <div class="gallery-grid">
-            <template x-for="(photo, i) in photos" :key="i">
-                <button class="gallery-item"
-                        :class="{ 'gallery-item--portrait': [0,3,4,5,6,7,8,9,10,11,12].includes(i) }"
-                        @click="open(i)"
-                        :aria-label="'View: ' + photo.caption">
-                    <img :src="photo.src"
-                         :alt="photo.alt"
-                         loading="lazy">
-                    <div class="gallery-caption">
-                        <p x-text="photo.caption"></p>
-                    </div>
-                </button>
-            </template>
+            {{/* Rendered server-side so each thumbnail gets a real responsive
+                 srcset and intrinsic dimensions. The portrait flag comes from
+                 the image's actual aspect ratio, not a hand-kept index list. */}}
+            {{range $i, $photo := .Photos}}
+            <button class="gallery-item{{if $photo.Portrait}} gallery-item--portrait{{end}}"
+                    @click="open({{$i}})"
+                    aria-label="View: {{$photo.Caption}}">
+                {{picture $photo.Key
+                    "alt" $photo.Alt
+                    "sizes" "(min-width: 64rem) 30vw, (min-width: 48rem) 45vw, 92vw"}}
+                <div class="gallery-caption">
+                    <p>{{$photo.Caption}}</p>
+                </div>
+            </button>
+            {{end}}
         </div>
     </div>
 

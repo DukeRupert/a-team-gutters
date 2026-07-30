@@ -1,6 +1,8 @@
 {{define "title"}}Gutter Installation & Repair | Bonney Lake, WA | A-Team Gutters{{end}}
 {{define "meta_description"}}A-Team Gutters LLC — family-owned gutter installation, cleaning, repair, and screen services in Bonney Lake, Sumner, Puyallup, and Pierce County. Free estimates. Licensed contractor TEAMGGL760KN.{{end}}
-{{define "canonical"}}https://ateamgutter.com{{end}}
+{{define "canonical"}}https://ateamgutter.com/{{end}}
+
+{{define "preload"}}{{preload "hero-copper-gutters" "100vw"}}{{end}}
 
 {{define "head"}}
 <style>
@@ -676,11 +678,9 @@
      ═══════════════════════════════════════════════════════════════ -->
 <section class="hero" aria-labelledby="hero-heading">
     <div class="hero-image">
-        <img src="/static/images/hero-copper-gutters.jpg"
-             alt="Copper gutter installation on a residential roofline with Seattle skyline in the background"
-             width="1920" height="1280"
-             fetchpriority="high"
-             loading="eager">
+        {{picture "hero-copper-gutters"
+             "alt" "Copper gutter installation on a residential roofline with Seattle skyline in the background"
+             "sizes" "100vw" "priority" "true"}}
     </div>
     <!-- Rain falling above the gutter line -->
     <div class="hero-rain" aria-hidden="true">
@@ -956,7 +956,7 @@
             </blockquote>
         </div>
         <p class="reviews-cta">
-            <a href="https://www.angi.com/companylist/us/wa/bonney-lake/a-team-gutters-reviews-10680498.htm" target="_blank" rel="noopener noreferrer">Read our reviews on Angi</a>
+            <a href="https://www.angi.com/companylist/us/wa/bonney-lake/ateam-gutters-llc-reviews-1.htm" target="_blank" rel="noopener noreferrer">Read our reviews on Angi</a>
         </p>
     </div>
 </section>

@@ -1,7 +1,7 @@
 {{define "nav"}}
 <header x-data="{ open: false, services: false }" class="nav" role="banner">
     <a href="/" class="nav-brand" aria-label="A-Team Gutters home">
-        <img class="nav-logo" src="/static/images/logo.png" alt="A-Team Gutters logo" width="48" height="48">
+        {{picture "logo" "alt" "A-Team Gutters logo" "class" "nav-logo" "sizes" "48px" "loading" "eager"}}
         <span class="nav-brand-text">A-Team Gutters</span>
     </a>
 

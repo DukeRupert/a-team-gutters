@@ -1,0 +1,131 @@
+{{define "title"}}Service Areas — Pierce & King County WA | A-Team Gutters{{end}}
+{{define "meta_description"}}A-Team Gutters serves Bonney Lake, Sumner, Puyallup, Auburn, Enumclaw, Buckley, and Black Diamond, WA. Free on-site gutter estimates across eastern Pierce and southern King County.{{end}}
+{{define "canonical"}}https://ateamgutter.com/service-areas/{{end}}
+
+{{define "preload"}}{{preload "hero-gutters-home" "50vw"}}{{end}}
+
+{{define "schema"}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "A-Team Gutters Service Areas",
+    "description": "Cities and communities served by A-Team Gutters LLC in Pierce and King County, Washington.",
+    "itemListElement": [
+        {{range $i, $a := .}}{{if $i}},{{end}}
+        {
+            "@type": "ListItem",
+            "position": {{add $i 1}},
+            "name": "{{$a.City}}, WA",
+            "item": "https://ateamgutter.com/service-areas/{{$a.Slug}}/"
+        }{{end}}
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutter.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Service Areas", "item": "https://ateamgutter.com/service-areas/" }
+    ]
+}
+</script>
+{{end}}
+
+{{define "content"}}
+<!-- ── Hero ── -->
+<section class="page-hero" aria-labelledby="page-heading">
+    <div class="page-hero-image">
+        {{/* 50vw, not 100vw: this hero is a decorative backdrop painted at
+     opacity 0.15 under a near-opaque gradient, so half-resolution is
+     imperceptible and halves the bytes on HiDPI screens. */}}
+        {{picture "hero-gutters-home"
+             "alt" "Residential home with newly installed seamless gutters in the Pierce County foothills"
+             "sizes" "50vw" "priority" "true"}}
+    </div>
+    <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span class="breadcrumb-sep" aria-hidden="true">/</span>
+            <span class="breadcrumb-current" aria-current="page">Service Areas</span>
+        </nav>
+        <p class="eyebrow">Where We Work</p>
+        <h1 id="page-heading">Gutter Services Across Pierce and King County.</h1>
+        <p class="page-hero-sub">A-Team Gutters works out of Bonney Lake and covers the eastern Pierce County foothills and southern King County. If you're not sure whether we reach your neighborhood, call us &mdash; most of the time, we do.</p>
+        <div class="page-hero-actions">
+            <a href="/contact/" class="btn-primary"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="page-hero-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ── City List ── -->
+<section class="services" aria-labelledby="areas-heading">
+    <div class="container">
+        <div class="services-header">
+            <p class="eyebrow">Communities We Serve</p>
+            <h2 id="areas-heading">Seven Cities, One Crew.</h2>
+            <p>Each community in our service area deals with its own combination of rainfall, tree cover, elevation, and housing stock. Pick yours to see what we run into locally.</p>
+        </div>
+
+        <ul class="services-list">
+            {{range .}}
+            <li class="service-item">
+                <a href="/service-areas/{{.Slug}}/">
+                    <div class="service-item-top">
+                        <h3>{{.City}}, WA</h3>
+                        <svg class="service-item-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                    <p>{{.Tagline}}</p>
+                </a>
+            </li>
+            {{end}}
+        </ul>
+    </div>
+</section>
+
+<!-- ── Trust / Coverage Detail ── -->
+<section class="sp-section section--surface">
+    <div class="container">
+        <div class="sp-two-col">
+            <div>
+                <p class="eyebrow">Based in Bonney Lake</p>
+                <h2>Close Enough to Show Up.</h2>
+                <p>Our shop is in Bonney Lake, 98391. That puts us roughly 15 minutes from Sumner and Buckley, 20 from Puyallup, and 25 to 30 from Auburn, Enumclaw, and Black Diamond. Short drives mean we can get out for an estimate quickly and come back if something needs attention.</p>
+                <p>We don't take work we can't service properly. If you're outside the footprint below, we'd rather tell you that on the phone than three weeks into a scheduling problem.</p>
+            </div>
+            <div>
+                <h3>Every Service, Every City</h3>
+                <p>There's no tiered service area here &mdash; <a href="/services/gutter-installation/">installation</a>, <a href="/services/gutter-cleaning/">cleaning</a>, <a href="/services/gutter-repair/">repair</a>, <a href="/services/gutter-guards/">screens</a>, and <a href="/services/fascia-soffit-repair/">fascia repair</a> are available in all seven communities at the same standard.</p>
+                <ul class="sp-list">
+                    <li>WA Contractor License: TEAMGGL760KN</li>
+                    <li>Free on-site estimates, no obligation</li>
+                    <li>Response within 24 hours</li>
+                    <li>Family-owned &mdash; the owner hangs every gutter</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="sp-cta section--dark" aria-labelledby="cta-heading">
+    <div class="container">
+        <p class="eyebrow">Pierce &amp; King County</p>
+        <h2 id="cta-heading">Ready for an Estimate?</h2>
+        <p>Tell us where you are and what your gutters are doing. We'll come look at it for free and give you an honest number within 24 hours.</p>
+        <div class="sp-cta-actions">
+            <a href="/contact/" class="btn-primary btn-primary--lg"><span>Get a Free Estimate</span></a>
+            <a href="tel:+12532937732" class="sp-cta-phone">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                (253) 293-7732
+            </a>
+        </div>
+    </div>
+</section>
+{{end}}

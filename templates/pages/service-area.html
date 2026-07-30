@@ -9,12 +9,7 @@
     "@type": "Service",
     "name": "Gutter Services in {{.City}}, WA",
     "description": "Seamless gutter installation, cleaning, repair, and screen systems for homes in {{.City}}, WA.",
-    "provider": {
-        "@type": "LocalBusiness",
-        "name": "A-Team Gutters LLC",
-        "telephone": "253-293-7732",
-        "address": { "@type": "PostalAddress", "addressLocality": "Bonney Lake", "addressRegion": "WA" }
-    },
+    "provider": { "@id": "https://ateamgutter.com/#business" },
     "areaServed": {
         "@type": "City",
         "name": "{{.City}}, WA"
@@ -27,12 +22,14 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ateamgutter.com/" },
-        { "@type": "ListItem", "position": 2, "name": "Service Areas" },
+        { "@type": "ListItem", "position": 2, "name": "Service Areas", "item": "https://ateamgutter.com/service-areas/" },
         { "@type": "ListItem", "position": 3, "name": "{{.City}}, WA", "item": "https://ateamgutter.com/service-areas/{{.Slug}}/" }
     ]
 }
 </script>
 {{end}}
+
+{{define "preload"}}{{preload (imageKey .HeroImage) "50vw"}}{{end}}
 
 {{define "head"}}
 <style>
@@ -81,16 +78,18 @@
 <!-- ── Hero ── -->
 <section class="page-hero" aria-labelledby="page-heading">
     <div class="page-hero-image">
-        <img src="/static/images/{{.HeroImage}}"
-             alt="Seamless gutter installation on residential home in {{.City}}, Washington"
-             width="1920" height="1280"
-             loading="eager">
+        {{/* 50vw, not 100vw: this hero is a decorative backdrop painted at
+     opacity 0.15 under a near-opaque gradient, so half-resolution is
+     imperceptible and halves the bytes on HiDPI screens. */}}
+        {{picture (imageKey .HeroImage)
+             "alt" (printf "Seamless gutter installation on residential home in %s, Washington" .City)
+             "sizes" "50vw" "priority" "true"}}
     </div>
     <div class="container">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
             <a href="/">Home</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
-            <span>Service Areas</span>
+            <a href="/service-areas/">Service Areas</a>
             <span class="breadcrumb-sep" aria-hidden="true">/</span>
             <span class="breadcrumb-current" aria-current="page">{{.City}}, WA</span>
         </nav>

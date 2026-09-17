@@ -49,6 +49,22 @@ jobs:
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
             cd ${{ secrets.PROD_VPS_DEPLOY_PATH }}
             export DOCKER_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}
+            # Persist the deployed tag so a later manual `docker compose up -d`,
+            # a reboot, or a container restart reuses this exact image instead of
+            # falling back to a stale DOCKER_IMAGE=...:latest line in .env.
+            if grep -q '^DOCKER_IMAGE=' .env 2>/dev/null; then
+              grep -v '^DOCKER_IMAGE=' .env > .env.tmp
+            else
+              cat .env 2>/dev/null > .env.tmp || : > .env.tmp
+            fi
+            printf 'DOCKER_IMAGE=%s\n' "$DOCKER_IMAGE" >> .env.tmp
+            chmod 644 .env.tmp
+            if mv .env.tmp .env; then
+              echo "Recorded DOCKER_IMAGE=$DOCKER_IMAGE in $(pwd)/.env"
+            else
+              rm -f .env.tmp
+              echo "WARNING: could not write $(pwd)/.env; DOCKER_IMAGE not persisted" >&2
+            fi
             docker compose pull
             docker compose down || true
             docker compose up -d

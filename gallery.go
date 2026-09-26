@@ -26,7 +26,21 @@ type galleryPhoto struct {
 }
 
 var galleryPhotos = []galleryPhoto{
-	{"gallery/copper-gutter-detail", "Copper gutter installation detail with Seattle skyline and overcast Pacific Northwest sky", "Copper Gutter Detail — Seattle", "", false},
+	// September 2026 batch. Captions describe only what is visible in the
+	// frame — the client has not sent job details yet, so nothing here claims
+	// a city, a service type, or a date. Tighten these once that arrives.
+	{"gallery/cedar-lodge-home-gutters", "Cedar-sided lodge-style home with dark seamless gutters and downspout under an overcast Pacific Northwest sky", "Cedar Home — Dark Seamless Gutters", "", false},
+	{"gallery/gutter-replacement-before", "Before: two-story home with its old gutters stripped off and stacked on the lawn beside the work truck and ladder", "Before — Old Gutters Stripped", "", false},
+	{"gallery/gutter-replacement-after", "After: the same two-story home with a completed dark seamless gutter and downspout system", "After — New Seamless System", "", false},
+	{"gallery/navy-two-story-gutters", "Navy two-story home with dark seamless gutters above a covered porch and flower beds", "Navy Two-Story — Full Roofline", "", false},
+	{"gallery/board-batten-home-gutters", "Board-and-batten home with stone accents, dark gutters, and downspout, with mature firs behind", "Board-and-Batten — Downspout Run", "", false},
+	{"gallery/white-farmhouse-wraparound", "White farmhouse with a wraparound covered porch and new gutters along the full roofline", "Farmhouse — Wraparound Porch", "", false},
+	{"gallery/white-home-dark-downspout", "White home with dark seamless gutters and a corner downspout beside an arched entry window", "White Home — Corner Downspout", "", false},
+	{"gallery/farmhouse-dark-trim-gutters", "White farmhouse with dark trim, new gutters along the eave, and a downspout carried to grade", "Farmhouse — Dark Trim Gutters", "", false},
+	{"gallery/cream-home-rear-gutters", "Rear elevation of a cream two-story home with dark gutters running the full fascia line", "Rear Elevation — Full Fascia Run", "", false},
+	{"gallery/stucco-home-gutters", "Stucco home with a tile roof and gutters along the garage and entry rooflines", "Stucco Home — Tile Roof", "", false},
+
+	{"gallery/copper-gutter-detail","Copper gutter installation detail with Seattle skyline and overcast Pacific Northwest sky", "Copper Gutter Detail — Seattle", "", false},
 	{"hero-copper-gutters", "Copper gutter on residential roofline with Seattle Space Needle visible", "Copper Gutters — Roofline View", "", false},
 	{"gallery/green-house-gutters", "Green residential home with new dark seamless gutter installation and PNW fir trees", "Seamless Install — Pacific Northwest", "", false},
 	{"gallery/dark-gutters-bay-window", "Dark seamless gutters on a bay window with mature fir trees in background", "Dark Gutters — Bay Window", "", false},

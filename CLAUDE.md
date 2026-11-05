@@ -36,13 +36,12 @@ Currently a single `main.go` with inline route handlers and one template (`class
 - `templates/` — Go HTML templates. Target: `base.html` layout with page templates extending via `{{template "base" .}}`, partials (nav, footer, cards) in `templates/partials/`
 - `static/` — CSS, images, and other assets served at `/static/`
 - `docs/` — development plan and brand specs
-- `deploy/` — docker-compose configs for dev and prod environments
+- `deploy/prod/` — docker-compose config for production (no dev environment; `main` is the only deploy branch)
 
 ## Deployment
 
 Docker containers on a Hetzner VPS. Caddy reverse proxy handles TLS via Let's Encrypt. DNS through Cloudflare.
 
-- **Dev:** Push to `dev` branch triggers GitHub Actions → builds Docker image → deploys to VPS via SSH (port 3000)
 - **Prod:** Push to `main` branch triggers prod deploy workflow
 - Docker images pushed to DockerHub under `dukerupert/a-team-gutters`
 

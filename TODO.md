@@ -22,19 +22,23 @@ Jessie Patterson · Brochure Site · Signed 03/23/2026 · Two payments ($375 at 
 
 ---
 
-## Photo batch — 09/23/2026 (pending client info)
+## Photo batch — 09/23/2026
 
-Ten photos are live in the gallery with captions written only from what's
-visible in the frame. Once the client sends details, tighten these:
+Client sent job notes on 11/04 (color, profile, size, city for some). Captions
+and alt text now carry them. Puyallup and Bonney Lake service-area heroes now
+use `navy-two-story-gutters` and `stucco-home-gutters`.
 
-- [ ] City / neighborhood per photo — enables location-specific captions and
-      frees the new photos to be used as service-area page heroes (those heroes
-      render alt text claiming "in <City>, Washington", so they can't carry a
-      photo whose location is unconfirmed)
+- [x] City per photo, where the client gave one (Bonney Lake, Puyallup)
+- [x] Gutter color / profile / size per job
+- [ ] Confirm the inferred photo-to-job mapping. Client numbered 7 jobs for
+      10 photos; #1 Cedar, #3 Navy, #7 Stucco are certain. Assumed:
+      #2 White House (Bonney Lake) = before/after pair + `white-home-dark-downspout`;
+      #6 (same specs as #2, no city) = `farmhouse-dark-trim-gutters` +
+      `cream-home-rear-gutters`; #5 Farm House = `white-farmhouse-wraparound`;
+      #4 (Bonney Lake) = `board-batten-home-gutters`
+- [ ] City for #1 Cedar, #5 Farm House, #6
 - [ ] Service performed per photo (install / repair / guards / fascia) — lets
       the strongest ones move onto the matching service pages
-- [ ] Confirm the before/after pair is the same job (`gutter-replacement-before`
-      / `-after`); captions assume so from the matching roofline
 - [ ] Confirm homeowner consent to publish, esp. the before/after pair
 
 Held back pending a decision — all four are in

@@ -426,7 +426,7 @@ func main() {
 			MetaDescription: "A-Team Gutters is based in Bonney Lake, WA — seamless gutter installation, cleaning, repair, and screen systems for Pierce County homes. Licensed contractor TEAMGGL760KN. Free estimates.",
 			Intro:           "A-Team Gutters is based right here in Bonney Lake. We know the neighborhoods, the tree coverage, the rainfall patterns along Lake Tapps, and the roofline styles common to homes throughout the 98391 zip code. When you call A-Team, you're calling a neighbor.",
 			Context:         "Bonney Lake sits at the foothills of the Cascades, where mature Douglas fir and cedar canopy is dense and needle drop is year-round. Most homes in the area deal with conifer debris volumes that standard gutter systems and generic guard products aren't designed for. We've been working in Bonney Lake long enough to know what holds up here and what doesn't.",
-			HeroImage:       "hero-gutters-home.jpeg",
+			HeroImage:       "gallery/stucco-home-gutters.jpg",
 			NearbyAreas:     []nearbyArea{{City: "Sumner", Slug: "sumner"}, {City: "Buckley", Slug: "buckley"}, {City: "Puyallup", Slug: "puyallup"}},
 		},
 		{
@@ -448,7 +448,7 @@ func main() {
 			MetaDescription: "Seamless gutter installation, cleaning, repair, and screens in Puyallup, WA. A-Team Gutters serves Puyallup and Pierce County. Licensed, insured, free estimates.",
 			Intro:           "A-Team Gutters serves Puyallup and the surrounding South Hill communities with the same standard of installation we bring to every job across Pierce County. Free estimates, on-site forming, no subcontractors.",
 			Context:         "Puyallup is one of the largest communities in our service area, and the variation in housing stock is significant — from valley-floor homes near the fairgrounds to the elevated neighborhoods of South Hill with steeper rooflines and heavier tree coverage. We assess each property individually. A South Hill home with a 9/12 pitch and mature firs overhead needs a different approach than a flat-lot ranch in the valley.",
-			HeroImage:       "hero-green-house.jpg",
+			HeroImage:       "gallery/navy-two-story-gutters.jpg",
 			NearbyAreas:     []nearbyArea{{City: "Sumner", Slug: "sumner"}, {City: "Bonney Lake", Slug: "bonney-lake"}, {City: "Auburn", Slug: "auburn"}},
 		},
 		{

@@ -37,7 +37,7 @@ Currently a single `main.go` with inline route handlers and one template (`class
 - `templates/` — Go HTML templates. Target: `base.html` layout with page templates extending via `{{template "base" .}}`, partials (nav, footer, cards) in `templates/partials/`
 - `static/` — CSS, images, and other assets served at `/static/`
 - `docs/` — development plan and brand specs
-- `deploy/prod/` — docker-compose config for production (no dev environment; `main` is the only deploy branch)
+- `deploy/prod/` — docker-compose config for production (no dev environment; `main` is the only deploy branch). The deploy workflow does not copy it to the VPS: it mirrors `/opt/a-team-gutters/docker-compose.yml` on `firefly-sites` and must be kept in sync by hand
 
 ## Deployment
 

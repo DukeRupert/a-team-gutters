@@ -278,7 +278,7 @@ func serveContact(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func handleContactSubmit(tmpl *template.Template, mail emailConfig) http.HandlerFunc {
+func handleContactSubmit(tmpl *template.Template, mail emailConfig, subs *submissionLog) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseForm(); err != nil {
 			http.Error(w, "Bad Request", http.StatusBadRequest)
@@ -325,8 +325,17 @@ func handleContactSubmit(tmpl *template.Template, mail emailConfig) http.Handler
 			return
 		}
 
+		// Persist first, so the request survives an email failure.
+		now := time.Now()
+		if err := subs.append(submission{
+			Time: now, Name: name, Phone: phone, Email: email,
+			Address: address, Service: service, Message: message,
+		}); err != nil {
+			log.Printf("ERROR saving submission: %v", err)
+		}
+
 		// Log the submission
-		timestamp := time.Now().Format("2006-01-02 15:04:05 MST")
+		timestamp := now.Format("2006-01-02 15:04:05 MST")
 		log.Printf("=== New Estimate Request ===")
 		log.Printf("Name:    %s", name)
 		log.Printf("Phone:   %s", phone)
@@ -383,6 +392,20 @@ func main() {
 		log.Printf("WARNING: EMAIL_DISABLED=1 — estimate requests will NOT be emailed")
 	}
 
+	// Durable copy of every estimate request. Optional so a deploy doesn't
+	// fail before the volume exists, but loud when unset, and fatal when set
+	// to a path we can't write.
+	subsPath := os.Getenv("SUBMISSIONS_FILE")
+	subs, err := openSubmissionLog(subsPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if subs == nil {
+		log.Printf("WARNING: SUBMISSIONS_FILE not set — estimate requests are not saved to disk")
+	} else {
+		log.Printf("Saving estimate requests to %s", subsPath)
+	}
+
 	// Load each page template with base layout + partials
 	pages := map[string]*template.Template{
 		"home":                 loadPage("home.html"),
@@ -415,7 +438,7 @@ func main() {
 	registerPage(mux, "/gallery/", serveGallery(pages["gallery"], resolveGalleryPhotos()))
 	registerPage(mux, "/about/", servePage(pages["about"]))
 	registerPage(mux, "/contact/", serveContact(pages["contact"]))
-	mux.HandleFunc("POST /contact/{$}", handleContactSubmit(pages["contact"], mail))
+	mux.HandleFunc("POST /contact/{$}", handleContactSubmit(pages["contact"], mail, subs))
 	registerPage(mux, "/faq/", servePage(pages["faq"]))
 
 	// Service area pages

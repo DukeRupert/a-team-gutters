@@ -125,17 +125,10 @@ type postmarkEmail struct {
 }
 
 // sendPostmarkEmail sends an email via the Postmark API.
-// Returns nil if Postmark is not configured (missing env vars).
-func sendPostmarkEmail(to, from, replyTo, subject, body string) error {
-	token := os.Getenv("POSTMARK_SERVER_TOKEN")
-	if token == "" {
-		log.Printf("POSTMARK_SERVER_TOKEN not set — skipping email send")
-		return nil
-	}
-
+func sendPostmarkEmail(mail emailConfig, replyTo, subject, body string) error {
 	payload := postmarkEmail{
-		From:     from,
-		To:       to,
+		From:     mail.From,
+		To:       mail.To,
 		Subject:  subject,
 		TextBody: body,
 		ReplyTo:  replyTo,
@@ -152,7 +145,7 @@ func sendPostmarkEmail(to, from, replyTo, subject, body string) error {
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("X-Postmark-Server-Token", token)
+	req.Header.Set("X-Postmark-Server-Token", mail.Token)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -285,7 +278,7 @@ func serveContact(tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-func handleContactSubmit(tmpl *template.Template) http.HandlerFunc {
+func handleContactSubmit(tmpl *template.Template, mail emailConfig) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseForm(); err != nil {
 			http.Error(w, "Bad Request", http.StatusBadRequest)
@@ -345,10 +338,7 @@ func handleContactSubmit(tmpl *template.Template) http.HandlerFunc {
 		log.Printf("============================")
 
 		// Send email via Postmark
-		postmarkTo := os.Getenv("POSTMARK_TO")
-		postmarkFrom := os.Getenv("POSTMARK_FROM")
-
-		if postmarkTo != "" && postmarkFrom != "" {
+		if mail.enabled() {
 			emailBody := fmt.Sprintf(`New Estimate Request — A-Team Gutters
 
 Name:    %s
@@ -362,7 +352,7 @@ Submitted: %s`, name, phone, email, address, service, message, timestamp)
 
 			subject := fmt.Sprintf("New Estimate Request — %s (%s)", name, service)
 
-			if err := sendPostmarkEmail(postmarkTo, postmarkFrom, email, subject, emailBody); err != nil {
+			if err := sendPostmarkEmail(mail, email, subject, emailBody); err != nil {
 				log.Printf("ERROR sending email: %v", err)
 				// Don't fail the submission — the log has the data
 			}
@@ -379,6 +369,19 @@ func main() {
 	// against this manifest at render time, but a missing key is only reported
 	// once a page is served, so log the count up front.
 	loadImageManifest()
+
+	// Fail fast on missing email config. From 2026-09-17 to 2026-11-06 the
+	// prod compose file passed the wrong variable names, the old code skipped
+	// sending without complaint, and every estimate request in that window
+	// was lost. A container that won't start is noticed; a form that quietly
+	// drops leads is not.
+	mail, err := loadEmailConfig(os.Getenv)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if !mail.enabled() {
+		log.Printf("WARNING: EMAIL_DISABLED=1 — estimate requests will NOT be emailed")
+	}
 
 	// Load each page template with base layout + partials
 	pages := map[string]*template.Template{
@@ -412,7 +415,7 @@ func main() {
 	registerPage(mux, "/gallery/", serveGallery(pages["gallery"], resolveGalleryPhotos()))
 	registerPage(mux, "/about/", servePage(pages["about"]))
 	registerPage(mux, "/contact/", serveContact(pages["contact"]))
-	mux.HandleFunc("POST /contact/{$}", handleContactSubmit(pages["contact"]))
+	mux.HandleFunc("POST /contact/{$}", handleContactSubmit(pages["contact"], mail))
 	registerPage(mux, "/faq/", servePage(pages["faq"]))
 
 	// Service area pages

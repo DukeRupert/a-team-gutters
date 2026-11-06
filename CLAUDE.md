@@ -17,8 +17,9 @@ Static brochure website for A-Team Gutters, LLC — a family-owned gutter compan
 ## Build & Run Commands
 
 ```bash
-# Build and run locally
-go build -o server . && ./server
+# Build and run locally (EMAIL_DISABLED=1 skips the Postmark config check;
+# without it, or the three POSTMARK_* vars, the server refuses to start)
+go build -o server . && EMAIL_DISABLED=1 ./server
 # Server listens on :8080 (override with PORT env var)
 
 # Tailwind CSS build (watch mode for development)

@@ -68,3 +68,14 @@ jobs:
             docker compose pull
             docker compose down || true
             docker compose up -d
+            # `up -d` succeeds even if the app exits right after starting (e.g. the
+            # startup check for missing Postmark settings). Give it a few
+            # seconds, then require it running with no restarts.
+            sleep 10
+            state=$(docker inspect -f '{{.State.Status}} {{.RestartCount}}' "$(docker compose ps -aq web)")
+            if [ "$state" != "running 0" ]; then
+              echo "::error::web container is not healthy after deploy (state: $state)"
+              docker compose logs --tail 30 web
+              exit 1
+            fi
+            echo "web container running: $state"

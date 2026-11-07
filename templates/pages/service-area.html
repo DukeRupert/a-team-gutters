@@ -29,10 +29,68 @@
 </script>
 {{end}}
 
-{{define "preload"}}{{preload (imageKey .HeroImage) "50vw"}}{{end}}
+{{define "preload"}}{{preload (imageKey .HeroImage) "(min-width: 80rem) 50vw, 100vw"}}{{end}}
 
 {{define "head"}}
 <style>
+/* City hero: the photo is a real local job, so let it be seen. The shared
+   .page-hero buries its image at 15% under a dark gradient (~5% visible).
+   Small screens: text sits over the photo, so the overlay stays dark
+   enough for AA text contrast even over bright sky (see ::after below).
+   Wide screens: the photo takes the right half and fades into the dark
+   on its left edge, so the text sits on solid dark and most of the
+   (portrait) photo stays in frame instead of being cropped to a band. */
+/* Lift the hero's noise texture above the photo so the grain doesn't stop
+   at the photo's edge. .container comes later in the DOM at the same
+   z-index, so it still paints on top. */
+.page-hero--photo::before {
+    z-index: 1;
+}
+.page-hero--photo .page-hero-image img {
+    opacity: 1;
+    object-position: center 40%;
+}
+.page-hero--photo .page-hero-image::after {
+    /* 0.94 at the top keeps the breadcrumbs and red eyebrow on effectively
+       solid dark (they sit over sky, and were already marginal on plain
+       dark); 0.8 from mid-height down is the minimum for the silver intro
+       text over a white pixel (4.7:1). The house is in the lower half. */
+    background: linear-gradient(
+        to bottom,
+        rgba(10, 10, 10, 0.94) 0%,
+        rgba(10, 10, 10, 0.94) 30%,
+        rgba(10, 10, 10, 0.8) 50%,
+        rgba(10, 10, 10, 0.8) 75%,
+        var(--dark) 100%
+    );
+}
+@media (min-width: 80rem) {
+    .page-hero--photo .page-hero-image {
+        left: 50%;
+    }
+    /* Eased fade: a straight linear alpha ramp reads as a hard edge.
+       The intro paragraph can run ~15% into the photo. Measured on all
+       seven city heroes at 1280 and 1440 (brightest pixel under the
+       paragraph), silver text stays >= 5.1:1. Re-check if you lighten
+       the first few stops or swap in a brighter hero photo. */
+    .page-hero--photo .page-hero-image::after {
+        background: linear-gradient(
+            to right,
+            var(--dark) 0%,
+            rgba(26, 26, 26, 0.9) 6%,
+            rgba(26, 26, 26, 0.8) 13%,
+            rgba(26, 26, 26, 0.68) 20%,
+            rgba(26, 26, 26, 0.55) 28%,
+            rgba(26, 26, 26, 0.42) 36%,
+            rgba(26, 26, 26, 0.3) 44%,
+            rgba(26, 26, 26, 0.18) 52%,
+            rgba(26, 26, 26, 0.08) 60%,
+            rgba(26, 26, 26, 0.02) 68%,
+            rgba(26, 26, 26, 0) 75%
+        );
+    }
+}
+
 /* Service area page: boost trust section heading scale */
 .sa-trust h2 {
     font-size: var(--text-2xl);
@@ -76,14 +134,13 @@
 
 {{define "content"}}
 <!-- ── Hero ── -->
-<section class="page-hero" aria-labelledby="page-heading">
+<section class="page-hero page-hero--photo" aria-labelledby="page-heading">
     <div class="page-hero-image">
-        {{/* 50vw, not 100vw: this hero is a decorative backdrop painted at
-     opacity 0.15 under a near-opaque gradient, so half-resolution is
-     imperceptible and halves the bytes on HiDPI screens. */}}
+        {{/* Full width behind the text on small screens; right half from
+     80rem up (see .page-hero--photo). */}}
         {{picture (imageKey .HeroImage)
              "alt" (printf "Gutter installation on a residential home in %s, Washington" .City)
-             "sizes" "50vw" "priority" "true"}}
+             "sizes" "(min-width: 80rem) 50vw, 100vw" "priority" "true"}}
     </div>
     <div class="container">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
